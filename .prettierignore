@@ -1,0 +1,7 @@
+.next
+node_modules
+*.lock
+*.log
+.vercel
+dist
+build

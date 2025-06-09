@@ -1,2 +1,0 @@
-# kdvlab
-a business website
