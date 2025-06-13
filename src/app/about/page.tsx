@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import { PageHero, pageConfigs } from '@/components/ui/page-hero';
+import { PageHero } from '@/components/ui/page-hero';
+import { pageConfigs } from '@/lib/page-configs';
 
 export const metadata: Metadata = {
   title: 'About KDVLAB - Innovation Through Technology',
@@ -14,11 +15,16 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const aboutConfig = pageConfigs.about;
+
   return (
     <main>
       <PageHero
-        {...{ ...pageConfigs.about, breadcrumbs: [...pageConfigs.about.breadcrumbs] }}
-        id="about-hero" // For accessibility and SEO
+        title={aboutConfig.title}
+        subtitle={aboutConfig.subtitle}
+        description={aboutConfig.description}
+        breadcrumbs={aboutConfig.breadcrumbs}
+        id="about-hero"
       />
       {/* Rest of content */}
     </main>

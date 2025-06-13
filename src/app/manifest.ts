@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'kdvlab',
-    short_name: 'kdvlab',
-    description: 'Innovative solutions for modern web development',
+    name: 'KDVLab - Modern Web Development',
+    short_name: 'KDVLab',
+    description: 'Expert web development services by Dave Ejezie',
     start_url: '/',
     display: 'standalone',
     background_color: '#141414',

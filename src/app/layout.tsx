@@ -1,8 +1,8 @@
-import type { Metadata, Viewport } from 'next'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { heading, body } from './fonts'
-import './globals.css'
+import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { heading, body } from './fonts';
+import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kdvlab.com'),
@@ -10,8 +10,16 @@ export const metadata: Metadata = {
     template: '%s | KDVLab',
     default: 'KDVLab - Modern Web Development by Dave Ejezie',
   },
-  description: 'Expert web development services by Dave Ejezie. Creating lightning-fast, SEO-optimized websites with cutting-edge technologies.',
-  keywords: ['Web Development', 'TypeScript', 'React', 'Next.js', 'Dave Ejezie', 'KDVLab'],
+  description:
+    'Expert web development services by Dave Ejezie. Creating lightning-fast, SEO-optimized websites with cutting-edge technologies.',
+  keywords: [
+    'Web Development',
+    'TypeScript',
+    'React',
+    'Next.js',
+    'Dave Ejezie',
+    'KDVLab',
+  ],
   authors: [{ name: 'Dave Ejezie', url: 'https://kdvlab.com' }],
   creator: 'Dave Ejezie',
   publisher: 'KDVLab',
@@ -21,7 +29,8 @@ export const metadata: Metadata = {
     url: 'https://kdvlab.com',
     siteName: 'KDVLab',
     title: 'KDVLab - Modern Web Development by Dave Ejezie',
-    description: 'Expert web development services creating lightning-fast, SEO-optimized websites.',
+    description:
+      'Expert web development services creating lightning-fast, SEO-optimized websites.',
     images: [
       {
         url: '/og-image.jpg',
@@ -34,7 +43,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'KDVLab - Modern Web Development by Dave Ejezie',
-    description: 'Expert web development services creating lightning-fast, SEO-optimized websites.',
+    description:
+      'Expert web development services creating lightning-fast, SEO-optimized websites.',
     images: ['/og-image.jpg'],
     creator: '@kdvlab',
   },
@@ -54,28 +64,32 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
-  manifest: '/manifest.json',
-}
+  manifest: '/manifest.webmanifest', // Fixed extension
+};
 
 export const viewport: Viewport = {
   themeColor: '#12A4ED',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${heading.variable} ${body.variable}`}>
+    <html
+      lang="en"
+      className={`${heading.variable} ${body.variable} dark`}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen bg-background font-body antialiased">
         {children}
         <Analytics />
         <SpeedInsights />
       </body>
     </html>
-  )
+  );
 }
