@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/Users/davest/Desktop/kdvlab/src/app/layout":["static/media/c90a9e82ec3f8868.p.woff2","static/media/0a86735c6520d94f-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/davest/Desktop/kdvlab/src/app/layout\":[\"static/media/c90a9e82ec3f8868.p.woff2\",\"static/media/0a86735c6520d94f-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

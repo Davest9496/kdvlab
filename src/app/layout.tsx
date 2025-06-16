@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { heading, body } from './fonts';
+import { Header } from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -64,7 +66,7 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
-  manifest: '/manifest.webmanifest', // Fixed extension
+  manifest: '/manifest.webmanifest',
 };
 
 export const viewport: Viewport = {
@@ -85,8 +87,17 @@ export default function RootLayout({
       className={`${heading.variable} ${body.variable} dark`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-background font-body antialiased">
-        {children}
+      <body className="min-h-screen bg-background font-body antialiased flex flex-col">
+        {/* Global Header */}
+        <Header />
+
+        {/* Main Content Area - flex-1 ensures it takes remaining space */}
+        <main className="flex-1">{children}</main>
+
+        {/* Global Footer */}
+        <Footer />
+
+        {/* Analytics */}
         <Analytics />
         <SpeedInsights />
       </body>
