@@ -304,7 +304,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
               'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
             )}
           >
-            "{testimonial.content}"
+            &quot;{testimonial.content}&quot;
           </blockquote>
 
           {/* Rating stars */}
@@ -538,7 +538,7 @@ export const TestimonialsSection: React.FC = () => {
                   'drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]'
                 )}
               >
-                Don't just take our word for it. Here's what our clients have to
+                Don&#39;t just take our word for it. Here&#39;s what our clients have to
                 say about working with KDVLAB.
               </motion.p>
             </div>

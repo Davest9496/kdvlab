@@ -54,7 +54,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   const imageProps = {
     src,
-    alt,
+    alt, // Alt is always provided now
     className: cn(
       'transition-opacity duration-300',
       isLoading ? 'opacity-0' : 'opacity-100',
@@ -71,8 +71,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   if (fill) {
-    return <Image {...imageProps} fill />;
+    return <Image {...imageProps} fill alt={alt} />;
   }
 
-  return <Image {...imageProps} width={width} height={height} />;
+  return <Image {...imageProps} width={width} height={height} alt={alt} />;
 };

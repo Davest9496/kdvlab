@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import Image from 'next/image';
 
 interface HeroSectionProps {
   className?: string;
@@ -152,21 +155,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             </div>
           </div>
 
-          {/* Right side - Vector image */}
+          {/* Right side - Optimized Vector image */}
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-full max-w-lg lg:max-w-2xl">
               {/* Glow effect behind the image */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/20 to-transparent rounded-full blur-3xl scale-110 animate-pulse-slow" />
 
-              {/* Main vector image */}
+              {/* Main vector image using Next.js Image */}
               <div className="relative z-10 animate-float">
-                <img
+                <Image
                   src="/images/Vector.png"
-                  alt="Innovative software solutions visualization"
-                  width="800"
-                  height="800"
+                  alt="Innovative software solutions visualization showing modern technology stack"
+                  width={800}
+                  height={800}
                   className="w-full h-auto object-contain drop-shadow-2xl"
-                  loading="eager"
+                  priority
+                  quality={90}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                 />
               </div>
 
@@ -198,7 +203,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
       {/* Performance monitoring comment for development */}
       {/* 
         Performance optimizations included:
-        - Standard img element with eager loading for hero image
+        - Next.js Image component with proper optimization
+        - Priority loading for hero image
         - Proper width/height attributes for layout stability
         - CSS transforms for animations (GPU accelerated)
         - Minimal DOM nodes for smooth animations

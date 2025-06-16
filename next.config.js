@@ -3,6 +3,7 @@ const nextConfig = {
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
+    // Removed optimizeFonts - this doesn't exist in Next.js
   },
 
   // Image optimization
@@ -47,7 +48,23 @@ const nextConfig = {
           },
         ],
       },
+      // Add favicon caching
+      {
+        source: '/favicon(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400', // 1 day
+          },
+        ],
+      },
     ];
+  },
+
+  // ESLint configuration
+  eslint: {
+    // Allow production builds to complete even if there are ESLint errors
+    ignoreDuringBuilds: false,
   },
 };
 

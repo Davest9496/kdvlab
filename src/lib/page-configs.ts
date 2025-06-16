@@ -24,26 +24,6 @@ export const pageConfigs: Record<string, PageConfig> = {
       { label: 'About', href: '/about' },
     ],
   },
-  services: {
-    title: 'Our Services',
-    subtitle: 'End-to-End Software Solutions',
-    description:
-      'From concept to deployment, we offer comprehensive software development services tailored to your business needs.',
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Services', href: '/services' },
-    ],
-  },
-  work: {
-    title: 'Our Work',
-    subtitle: 'Portfolio of Excellence',
-    description:
-      "Explore our latest projects and see how we've helped businesses transform their digital presence.",
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Our Work', href: '/work' },
-    ],
-  },
   careers: {
     title: 'Join Our Team',
     subtitle: 'Build the Future with Us',
@@ -55,6 +35,26 @@ export const pageConfigs: Record<string, PageConfig> = {
     ],
     ctaText: 'View Open Positions',
     ctaHref: '/careers#positions',
+  },
+  work: {
+    title: 'Our Work',
+    subtitle: 'Portfolio of Excellence',
+    description:
+      "Explore our latest projects and see how we've helped businesses transform their digital presence.",
+    breadcrumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'Our Work', href: '/work' },
+    ],
+  },
+  services: {
+    title: 'Our Services',
+    subtitle: 'End-to-End Software Solutions',
+    description:
+      'From concept to deployment, we offer comprehensive software development services tailored to your business needs.',
+    breadcrumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'Services', href: '/services' },
+    ],
   },
   blog: {
     title: 'Blog',

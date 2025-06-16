@@ -1,13 +1,18 @@
-import { PageHero, pageConfigs } from '@/components/ui/page-hero';
+import { PageHero } from '@/components/ui/page-hero';
+import { pageConfigs } from '@/lib/page-configs';
 
 export default function CareersPage() {
+  const careersConfig = pageConfigs.careers;
+
   return (
     <main>
       <PageHero
-        {...{
-          ...pageConfigs.careers,
-          breadcrumbs: [...pageConfigs.careers.breadcrumbs],
-        }}
+        title={careersConfig.title}
+        subtitle={careersConfig.subtitle}
+        description={careersConfig.description}
+        breadcrumbs={careersConfig.breadcrumbs}
+        ctaText={careersConfig.ctaText}
+        ctaHref={careersConfig.ctaHref}
         backgroundVariant="secondary"
       />
       {/* Job listings */}
