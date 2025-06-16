@@ -1,141 +1,246 @@
 import Link from 'next/link';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-const footerLinks = {
-  services: [
-    { name: 'Web Development', href: '/services#web-development' },
-    { name: 'Mobile Apps', href: '/services#mobile-apps' },
-    { name: 'Cloud Services', href: '/services#cloud-services' },
-    { name: 'Consulting', href: '/services#consulting' },
-  ],
-  company: [
-    { name: 'About', href: '/about' },
-    { name: 'Portfolio', href: '/work' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Blog', href: '/blog' },
-  ],
-  legal: [
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Service', href: '/terms' },
-    { name: 'Cookie Policy', href: '/cookies' },
-  ],
-};
+// Footer sections data for better organization
+const footerSections = [
+  {
+    title: 'Services',
+    links: [
+      { name: 'Web Development', href: '/services#web-development' },
+      { name: 'Mobile Apps', href: '/services#mobile-apps' },
+      { name: 'UI/UX Design', href: '/services#design' },
+      { name: 'Consulting', href: '/services#consulting' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { name: 'About', href: '/about' },
+      { name: 'Portfolio', href: '/work' },
+      { name: 'Careers', href: '/careers' },
+      { name: 'Blog', href: '/blog' },
+    ],
+  },
+  {
+    title: 'Connect',
+    links: [
+      { name: 'Contact', href: '/contact' },
+      {
+        name: 'LinkedIn',
+        href: 'https://linkedin.com/company/kdvlab',
+        external: true,
+      },
+      { name: 'GitHub', href: 'https://github.com/kdvlab', external: true },
+      { name: 'Twitter', href: 'https://twitter.com/kdvlab', external: true },
+    ],
+  },
+];
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-background border-t border-white/10 mt-auto">
-      <div className="container">
-        {/* Main Footer Content */}
-        <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-          {/* Company Info */}
-          <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-xl font-heading font-bold text-white">
-              KDVLab
-            </h3>
-            <p className="text-white/70 text-sm max-w-md leading-relaxed">
-              Expert web development services creating lightning-fast,
-              SEO-optimized websites that drive business growth and user
-              engagement.
-            </p>
+    <footer
+      className={cn(
+        'bg-background border-t border-white/10',
+        'relative overflow-hidden'
+      )}
+    >
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/98 to-background opacity-90" />
 
-            {/* Contact Info */}
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center space-x-2 text-white/60">
-                <MapPin className="w-4 h-4" />
-                <span>London, UK</span>
-              </div>
-              <div className="flex items-center space-x-2 text-white/60">
-                <Mail className="w-4 h-4" />
-                <Link
-                  href="mailto:hello@kdvlab.com"
-                  className="hover:text-primary transition-colors"
-                >
-                  hello@kdvlab.com
-                </Link>
-              </div>
+      <div className="container relative py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Brand Section */}
+          <div className="space-y-6 lg:col-span-1">
+            <div className="space-y-4">
+              <h3
+                className={cn(
+                  'font-gilroy-extrabold text-white',
+                  'text-heading-sm', // 20px-24px responsive
+                  'text-gradient' // Gradient effect for brand
+                )}
+              >
+                KDVLab
+              </h3>
+              <p
+                className={cn(
+                  'font-rubik text-white/70',
+                  'text-body-base', // 14px-16px responsive
+                  'leading-relaxed max-w-sm'
+                )}
+              >
+                Expert web development services by Dave Ejezie. Creating
+                lightning-fast, SEO-optimized websites with cutting-edge
+                technologies.
+              </p>
+            </div>
+
+            {/* Contact info */}
+            <div className="space-y-2">
+              <p
+                className={cn(
+                  'font-rubik text-white/60',
+                  'text-body-sm', // 12px-14px responsive
+                  'font-medium'
+                )}
+              >
+                Ready to build something amazing?
+              </p>
+              <Link
+                href="/contact"
+                className={cn(
+                  'inline-flex items-center font-rubik',
+                  'text-body-base text-primary hover:text-primary/80',
+                  'transition-colors duration-200',
+                  'font-semibold'
+                )}
+              >
+                Let&apos;s talk →
+              </Link>
             </div>
           </div>
 
-          {/* Services */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-white">Services</h4>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.services.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Footer Links Sections */}
+          {footerSections.map((section) => (
+            <div key={section.title} className="space-y-4">
+              <h4
+                className={cn(
+                  'font-rubik font-semibold text-white',
+                  'text-subheading-sm', // 16px-18px responsive
+                  'tracking-wide'
+                )}
+              >
+                {section.title}
+              </h4>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        'font-rubik text-white/70 hover:text-white',
+                        'text-body-base', // 14px-16px responsive
+                        'transition-all duration-200 ease-out',
+                        'hover:translate-x-1 hover:text-primary/80',
+                        'inline-flex items-center gap-1'
+                      )}
+                      {...(link.external && {
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                      })}
+                    >
+                      {link.name}
+                      {link.external && <span className="text-xs">↗</span>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Newsletter Section */}
+        <div
+          className={cn(
+            'mt-12 pt-8 border-t border-white/10',
+            'grid grid-cols-1 lg:grid-cols-2 gap-8 items-center'
+          )}
+        >
+          <div className="space-y-3">
+            <h4
+              className={cn(
+                'font-rubik font-semibold text-white',
+                'text-subheading-md' // 18px-20px responsive
+              )}
+            >
+              Stay Updated
+            </h4>
+            <p
+              className={cn(
+                'font-rubik text-white/60',
+                'text-body-base', // 14px-16px responsive
+                'max-w-md'
+              )}
+            >
+              Get the latest insights on web development, design trends, and
+              tech innovations.
+            </p>
           </div>
 
-          {/* Company */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-white">Company</h4>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-white">Legal</h4>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.legal.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className={cn(
+                'flex-1 px-4 py-3 rounded-lg',
+                'bg-white/5 border border-white/10',
+                'text-white placeholder:text-white/40',
+                'font-rubik text-body-base', // 14px-16px responsive
+                'focus:outline-none focus:ring-2 focus:ring-primary',
+                'transition-all duration-200'
+              )}
+            />
+            <button
+              className={cn(
+                'btn-cta',
+                'text-body-sm', // 12px-14px responsive
+                'px-6 py-3 rounded-lg',
+                'bg-primary text-primary-foreground',
+                'hover:bg-primary/90 hover:scale-105',
+                'transition-all duration-200',
+                'shadow-lg hover:shadow-xl'
+              )}
+            >
+              Subscribe
+            </button>
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="border-t border-white/10 py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <p className="text-white/60 text-sm">
-              © {currentYear} KDVLab. All rights reserved.
-            </p>
+        {/* Bottom Section */}
+        <div
+          className={cn(
+            'border-t border-white/10 mt-12 pt-8',
+            'flex flex-col sm:flex-row justify-between items-center gap-4'
+          )}
+        >
+          <p
+            className={cn(
+              'font-rubik text-white/60',
+              'text-body-sm', // 12px-14px responsive
+              'text-center sm:text-left'
+            )}
+          >
+            © {new Date().getFullYear()} KDVLab. All rights reserved.
+          </p>
 
-            <div className="flex items-center space-x-6 text-sm">
-              <Link
-                href="/privacy"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                Privacy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                Terms
-              </Link>
-              <Link
-                href="/sitemap.xml"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                Sitemap
-              </Link>
+          <div className="flex items-center space-x-6">
+            <Link
+              href="/privacy"
+              className={cn(
+                'font-rubik text-white/60 hover:text-white',
+                'text-body-sm', // 12px-14px responsive
+                'transition-colors duration-200'
+              )}
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className={cn(
+                'font-rubik text-white/60 hover:text-white',
+                'text-body-sm', // 12px-14px responsive
+                'transition-colors duration-200'
+              )}
+            >
+              Terms
+            </Link>
+            <div
+              className={cn(
+                'font-rubik text-white/40',
+                'text-body-sm', // 12px-14px responsive
+                'hidden sm:block'
+              )}
+            >
+              Made in 🇬🇧
             </div>
           </div>
         </div>

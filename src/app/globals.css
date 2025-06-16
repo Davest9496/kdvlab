@@ -2,33 +2,154 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font Face Declarations - Only using existing font files, all normalized to weight 400 */
+@font-face {
+  font-family: 'Gilroy-Light';
+  src: url('/fonts/Gilroy-Light.otf') format('opentype');
+  font-weight: 400; /* Normalize to 400 */
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Gilroy-ExtraBold';
+  src: url('/fonts/Gilroy-ExtraBold.otf') format('opentype');
+  font-weight: 400; /* Normalize to 400 */
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('/fonts/Rubik-Variable.ttf') format('truetype-variations');
+  font-weight: 400; /* Normalize to 400 */
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 400; /* Set variable font to 400 */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('/fonts/Rubik-Italic-Variable.ttf') format('truetype-variations');
+  font-weight: 400; /* Normalize to 400 */
+  font-style: italic;
+  font-display: swap;
+  font-variation-settings: 'wght' 400; /* Set variable font to 400 */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-display: swap;
+    /* Enhanced responsive font sizing */
+    font-size: clamp(14px, 2.5vw, 16px); /* Base responsive font size */
   }
   
-  /* CSS variables for KDVLab dark theme */
+  /* Enhanced CSS variables for your dark theme design system */
   :root {
+    /* Font family variables - Using distinct families for hierarchy instead of weights */
+    --font-gilroy-light: 'Gilroy-Light', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-gilroy-bold: 'Gilroy-ExtraBold', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-rubik: 'Rubik', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* Responsive typography scale - fluid between breakpoints */
+    --font-size-xs: clamp(0.75rem, 1.5vw, 0.875rem);     /* 12px - 14px */
+    --font-size-sm: clamp(0.875rem, 2vw, 1rem);          /* 14px - 16px */
+    --font-size-base: clamp(1rem, 2.5vw, 1.125rem);      /* 16px - 18px */
+    --font-size-lg: clamp(1.125rem, 3vw, 1.25rem);       /* 18px - 20px */
+    --font-size-xl: clamp(1.25rem, 3.5vw, 1.5rem);       /* 20px - 24px */
+    --font-size-2xl: clamp(1.5rem, 4vw, 1.875rem);       /* 24px - 30px */
+    --font-size-3xl: clamp(1.875rem, 5vw, 2.25rem);      /* 30px - 36px */
+    --font-size-4xl: clamp(2.25rem, 6vw, 2.75rem);       /* 36px - 44px */
+    --font-size-5xl: clamp(2.75rem, 7vw, 3.5rem);        /* 44px - 56px */
+    --font-size-6xl: clamp(3.5rem, 8vw, 4.5rem);         /* 56px - 72px */
+    
+    /* Responsive line heights */
+    --line-height-tight: 1.1;
+    --line-height-snug: 1.2;
+    --line-height-normal: 1.3;
+    --line-height-relaxed: 1.5;
+    --line-height-loose: 1.6;
+    
+    /* Responsive letter spacing */
+    --letter-spacing-tighter: -0.05em;
+    --letter-spacing-tight: -0.025em;
+    --letter-spacing-normal: 0em;
+    --letter-spacing-wide: 0.025em;
+    --letter-spacing-wider: 0.05em;
+    
+    /* Your custom brand colors */
     --background: 20 14.3% 4.1%; /* #141414 */
     --foreground: 0 0% 100%; /* #FFFFFF */
+    
+    /* Card components */
     --card: 0 0% 15%;
     --card-foreground: 0 0% 100%;
+    
+    /* Popover components */
     --popover: 0 0% 8%;
     --popover-foreground: 0 0% 100%;
+    
+    /* Primary brand color - your accent #12A4ED */
     --primary: 205 85% 50%; /* #12A4ED */
     --primary-foreground: 0 0% 100%;
+    
+    /* Secondary colors */
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 64%;
+    
+    /* Muted colors for subtle elements */
+    --muted: 0 0% 15%; /* #262626 */
+    --muted-foreground: 0 0% 64%; /* #A3A3A3 */
+    
+    /* Accent color (same as primary for consistency) */
     --accent: 205 85% 50%;
     --accent-foreground: 0 0% 100%;
+    
+    /* Destructive/error colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 25%;
-    --input: 0 0% 15%;
-    --ring: 205 85% 50%;
+    
+    /* Border and input colors */
+    --border: 0 0% 25%; /* #404040 */
+    --input: 0 0% 15%; /* #262626 */
+    --ring: 205 85% 50%; /* Same as primary */
+    
+    /* Chart colors for data visualization */
+    --chart-1: 205 85% 50%; /* Primary blue */
+    --chart-2: 173 58% 39%; /* Teal */
+    --chart-3: 197 37% 24%; /* Dark blue */
+    --chart-4: 43 74% 66%; /* Yellow */
+    --chart-5: 27 87% 67%; /* Orange */
+    
     --radius: 0.5rem;
+  }
+
+  /* Light theme variables for flexibility */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --primary: 205 85% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 20 14.3% 4.1%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 20 14.3% 4.1%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 205 85% 50%;
   }
 
   * {
@@ -36,33 +157,167 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-rubik);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-loose);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-feature-settings: "rlig" 1, "calt" 1, "kern" 1;
     color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+  /* Enhanced responsive typography hierarchy - Using font families for distinction, not weights */
+  
+  /* Hero text: Ultra large display text - Gilroy ExtraBold family at 400 weight */
+  .hero-text,
+  .text-hero {
+    font-size: var(--font-size-6xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold); /* Use ExtraBold family */
   }
-
+  
+  /* Main headings - Gilroy ExtraBold family for impact */
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl leading-tight font-bold;
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold); /* Use ExtraBold family */
   }
-
+  
   h2 {
-    @apply text-3xl md:text-4xl leading-tight font-semibold;
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold); /* Use ExtraBold family */
   }
-
+  
   h3 {
-    @apply text-2xl md:text-3xl leading-tight font-semibold;
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold); /* Use ExtraBold family */
+  }
+  
+  /* Smaller headings - Rubik for readability */
+  h4 {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  h5 {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  h6 {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  /* Body text and default elements - All use Rubik at 400 weight */
+  p, span, div, li, td, th {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-loose);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
   }
 
-  p, span, div {
-    @apply text-base leading-relaxed;
+  /* Small text elements */
+  small, .small {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    font-weight: 400; /* Consistent weight */
   }
 
+  /* Extra small text */
+  .text-xs {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-relaxed);
+    font-weight: 400; /* Consistent weight */
+  }
+
+  /* Large text */
+  .lead, .text-lead {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-loose);
+    font-weight: 400; /* Consistent weight */
+  }
+
+  /* Enhanced focus styles for accessibility */
   *:focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+    transition: box-shadow 0.2s ease-in-out;
+  }
+
+  /* Custom scrollbar optimized for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted/30;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/40 rounded-md;
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/60;
+  }
+
+  ::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-primary/25 text-foreground;
+  }
+
+  ::-moz-selection {
+    @apply bg-primary/25 text-foreground;
+  }
+
+  /* Responsive typography modifiers */
+  @media (max-width: 480px) {
+    :root {
+      /* Tighter scaling on very small screens */
+      --font-size-6xl: clamp(2.5rem, 10vw, 3.5rem);
+      --font-size-5xl: clamp(2rem, 8vw, 2.75rem);
+      --font-size-4xl: clamp(1.75rem, 7vw, 2.25rem);
+    }
+  }
+
+  @media (min-width: 1920px) {
+    :root {
+      /* Prevent overly large text on very large screens */
+      --font-size-6xl: clamp(3.5rem, 6vw, 5rem);
+      --font-size-5xl: clamp(2.75rem, 5vw, 4rem);
+      --font-size-4xl: clamp(2.25rem, 4vw, 3rem);
+    }
   }
 }
 
@@ -71,18 +326,706 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
+  /* Enhanced responsive text gradient classes - All use font-weight 400 */
   .text-gradient {
     @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
+    
+    /* Inherit responsive sizing from parent */
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    font-weight: 400; /* Consistent weight */
+    font-family: inherit;
+    
+    /* Enhanced font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
+    display: inline;
   }
   
-  .glass-effect {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  /* Responsive gradient text variants */
+  .text-gradient-hero {
+    @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
+    
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-semi-bold);
+    
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+  }
+  
+  .text-gradient-heading {
+    @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
+    
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+    
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+  }
+  
+  .text-gradient-subheading {
+    @apply bg-gradient-to-r from-primary/90 via-blue-400/90 to-primary/90 bg-clip-text text-transparent;
+    
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+    
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
   }
 
+  .text-gradient-body {
+    @apply bg-gradient-to-r from-primary/80 via-blue-400/80 to-primary/80 bg-clip-text text-transparent;
+    
+    font-family: var(--font-rubik);
+    font-weight: 400; /* Consistent weight */
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+  }
+  
+  /* Enhanced glassmorphism effect */
+  .glass-effect {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08];
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Enhanced card hover effects with GPU acceleration */
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1;
+    @apply transition-all duration-300 will-change-transform;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .card-hover:hover {
+    transform: translate3d(0, -4px, 0) scale(1.02);
+    box-shadow: 
+      0 20px 40px rgba(18, 164, 237, 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Loading animation with reduced motion support */
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse-slow {
+      animation: none;
+    }
+  }
+
+  /* Enhanced responsive button variants - All use font-weight 400 */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 
+           transition-all duration-200 will-change-transform
+           shadow-md hover:shadow-lg active:scale-95;
+    
+    font-family: var(--font-rubik);
+    font-size: var(--font-size-base);
+    font-weight: 400; /* Consistent weight */
+    font-feature-settings: "kern" 1;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+    border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 
+           transition-all duration-200 will-change-transform
+           border border-white/10 hover:border-white/20;
+    
+    font-family: var(--font-rubik);
+    font-size: var(--font-size-base);
+    font-weight: 400; /* Consistent weight */
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+    border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-foreground hover:bg-muted 
+           transition-all duration-200 will-change-transform;
+    
+    font-family: var(--font-rubik);
+    font-size: var(--font-size-base);
+    font-weight: 400; /* Consistent weight */
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+    border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  }
+
+  /* CTA button using Gilroy ExtraBold family for impact */
+  .btn-cta {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90
+           transition-all duration-200 will-change-transform
+           shadow-lg hover:shadow-xl active:scale-95;
+    
+    font-family: var(--font-gilroy-bold); /* ExtraBold family */
+    font-weight: 400; /* Consistent weight */
+    font-size: var(--font-size-sm);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    padding: clamp(0.875rem, 2.5vw, 1.25rem) clamp(2rem, 5vw, 3rem);
+    border-radius: clamp(0.75rem, 1.5vw, 1rem);
+  }
+
+  /* Font family helper classes - All use weight 400 */
+  .font-gilroy-light {
+    font-family: var(--font-gilroy-light);
+    font-weight: 400;
+  }
+
+  .font-gilroy-bold {
+    font-family: var(--font-gilroy-bold);
+    font-weight: 400;
+  }
+
+  .font-rubik {
+    font-family: var(--font-rubik);
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  /* Enhanced responsive typography utilities - All use font-weight 400 */
+  
+  /* Hero text variants - Use ExtraBold family for impact */
+  .text-hero-xl {
+    font-size: var(--font-size-6xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tighter);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  .text-hero-lg {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  .text-hero-md {
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  /* Heading variants - Use ExtraBold family */
+  .text-heading-xl {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  .text-heading-lg {
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  .text-heading-md {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+  }
+
+  .text-heading-sm {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  /* Sub-heading variants - Use Rubik for readability */
+  .text-subheading-lg {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  .text-subheading-md {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  .text-subheading-sm {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  /* Body text variants - All use Rubik */
+  .text-body-lg {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-loose);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  .text-body-base {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-loose);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+  
+  .text-body-sm {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+
+  .text-body-xs {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-relaxed);
+    letter-spacing: var(--letter-spacing-normal);
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+
+  /* Performance optimizations */
+  .gpu-acceleration {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Typography utilities with font-specific optimizations */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Override any weight utilities to maintain consistency */
+  .font-normal {
+    font-weight: 400 !important;
+  }
+
+  /* Remove other font-weight utilities to prevent inconsistency */
+  .font-light,
+  .font-medium,
+  .font-semibold,
+  .font-bold,
+  .font-extrabold,
+  .font-black {
+    font-weight: 400 !important; /* Force all to 400 */
+  }
+
+  /* Responsive line height utilities */
+  .leading-tight {
+    line-height: var(--line-height-tight);
+  }
+
+  .leading-snug {
+    line-height: var(--line-height-snug);
+  }
+
+  .leading-normal {
+    line-height: var(--line-height-normal);
+  }
+
+  .leading-relaxed {
+    line-height: var(--line-height-relaxed);
+  }
+
+  .leading-loose {
+    line-height: var(--line-height-loose);
+  }
+
+  /* Responsive letter spacing utilities */
+  .tracking-tighter {
+    letter-spacing: var(--letter-spacing-tighter);
+  }
+
+  .tracking-tight {
+    letter-spacing: var(--letter-spacing-tight);
+  }
+
+  .tracking-normal {
+    letter-spacing: var(--letter-spacing-normal);
+  }
+
+  .tracking-wide {
+    letter-spacing: var(--letter-spacing-wide);
+  }
+
+  .tracking-wider {
+    letter-spacing: var(--letter-spacing-wider);
+  }
+
+  /* Animation utilities with reduced motion support */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out;
+  }
+
+  .animate-text-focus {
+    animation: textFocus 0.8s ease-out;
+  }
+
+  /* Respect user motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-scale-in,
+    .animate-text-focus {
+      animation: none;
+    }
+  }
+
+  /* Enhanced keyframes with GPU acceleration */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 10px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translate3d(0, 20px, 0);
+      opacity: 0;
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale3d(0.95, 0.95, 1);
+      opacity: 0;
+    }
+    to {
+      transform: scale3d(1, 1, 1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes textFocus {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+    }
+  }
+
+  /* Responsive container utilities */
+  .responsive-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 2rem);
+  }
+  
+  /* Responsive spacing utilities */
+  .responsive-spacing-y {
+    margin-top: clamp(1rem, 5vw, 3rem);
+    margin-bottom: clamp(1rem, 5vw, 3rem);
+  }
+  
+  .responsive-spacing-x {
+    margin-left: clamp(1rem, 5vw, 2rem);
+    margin-right: clamp(1rem, 5vw, 2rem);
+  }
+
+  /* Legacy responsive text utilities for backward compatibility */
+  .text-responsive-xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+  }
+
+  .text-responsive-lg {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tight);
+    font-weight: 400; /* Consistent weight */
+  }
+
+  .text-responsive-base {
+    @apply text-sm sm:text-base md:text-lg;
+    line-height: var(--line-height-loose);
+    font-weight: 400; /* Consistent weight */
+  }
+
+  /* Performance utilities */
+  .isolate-gpu {
+    isolation: isolate;
+    transform: translateZ(0);
+  }
+
+  /* Font rendering utilities */
+  .font-smooth {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .font-crisp {
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeSpeed;
+  }
+
+  /* Safe area utilities for mobile devices */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Responsive utilities for precise control when needed */
+  .text-fluid-xs { 
+    font-size: var(--font-size-xs); 
+    font-weight: 400;
+  }
+  .text-fluid-sm { 
+    font-size: var(--font-size-sm); 
+    font-weight: 400;
+  }
+  .text-fluid-base { 
+    font-size: var(--font-size-base); 
+    font-weight: 400;
+  }
+  .text-fluid-lg { 
+    font-size: var(--font-size-lg); 
+    font-weight: 400;
+  }
+  .text-fluid-xl { 
+    font-size: var(--font-size-xl); 
+    font-weight: 400;
+  }
+  .text-fluid-2xl { 
+    font-size: var(--font-size-2xl); 
+    font-weight: 400;
+  }
+  .text-fluid-3xl { 
+    font-size: var(--font-size-3xl); 
+    font-weight: 400;
+  }
+  .text-fluid-4xl { 
+    font-size: var(--font-size-4xl); 
+    font-weight: 400;
+  }
+  .text-fluid-5xl { 
+    font-size: var(--font-size-5xl); 
+    font-weight: 400;
+  }
+  .text-fluid-6xl { 
+    font-size: var(--font-size-6xl); 
+    font-weight: 400;
+  }
+
+  /* Context-specific responsive utilities */
+  .text-cta {
+    font-size: var(--font-size-lg);
+    font-weight: 400; /* Consistent weight */
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    font-family: var(--font-gilroy-bold);
+  }
+
+  .text-caption {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+
+  .text-quote {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    font-style: italic;
+    font-weight: 400; /* Consistent weight */
+    font-family: var(--font-rubik);
+  }
+
+  /* Responsive margin and padding utilities */
+  .space-y-responsive > :not([hidden]) ~ :not([hidden]) {
+    margin-top: clamp(1rem, 3vw, 2rem);
+  }
+
+  .space-x-responsive > :not([hidden]) ~ :not([hidden]) {
+    margin-left: clamp(1rem, 3vw, 2rem);
+  }
+
+  /* Responsive border radius utilities */
+  .rounded-responsive {
+    border-radius: clamp(0.5rem, 1vw, 1rem);
+  }
+
+  .rounded-responsive-lg {
+    border-radius: clamp(0.75rem, 1.5vw, 1.5rem);
+  }
+
+  .rounded-responsive-xl {
+    border-radius: clamp(1rem, 2vw, 2rem);
+  }
+
+  /* Enhanced accessibility utilities */
+  .sr-only-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Print optimizations */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    body {
+      font-size: 12pt;
+      line-height: 1.4;
+      color: #000;
+      background: #fff;
+      font-weight: 400;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      break-after: avoid;
+      break-inside: avoid;
+      font-weight: 400;
+    }
+    
+    .text-gradient,
+    .text-gradient-hero,
+    .text-gradient-heading,
+    .text-gradient-subheading,
+    .text-gradient-body {
+      -webkit-text-fill-color: unset;
+      background-clip: unset;
+      color: #000;
+      font-weight: 400;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --foreground: 0 0% 100%;
+      --background: 0 0% 0%;
+      --primary: 205 100% 60%;
+      --border: 0 0% 50%;
+    }
+    
+    .text-gradient,
+    .text-gradient-hero,
+    .text-gradient-heading,
+    .text-gradient-subheading,
+    .text-gradient-body {
+      -webkit-text-fill-color: unset;
+      background-clip: unset;
+      color: hsl(var(--primary));
+      font-weight: 400;
+    }
+  }
+
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    .animate-pulse-slow,
+    .animate-float,
+    .animate-bounce-gentle {
+      animation: none !important;
+    }
+  }
+
+  /* Dark mode text adjustments for better readability */
+  @media (prefers-color-scheme: dark) {
+    body {
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-weight: 400;
+    }
   }
 }

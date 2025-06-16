@@ -3,7 +3,6 @@ const nextConfig = {
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
-    // Removed optimizeFonts - this doesn't exist in Next.js
   },
 
   // Image optimization

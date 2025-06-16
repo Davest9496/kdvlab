@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { GetInTouchButton } from '@/components/ui/get-in-touch-button';
 
 interface HeroSectionProps {
   className?: string;
@@ -93,50 +94,53 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
               <div className="flex items-center justify-center w-8 h-8 bg-primary/20 rounded-full">
                 <div className="w-0 h-0 border-l-[6px] border-l-primary border-y-[4px] border-y-transparent ml-0.5" />
               </div>
-              <span className="text-responsive-base font-medium text-foreground/80">
+              <span className="text-body-base font-medium text-foreground/80">
                 Building innovative software solutions
               </span>
             </div>
 
             {/* Main headline */}
             <div className="space-y-4">
-              <h1 className="text-responsive-xl font-heading leading-tight">
+              <h1 className="text-hero-l font-heading leading-tight">
                 Innovative Software{' '}
-                <span className="text-gradient inline-block text-[1em] leading-[inherit]">
-                  Solutions for Modern
-                </span>{' '}
+                <span className="text-gradient-hero">Solutions for Modern</span>{' '}
                 Businesses
               </h1>
             </div>
 
             {/* Description */}
-            <p className="text-responsive-base text-foreground/80 leading-relaxed max-w-xl mx-auto lg:mx-0">
+            <p className="text-body-lg text-foreground/80 leading-relaxed max-w-xl mx-auto lg:mx-0">
               We build custom software that transforms how businesses operate,
               connecting people with technology that works for them.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <button className="group relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 hover:scale-105 hover:shadow-glow">
-                <span className="relative z-10">Get in Touch</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
-
-              <button className="group border border-border hover:border-primary/50 bg-background/50 backdrop-blur-sm text-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 hover:bg-primary/10">
+              <GetInTouchButton
+                size="lg"
+                className="min-w-[200px] bg-primary hover:bg-primary focus:bg-primary text-white border-none"
+              />
+              <a
+                href="#learn-more"
+                className="group inline-flex items-center justify-center h-11 px-8 rounded-full border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors text-body-lg font-medium"
+              >
                 <span className="flex items-center gap-2">
                   Learn More
-                  <div className="w-4 h-4 flex items-center justify-center">
-                    <div className="w-0 h-0 border-l-[5px] border-l-current border-y-[3px] border-y-transparent group-hover:translate-x-0.5 transition-transform duration-300" />
-                  </div>
+                  <span className="w-4 h-4 flex items-center justify-center">
+                    <span className="w-0 h-0 border-l-[5px] border-l-current border-y-[3px] border-y-transparent group-hover:translate-x-0.5 transition-transform duration-300" />
+                  </span>
                 </span>
-              </button>
+              </a>
             </div>
 
             {/* Discover more section */}
             <div className="pt-8">
-              <button className="group flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors duration-300 mx-auto lg:mx-0">
-                <span className="text-sm font-medium">Discover more</span>
-                <div className="w-4 h-4 transform group-hover:translate-y-1 transition-transform duration-300">
+              <a
+                href="#discover-more"
+                className="group flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors duration-300 mx-auto lg:mx-0 text-body-sm font-medium"
+              >
+                <span>Discover more</span>
+                <span className="w-4 h-4 transform group-hover:translate-y-1 transition-transform duration-300">
                   <svg
                     viewBox="0 0 16 16"
                     fill="none"
@@ -150,8 +154,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </div>
-              </button>
+                </span>
+              </a>
             </div>
           </div>
 
@@ -209,6 +213,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
         - CSS transforms for animations (GPU accelerated)
         - Minimal DOM nodes for smooth animations
         - Semantic HTML for SEO
+        - Enhanced responsive typography system
       */}
     </section>
   );
