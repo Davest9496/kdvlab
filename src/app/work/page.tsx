@@ -9,7 +9,6 @@ export default function WorkPage() {
       <PageHero
         title={workConfig.title}
         subtitle={workConfig.subtitle}
-        description={workConfig.description}
         breadcrumbs={workConfig.breadcrumbs}
       />
       {/* Portfolio grid */}

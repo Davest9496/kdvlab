@@ -65,7 +65,7 @@ export function Header() {
           : 'bg-background/90 backdrop-blur-sm'
       )}
     >
-      <nav className="container flex items-center justify-between py-4">
+      <nav className="container flex items-center justify-between py-4 ">
         {/* Logo - Using Gilroy ExtraBold family at weight 400 for brand impact */}
         <Link
           href="/"

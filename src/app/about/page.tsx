@@ -22,9 +22,7 @@ export default function AboutPage() {
       <PageHero
         title={aboutConfig.title}
         subtitle={aboutConfig.subtitle}
-        description={aboutConfig.description}
         breadcrumbs={aboutConfig.breadcrumbs}
-        id="about-hero"
       />
       {/* Rest of content */}
     </main>

@@ -14,6 +14,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      {/* Optional spacing section */}
+      <section className="py-6 bg-muted/30" aria-hidden="true" />
       {/* Hero Section - Outside main tag since it's full-screen */}
       <HeroSection />
 

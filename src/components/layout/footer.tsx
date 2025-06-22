@@ -47,7 +47,7 @@ export default function Footer() {
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/98 to-background opacity-90" />
 
-      <div className="container relative py-16">
+      <div className="px-8 relative py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="space-y-6 lg:col-span-1">

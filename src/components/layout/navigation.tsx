@@ -16,7 +16,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { GetInTouchButtonPill } from '@/components/ui/get-in-touch-button';
+import { GetInTouchButton } from '@/components/ui/get-in-touch-button';
 
 // Types for better TypeScript support
 interface NavItem {
@@ -30,64 +30,58 @@ interface ServiceItem {
   label: string;
   href: string;
   icon: React.ElementType;
-  description: string;
 }
 
-// Navigation data
+// Complete navigation data with Services positioned after About
 const navItems: NavItem[] = [
   { id: 'home', label: 'Home', href: '/' },
   { id: 'about', label: 'About', href: '/about' },
   { id: 'work', label: 'Our Work', href: '/work' },
+  { id: 'careers', label: 'Careers', href: '/careers' },
   { id: 'blog', label: 'Blog', href: '/blog' },
-  { id: 'contact', label: 'Contact', href: '/contact' },
 ];
 
+// Enhanced services matching your original dropdown structure
 const serviceItems: ServiceItem[] = [
   {
     id: 'custom-software',
     label: 'Custom Software',
     href: '/services/custom-software',
     icon: Code2,
-    description: 'Tailored solutions for your business needs',
   },
   {
     id: 'web-applications',
     label: 'Web Applications',
     href: '/services/web-applications',
     icon: Globe,
-    description: 'Scalable web apps with modern frameworks',
   },
   {
     id: 'mobile-apps',
     label: 'Mobile Apps',
     href: '/services/mobile-apps',
     icon: Smartphone,
-    description: 'Native and cross-platform solutions',
   },
   {
     id: 'cloud-services',
     label: 'Cloud Services',
     href: '/services/cloud-services',
     icon: Cloud,
-    description: 'Migration and cloud optimization',
   },
   {
     id: 'ui-ux-design',
     label: 'UI/UX Design',
     href: '/services/ui-ux-design',
     icon: Palette,
-    description: 'User-centered design experiences',
   },
   {
     id: 'consultancy',
     label: 'Consultancy',
     href: '/services/consultancy',
     icon: MessageSquare,
-    description: 'Strategic technology advice',
   },
 ];
 
-// Animation variants
+// Animation variants - keeping the sophisticated animations from Navigation component
 const mobileMenuVariants = {
   closed: {
     opacity: 0,
@@ -167,11 +161,23 @@ export const Navigation: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   // Refs for click outside functionality
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Handle scroll effect for enhanced header styling
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -235,65 +241,113 @@ export const Navigation: React.FC = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
+    <header
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        scrolled
+          ? 'bg-background/95 backdrop-blur-xl shadow-lg shadow-black/5'
+          : 'bg-background/90 backdrop-blur-sm'
+      )}
+    >
       {/* Enhanced Neo-Tech Background */}
       <div className="absolute inset-0">
         {/* Glassmorphism backdrop */}
-        <div className="absolute inset-0 bg-background/90 backdrop-blur-xl border-b border-white/[0.08]" />
+        <div
+          className={cn(
+            'absolute inset-0 border-b border-white/[0.08]',
+            scrolled
+              ? 'bg-background/95 backdrop-blur-xl'
+              : 'bg-background/90 backdrop-blur-sm'
+          )}
+        />
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
       </div>
 
-      <nav className="container relative z-10">
+      <nav className="px-8 relative z-10">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo - Always clickable and links to home, no animation */}
+          {/* Logo - Enhanced with Gilroy font matching your Header component */}
           <Link
             href="/"
             className={cn(
-              'flex items-center space-x-2 transition-colors duration-300',
-              isActive('/') && 'opacity-100'
+              'flex items-center space-x-2 transition-all duration-300',
+              'font-heading text-white hover:text-gradient',
+              'text-heading-sm tracking-tight',
+              'drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
             )}
           >
             <div
               className={cn(
                 'flex items-center justify-center w-10 h-10 rounded-2xl',
-                'bg-primary/10 border border-primary/20'
+                'bg-primary/10 border border-primary/20',
+                'hover:bg-primary/20 hover:border-primary/30',
+                'transition-all duration-300'
               )}
             >
               <Code2 className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-heading-sm font-heading text-white">
-              KDVLAB
-            </span>
+            <span>KDVLAB</span>
           </Link>
 
-          {/* Desktop Navigation - Hidden on mobile */}
+          {/* Desktop Navigation - Services positioned after About */}
           <div className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={cn(
-                  'text-body-base font-medium transition-all duration-300 relative group',
-                  isActive(item.href)
-                    ? 'text-primary'
-                    : 'text-white/80 hover:text-white'
-                )}
-              >
-                <span className="relative z-10">{item.label}</span>
-                {isActive(item.href) && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-0 bg-primary/10 rounded-lg -z-10"
-                    initial={false}
-                    transition={{ duration: 0.3, ease: [0.25, 0.25, 0, 1] }}
-                  />
-                )}
-              </Link>
-            ))}
+            {/* Home */}
+            <Link
+              href="/"
+              className={cn(
+                'text-body-base font-medium transition-all duration-300 relative group',
+                'font-body', // Using Rubik as per your typography system
+                isActive('/')
+                  ? 'text-primary'
+                  : 'text-white/80 hover:text-white',
+                // Enhanced hover effects matching your Header component
+                'hover:scale-105 relative after:absolute after:bottom-0 after:left-0',
+                'after:w-0 after:h-0.5 after:bg-primary',
+                'after:transition-all after:duration-300',
+                'hover:after:w-full',
+                'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
+              )}
+            >
+              <span className="relative z-10">Home</span>
+              {isActive('/') && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute inset-0 bg-primary/10 rounded-lg -z-10"
+                  initial={false}
+                  transition={{ duration: 0.3, ease: [0.25, 0.25, 0, 1] }}
+                />
+              )}
+            </Link>
 
-            {/* Desktop Services Dropdown */}
+            {/* About */}
+            <Link
+              href="/about"
+              className={cn(
+                'text-body-base font-medium transition-all duration-300 relative group',
+                'font-body',
+                isActive('/about')
+                  ? 'text-primary'
+                  : 'text-white/80 hover:text-white',
+                'hover:scale-105 relative after:absolute after:bottom-0 after:left-0',
+                'after:w-0 after:h-0.5 after:bg-primary',
+                'after:transition-all after:duration-300',
+                'hover:after:w-full',
+                'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
+              )}
+            >
+              <span className="relative z-10">About</span>
+              {isActive('/about') && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute inset-0 bg-primary/10 rounded-lg -z-10"
+                  initial={false}
+                  transition={{ duration: 0.3, ease: [0.25, 0.25, 0, 1] }}
+                />
+              )}
+            </Link>
+
+            {/* Desktop Services Dropdown - Now positioned after About */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() =>
@@ -302,9 +356,15 @@ export const Navigation: React.FC = () => {
                 onMouseEnter={() => setIsServicesDropdownOpen(true)}
                 className={cn(
                   'flex items-center space-x-1 text-body-base font-medium transition-all duration-300 relative group',
+                  'font-body',
                   isActive('/services')
                     ? 'text-primary'
-                    : 'text-white/80 hover:text-white'
+                    : 'text-white/80 hover:text-white',
+                  'hover:scale-105 relative after:absolute after:bottom-0 after:left-0',
+                  'after:w-0 after:h-0.5 after:bg-primary',
+                  'after:transition-all after:duration-300',
+                  'hover:after:w-full',
+                  'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
                 )}
               >
                 <span>Services</span>
@@ -324,7 +384,7 @@ export const Navigation: React.FC = () => {
                 )}
               </button>
 
-              {/* Desktop Dropdown Menu */}
+              {/* Enhanced Desktop Dropdown Menu */}
               <AnimatePresence>
                 {isServicesDropdownOpen && (
                   <motion.div
@@ -335,7 +395,7 @@ export const Navigation: React.FC = () => {
                     onMouseLeave={() => setIsServicesDropdownOpen(false)}
                     className={cn(
                       'absolute top-full left-0 mt-2 w-80 origin-top',
-                      // Enhanced glassmorphism
+                      // Enhanced glassmorphism matching your design system
                       'bg-white/[0.05] backdrop-blur-2xl',
                       'border border-white/[0.1] rounded-2xl',
                       'shadow-[0_20px_40px_rgba(0,0,0,0.3)]',
@@ -355,7 +415,9 @@ export const Navigation: React.FC = () => {
                               href={service.href}
                               className={cn(
                                 'flex items-start space-x-3 p-3 rounded-xl transition-all duration-300',
-                                'hover:bg-white/[0.08] hover:shadow-lg group'
+                                'hover:bg-white/[0.08] hover:shadow-lg group',
+                                isActive(service.href) &&
+                                  'bg-primary/10 border border-primary/20'
                               )}
                               onClick={() => setIsServicesDropdownOpen(false)}
                             >
@@ -373,9 +435,6 @@ export const Navigation: React.FC = () => {
                                 <div className="text-body-base font-medium text-white mb-1">
                                   {service.label}
                                 </div>
-                                <div className="text-body-xs text-white/60">
-                                  {service.description}
-                                </div>
                               </div>
                             </Link>
                           );
@@ -387,17 +446,44 @@ export const Navigation: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* CTA Button - Using the new Get In Touch style */}
-            <GetInTouchButtonPill
-              href="/contact"
-              size="md"
-              className="px-8 py-3 min-w-[200px]"
-            >
-              Get In Touch
-            </GetInTouchButtonPill>
+            {/* Remaining navigation items */}
+            {navItems.slice(2).map((item) => (
+              <Link
+                key={item.id}
+                href={item.href}
+                className={cn(
+                  'text-body-base font-medium transition-all duration-300 relative group',
+                  'font-body',
+                  isActive(item.href)
+                    ? 'text-primary'
+                    : 'text-white/80 hover:text-white',
+                  'hover:scale-105 relative after:absolute after:bottom-0 after:left-0',
+                  'after:w-0 after:h-0.5 after:bg-primary',
+                  'after:transition-all after:duration-300',
+                  'hover:after:w-full',
+                  'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
+                )}
+              >
+                <span className="relative z-10">{item.label}</span>
+                {isActive(item.href) && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-primary/10 rounded-lg -z-10"
+                    initial={false}
+                    transition={{ duration: 0.3, ease: [0.25, 0.25, 0, 1] }}
+                  />
+                )}
+              </Link>
+            ))}
+
+            {/* Enhanced CTA Button using GetInTouchButtonPill */}
+            <GetInTouchButton
+                            size="lg"
+                            className="min-w-[200px] bg-transparent hover:bg-primary focus:bg-primary text-white"
+                          />
           </div>
 
-          {/* Mobile Menu Button - Only visible on mobile */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={cn(
@@ -451,7 +537,7 @@ export const Navigation: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Mobile Menu */}
+      {/* Enhanced Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -473,15 +559,13 @@ export const Navigation: React.FC = () => {
               <div className="flex items-center justify-between p-6 border-b border-white/[0.08]">
                 <Link
                   href="/"
-                  className="flex items-center space-x-2"
+                  className="flex items-center space-x-2 font-heading text-heading-sm text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-primary/10 border border-primary/20">
                     <Code2 className="w-4 h-4 text-primary" />
                   </div>
-                  <span className="text-heading-sm font-heading text-white">
-                    KDVLAB
-                  </span>
+                  <span>KDVLAB</span>
                 </Link>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -500,26 +584,41 @@ export const Navigation: React.FC = () => {
                   animate="open"
                   className="space-y-2 px-6"
                 >
-                  {navItems.map((item) => (
-                    <motion.div key={item.id} variants={itemVariants}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={cn(
-                          'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
-                          isActive(item.href)
-                            ? 'bg-primary/10 text-primary border border-primary/20'
-                            : 'text-white/80 hover:text-white hover:bg-white/[0.05]'
-                        )}
-                      >
-                        <span className="text-body-base font-medium">
-                          {item.label}
-                        </span>
-                      </Link>
-                    </motion.div>
-                  ))}
+                  {/* Home */}
+                  <motion.div variants={itemVariants}>
+                    <Link
+                      href="/"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
+                        'font-body text-body-base font-medium',
+                        isActive('/')
+                          ? 'bg-primary/10 text-primary border border-primary/20'
+                          : 'text-white/80 hover:text-white hover:bg-white/[0.05]'
+                      )}
+                    >
+                      <span>Home</span>
+                    </Link>
+                  </motion.div>
 
-                  {/* Mobile Services Dropdown */}
+                  {/* About */}
+                  <motion.div variants={itemVariants}>
+                    <Link
+                      href="/about"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
+                        'font-body text-body-base font-medium',
+                        isActive('/about')
+                          ? 'bg-primary/10 text-primary border border-primary/20'
+                          : 'text-white/80 hover:text-white hover:bg-white/[0.05]'
+                      )}
+                    >
+                      <span>About</span>
+                    </Link>
+                  </motion.div>
+
+                  {/* Mobile Services Dropdown - Now positioned after About */}
                   <motion.div variants={itemVariants}>
                     <button
                       onClick={() =>
@@ -527,14 +626,13 @@ export const Navigation: React.FC = () => {
                       }
                       className={cn(
                         'w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300',
+                        'font-body text-body-base font-medium',
                         isActive('/services')
                           ? 'bg-primary/10 text-primary border border-primary/20'
                           : 'text-white/80 hover:text-white hover:bg-white/[0.05]'
                       )}
                     >
-                      <span className="text-body-base font-medium">
-                        Services
-                      </span>
+                      <span>Services</span>
                       <ChevronDown
                         className={cn(
                           'w-4 h-4 transition-transform duration-200',
@@ -562,6 +660,7 @@ export const Navigation: React.FC = () => {
                                   onClick={() => setIsMobileMenuOpen(false)}
                                   className={cn(
                                     'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
+                                    'font-body',
                                     isActive(service.href)
                                       ? 'bg-primary/10 text-primary border border-primary/20'
                                       : 'text-white/70 hover:text-white hover:bg-white/[0.05]'
@@ -581,18 +680,28 @@ export const Navigation: React.FC = () => {
                       )}
                     </AnimatePresence>
                   </motion.div>
+
+                  {/* Remaining navigation items */}
+                  {navItems.slice(2).map((item) => (
+                    <motion.div key={item.id} variants={itemVariants}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={cn(
+                          'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
+                          'font-body text-body-base font-medium',
+                          isActive(item.href)
+                            ? 'bg-primary/10 text-primary border border-primary/20'
+                            : 'text-white/80 hover:text-white hover:bg-white/[0.05]'
+                        )}
+                      >
+                        <span>{item.label}</span>
+                      </Link>
+                    </motion.div>
+                  ))}
                 </motion.div>
               </div>
-
-              {/* Mobile Menu Footer */}
-              <div className="p-6 border-t border-white/[0.08]">
-                <GetInTouchButtonPill
-                  href="/contact"
-                  className="w-full text-center justify-center"
-                >
-                  Get In Touch
-                </GetInTouchButtonPill>
-              </div>
+              
             </div>
           </motion.div>
         )}

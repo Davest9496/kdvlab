@@ -2,47 +2,35 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ChevronRight, ArrowLeft } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { BreadcrumbItem } from '@/lib/page-configs';
 
-// Remove pageConfigs from here since it's now in lib/page-configs.ts
-export interface PageHeroProps {
-  // Core content
+// Comprehensive TypeScript interface for all hero configurations
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+interface PageHeroProps {
   title: string;
   subtitle?: string;
-  description?: string;
-
-  // Breadcrumb navigation
   breadcrumbs?: BreadcrumbItem[];
   showBackButton?: boolean;
   backHref?: string;
   backLabel?: string;
-
-  // Visual customization
-  variant?: 'default' | 'large' | 'compact';
-  backgroundVariant?: 'primary' | 'secondary' | 'gradient';
   className?: string;
-
-  // SEO and accessibility
-  titleTag?: 'h1' | 'h2';
-  id?: string;
-
-  // Optional CTA
-  ctaText?: string;
-  ctaHref?: string;
-  ctaVariant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'default' | 'compact' | 'expanded';
 }
 
-// Animation variants (keep the same as before)
+// Animation variants optimized for performance
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
+      duration: 0.6,
       staggerChildren: 0.1,
       delayChildren: 0.2,
-      duration: 0.6,
       ease: [0.25, 0.25, 0, 1],
     },
   },
@@ -60,51 +48,47 @@ const itemVariants = {
   },
 };
 
-const breadcrumbVariants = {
-  hidden: { opacity: 0, x: -20 },
+const textFocusVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.98,
+    filter: 'blur(2px)',
+  },
   visible: {
     opacity: 1,
-    x: 0,
+    scale: 1,
+    filter: 'blur(0px)',
     transition: {
-      duration: 0.5,
+      duration: 0.8,
       ease: [0.25, 0.25, 0, 1],
     },
   },
 };
 
-// Breadcrumb Component
+// Breadcrumb Component with SEO optimization
 interface BreadcrumbProps {
   items: BreadcrumbItem[];
-  className?: string;
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className }) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
-    <motion.nav
-      variants={breadcrumbVariants}
-      aria-label="Breadcrumb"
-      className={cn('flex items-center space-x-2 text-sm', className)}
-    >
-      <ol className="flex items-center space-x-2">
+    <nav aria-label="Breadcrumb" className="mb-4">
+      <ol className="flex items-center space-x-2 text-sm">
         {items.map((item, index) => (
           <li key={item.href} className="flex items-center">
             {index > 0 && (
-              <ChevronRight
-                className="w-4 h-4 text-white/40 mx-2"
-                aria-hidden="true"
-              />
+              <ChevronRight className="w-4 h-4 mx-2 text-white/40" />
             )}
             {index === items.length - 1 ? (
-              <span className="text-white font-medium" aria-current="page">
+              <span className="text-white/60 font-medium" aria-current="page">
                 {item.label}
               </span>
             ) : (
               <Link
                 href={item.href}
                 className={cn(
-                  'text-white/70 hover:text-white',
-                  'transition-colors duration-200',
-                  'hover:underline underline-offset-2'
+                  'text-white/70 hover:text-white transition-colors duration-200',
+                  'focus:outline-none focus:text-white'
                 )}
               >
                 {item.label}
@@ -113,147 +97,226 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className }) => {
           </li>
         ))}
       </ol>
-    </motion.nav>
+
+      {/* Structured Data for Breadcrumbs - SEO Enhancement */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: items.map((item, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              name: item.label,
+              item: `${process.env.NEXT_PUBLIC_APP_URL || 'https://kdvlab.com'}${item.href}`,
+            })),
+          }),
+        }}
+      />
+    </nav>
   );
 };
 
-// Main PageHero Component (rest remains the same as your current implementation)
+// Back Button Component
+interface BackButtonProps {
+  href: string;
+  label: string;
+}
+
+const BackButton: React.FC<BackButtonProps> = ({ href, label }) => {
+  return (
+    <motion.div variants={itemVariants} className="mb-6">
+      <Link
+        href={href}
+        className={cn(
+          'inline-flex items-center space-x-2 text-white/70 hover:text-white',
+          'transition-all duration-200 group',
+          'focus:outline-none focus:text-white'
+        )}
+      >
+        <ChevronLeft
+          className={cn(
+            'w-4 h-4 transition-transform duration-200',
+            'group-hover:-translate-x-1'
+          )}
+        />
+        <span className="text-sm font-medium">{label}</span>
+      </Link>
+    </motion.div>
+  );
+};
+
+// Main PageHero Component
 export const PageHero: React.FC<PageHeroProps> = ({
   title,
   subtitle,
-  description,
   breadcrumbs,
   showBackButton = false,
   backHref = '/',
   backLabel = 'Back',
-  variant = 'default',
-  backgroundVariant = 'primary',
   className,
-  titleTag: TitleTag = 'h1',
-  id,
-  ctaText,
-  ctaHref,
-  ctaVariant = 'primary',
+  variant = 'default',
 }) => {
-  // Your existing component implementation...
-  const variantClasses = {
-    default: 'py-16 md:py-24 lg:py-32',
-    large: 'py-20 md:py-32 lg:py-40',
-    compact: 'py-12 md:py-16 lg:py-20',
-  };
-
-  const backgroundClasses = {
-    primary: cn(
-      'bg-gradient-to-b from-background via-background/98 to-background',
-      'before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] before:from-primary/[0.08] before:via-transparent before:to-transparent'
-    ),
-    secondary: cn(
-      'bg-gradient-to-br from-background via-background/95 to-background',
-      'before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] before:from-blue-500/[0.06] before:via-transparent before:to-transparent'
-    ),
-    gradient: cn(
-      'bg-gradient-to-br from-background via-primary/[0.02] to-background',
-      'before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] before:from-primary/[0.1] before:via-primary/[0.02] before:to-transparent'
-    ),
+  // Variant-based height classes
+  const heightClasses = {
+    compact: 'min-h-[50vh] py-16 md:py-20',
+    default: 'min-h-[60vh] py-20 md:py-24 lg:py-28',
+    expanded: 'min-h-[70vh] py-24 md:py-28 lg:py-32',
   };
 
   return (
     <section
       className={cn(
-        'relative overflow-hidden',
-        variantClasses[variant],
+        'relative overflow-hidden flex items-center',
+        heightClasses[variant],
         className
       )}
-      aria-labelledby={id ? `${id}-title` : undefined}
-      {...(id && { id })}
+      role="banner"
+      aria-label={`${title} page header`}
     >
-      <div
-        className={cn('absolute inset-0', backgroundClasses[backgroundVariant])}
-      >
-        <div className="absolute inset-0 opacity-[0.015] mix-blend-overlay">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                'url(\'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"%3E%3Cg fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4z"%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E\')',
-            }}
-          />
-        </div>
+      {/* Enhanced Neo-Tech Background with Performance Optimization */}
+      <div className="absolute inset-0">
+        {/* Optimized background image with Next.js Image would go here */}
+        {/* For now, using the provided background path */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url('/images/dark-background-abstract-with-light-effect-vector.jpg')",
+          }}
+        />
+
+        {/* Enhanced gradient overlays for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+
+        {/* Radial gradient overlays for depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/[0.08] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary/[0.04] via-transparent to-transparent" />
+
+        {/* Subtle noise texture for enhanced glass effect */}
+        <div
+          className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              'url(\'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"%3E%3Cpath fill="%23ffffff" fill-opacity="0.4" d="M1 3h1v1H1V3zm2-2h1v1H3V1z"%3E%3C/path%3E%3C/svg%3E\')',
+          }}
+        />
+
+        {/* Animated gradient orbs for movement */}
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/[0.02] rounded-full blur-3xl animate-pulse-slow" />
+        <div
+          className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-blue-400/[0.015] rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: '2s' }}
+        />
       </div>
 
-      <div className="container relative">
+      {/* Content Container */}
+      <div className="container relative z-10">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8"
+          className="max-w-4xl mx-auto text-center"
         >
+          {/* Back Button */}
           {showBackButton && (
-            <motion.div variants={itemVariants} className="flex justify-center">
-              <Link
-                href={backHref}
-                className={cn(
-                  'inline-flex items-center text-white/70 hover:text-white',
-                  'transition-colors duration-200 group'
-                )}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
-                {backLabel}
-              </Link>
-            </motion.div>
-          )}
-
-          {breadcrumbs && breadcrumbs.length > 0 && (
-            <div className="flex justify-center">
-              <Breadcrumb items={breadcrumbs} />
+            <div className="text-left mb-6">
+              <BackButton href={backHref} label={backLabel} />
             </div>
           )}
 
-          <div className="space-y-4 md:space-y-6">
-            {subtitle && (
-              <motion.div variants={itemVariants}>
-                <span
-                  className={cn(
-                    'inline-block px-4 py-2 rounded-full',
-                    'bg-primary/10 border border-primary/20',
-                    'text-primary text-sm font-medium',
-                    'backdrop-blur-sm'
-                  )}
-                >
-                  {subtitle}
-                </span>
-              </motion.div>
-            )}
-
-            <motion.div variants={itemVariants}>
-              <TitleTag
-                className={cn(
-                  'text-4xl md:text-5xl lg:text-6xl font-heading text-white',
-                  'drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]',
-                  'leading-tight font-bold'
-                )}
-                {...(id && { id: `${id}-title` })}
-              >
-                {title}
-              </TitleTag>
+          {/* Breadcrumbs */}
+          {breadcrumbs && breadcrumbs.length > 0 && (
+            <motion.div variants={itemVariants} className="text-left">
+              <Breadcrumb items={breadcrumbs} />
             </motion.div>
+          )}
 
-            {description && (
-              <motion.p
-                variants={itemVariants}
+          {/* Main Title - Now using subtitle styling */}
+          {subtitle && (
+            <motion.div variants={itemVariants} className="mb-6">
+              <span
                 className={cn(
-                  'text-lg text-white/80 leading-relaxed max-w-2xl mx-auto',
-                  'drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]'
+                  'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium',
+                  'bg-white/[0.08] backdrop-blur-sm border border-white/[0.12]',
+                  'text-white/90 shadow-lg',
+                  'hover:bg-white/[0.12] transition-colors duration-300'
                 )}
               >
-                {description}
-              </motion.p>
+                {subtitle}
+              </span>
+            </motion.div>
+          )}
+
+          {/* Subtitle - Now using title styling with enhanced typography */}
+          <motion.h1
+            variants={textFocusVariants}
+            className={cn(
+              'text-heading-xl md:text-hero-lg font-heading text-white',
+              'drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]',
+              'tracking-tight leading-tight'
             )}
-          </div>
+          >
+            {title}
+          </motion.h1>
         </motion.div>
       </div>
+
+      {/* Enhanced Border Glow Effect */}
+      <div
+        className={cn(
+          'absolute inset-x-0 bottom-0 h-px',
+          'bg-gradient-to-r from-transparent via-primary/30 to-transparent'
+        )}
+      />
     </section>
   );
 };
+
+// Pre-configured page configurations for consistency
+export const pageConfigs = {
+  about: {
+    title: 'About KDVLAB',
+    subtitle: 'Our Story',
+    breadcrumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'About', href: '/about' },
+    ],
+  },
+  services: {
+    title: 'Our Services',
+    subtitle: 'What We Offer',
+    breadcrumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'Services', href: '/services' },
+    ],
+  },
+  work: {
+    title: 'Our Work',
+    subtitle: 'Portfolio',
+    breadcrumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'Our Work', href: '/work' },
+    ],
+  },
+  blog: {
+    title: 'Blog',
+    subtitle: 'Insights & Stories',
+    breadcrumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'Blog', href: '/blog' },
+    ],
+  },
+  contact: {
+    title: 'Get In Touch',
+    subtitle: 'Contact Us',
+    breadcrumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'Contact', href: '/contact' },
+    ],
+  },
+} as const;
 
 export default PageHero;
