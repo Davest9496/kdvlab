@@ -68,8 +68,8 @@ export default function Footer() {
                   'leading-relaxed max-w-sm'
                 )}
               >
-                Expert web development services by Dave Ejezie. Creating
-                lightning-fast, SEO-optimized websites with cutting-edge
+                Expert web development services. 
+                Lightning-fast, SEO-optimized websites with cutting-edge
                 technologies.
               </p>
             </div>

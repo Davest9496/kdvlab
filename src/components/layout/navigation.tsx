@@ -265,7 +265,7 @@ export const Navigation: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
       </div>
 
-      <nav className="container relative z-10">
+      <nav className="px-8 relative z-10">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo - Enhanced with Gilroy font matching your Header component */}
           <Link

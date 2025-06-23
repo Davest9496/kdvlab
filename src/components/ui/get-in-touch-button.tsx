@@ -113,11 +113,11 @@ export const GetInTouchButtonPill: React.FC<GetInTouchButtonProps> = ({
       href={href} 
       className={cn(
         // Exact pill shape like in your image
-        'group relative inline-flex items-center justify-between',
+        'group relative inline-flex items-center gap-4',
         'px-12 py-5 rounded-full',
         'border-2 border-white/25',
         'bg-transparent text-white font-medium text-body-lg',
-        'min-w-[280px]', // Ensures consistent width
+        'min-w-[200px]', // Ensures consistent width
         'transition-all duration-500 ease-out',
         'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background',
         
