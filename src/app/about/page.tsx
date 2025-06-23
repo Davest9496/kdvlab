@@ -22,7 +22,7 @@ export default function AboutPage() {
       <PageHero
         title={aboutConfig.title}
         subtitle={aboutConfig.subtitle}
-        breadcrumbs={aboutConfig.breadcrumbs}
+        breadcrumbs={[...aboutConfig.breadcrumbs]}
       />
       {/* Rest of content */}
     </main>

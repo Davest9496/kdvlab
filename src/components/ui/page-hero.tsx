@@ -4,13 +4,9 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import type { BreadcrumbItem } from '@/lib/page-configs';
 
 // Comprehensive TypeScript interface for all hero configurations
-interface BreadcrumbItem {
-  label: string;
-  href: string;
-}
-
 interface PageHeroProps {
   title: string;
   subtitle?: string;
@@ -274,49 +270,5 @@ export const PageHero: React.FC<PageHeroProps> = ({
     </section>
   );
 };
-
-// Pre-configured page configurations for consistency
-export const pageConfigs = {
-  about: {
-    title: 'About KDVLAB',
-    subtitle: 'Our Story',
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'About', href: '/about' },
-    ],
-  },
-  services: {
-    title: 'Our Services',
-    subtitle: 'What We Offer',
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Services', href: '/services' },
-    ],
-  },
-  work: {
-    title: 'Our Work',
-    subtitle: 'Portfolio',
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Our Work', href: '/work' },
-    ],
-  },
-  blog: {
-    title: 'Blog',
-    subtitle: 'Insights & Stories',
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Blog', href: '/blog' },
-    ],
-  },
-  contact: {
-    title: 'Get In Touch',
-    subtitle: 'Contact Us',
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Contact', href: '/contact' },
-    ],
-  },
-} as const;
 
 export default PageHero;

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { PageHero, pageConfigs } from '@/components/ui/page-hero';
-import { ServicesSection } from '@/components/sections/services-section';
+import { PageHero } from '@/components/ui/page-hero';
+// import { ServicesSection } from '@/components/sections/services-section';
+import { pageConfigs } from '@/lib/page-configs';
 
 export const metadata: Metadata = {
   title: 'Software Development Services | KDVLAB',
@@ -29,10 +30,17 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesPage() {
+  // Now we can safely access pageConfigs from a server component
+  const servicesConfig = pageConfigs.services;
+
   return (
     <>
-      <PageHero {...{ ...pageConfigs.services, breadcrumbs: [...pageConfigs.services.breadcrumbs] }} />
-      <ServicesSection />
+      <PageHero
+        title={servicesConfig.title}
+        subtitle={servicesConfig.subtitle}
+        breadcrumbs={[...servicesConfig.breadcrumbs]}
+      />
+      {/* <ServicesSection /> */}
       {/* Additional services content */}
     </>
   );

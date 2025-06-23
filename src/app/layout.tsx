@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { heading, body } from './fonts';
-import { Header } from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import './globals.css';
 import { Navigation } from '@/components/layout/navigation';

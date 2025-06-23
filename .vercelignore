@@ -1,0 +1,28 @@
+# Ignore test files and folders
+**/__tests__/
+**/*.test.*
+**/*.spec.*
+test/
+tests/
+*.log
+
+# Ignore local environment files
+.env
+.env.*
+
+# Ignore node_modules (Vercel installs dependencies automatically)
+node_modules/
+
+# Ignore build outputs
+dist/
+build/
+out/
+
+# Ignore coverage reports
+coverage/
+
+# Ignore editor and OS files
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
