@@ -166,7 +166,8 @@ export default function RootLayout({
         <Navigation/>
 
         {/* Main Content Area */}
-        <main id="main-content" className="flex-1">
+        <main id="main-content" className="flex-1 mt-12 md:mt-16 lg:mt-20">
+          {/* Ensure main content is scrollable and has proper padding */}
           {children}
         </main>
 

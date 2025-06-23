@@ -1,8 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/lib/page-configs';
 
@@ -61,96 +59,10 @@ const textFocusVariants = {
   },
 };
 
-// Breadcrumb Component with SEO optimization
-interface BreadcrumbProps {
-  items: BreadcrumbItem[];
-}
-
-const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
-  return (
-    <nav aria-label="Breadcrumb" className="mb-4">
-      <ol className="flex items-center space-x-2 text-sm">
-        {items.map((item, index) => (
-          <li key={item.href} className="flex items-center">
-            {index > 0 && (
-              <ChevronRight className="w-4 h-4 mx-2 text-white/40" />
-            )}
-            {index === items.length - 1 ? (
-              <span className="text-white/60 font-medium" aria-current="page">
-                {item.label}
-              </span>
-            ) : (
-              <Link
-                href={item.href}
-                className={cn(
-                  'text-white/70 hover:text-white transition-colors duration-200',
-                  'focus:outline-none focus:text-white'
-                )}
-              >
-                {item.label}
-              </Link>
-            )}
-          </li>
-        ))}
-      </ol>
-
-      {/* Structured Data for Breadcrumbs - SEO Enhancement */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: items.map((item, index) => ({
-              '@type': 'ListItem',
-              position: index + 1,
-              name: item.label,
-              item: `${process.env.NEXT_PUBLIC_APP_URL || 'https://kdvlab.com'}${item.href}`,
-            })),
-          }),
-        }}
-      />
-    </nav>
-  );
-};
-
-// Back Button Component
-interface BackButtonProps {
-  href: string;
-  label: string;
-}
-
-const BackButton: React.FC<BackButtonProps> = ({ href, label }) => {
-  return (
-    <motion.div variants={itemVariants} className="mb-6">
-      <Link
-        href={href}
-        className={cn(
-          'inline-flex items-center space-x-2 text-white/70 hover:text-white',
-          'transition-all duration-200 group',
-          'focus:outline-none focus:text-white'
-        )}
-      >
-        <ChevronLeft
-          className={cn(
-            'w-4 h-4 transition-transform duration-200',
-            'group-hover:-translate-x-1'
-          )}
-        />
-        <span className="text-sm font-medium">{label}</span>
-      </Link>
-    </motion.div>
-  );
-};
-
 // Main PageHero Component
 export const PageHero: React.FC<PageHeroProps> = ({
   title,
   subtitle,
-  breadcrumbs,
-  showBackButton = false,
-  backHref = '/',
-  backLabel = 'Back',
   className,
   variant = 'default',
 }) => {
@@ -183,14 +95,6 @@ export const PageHero: React.FC<PageHeroProps> = ({
           }}
         />
 
-        {/* Enhanced gradient overlays for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
-
-        {/* Radial gradient overlays for depth */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/[0.08] via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary/[0.04] via-transparent to-transparent" />
-
         {/* Subtle noise texture for enhanced glass effect */}
         <div
           className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
@@ -216,19 +120,6 @@ export const PageHero: React.FC<PageHeroProps> = ({
           variants={containerVariants}
           className="max-w-4xl mx-auto text-center"
         >
-          {/* Back Button */}
-          {showBackButton && (
-            <div className="text-left mb-6">
-              <BackButton href={backHref} label={backLabel} />
-            </div>
-          )}
-
-          {/* Breadcrumbs */}
-          {breadcrumbs && breadcrumbs.length > 0 && (
-            <motion.div variants={itemVariants} className="text-left">
-              <Breadcrumb items={breadcrumbs} />
-            </motion.div>
-          )}
 
           {/* Main Title - Now using subtitle styling */}
           {subtitle && (

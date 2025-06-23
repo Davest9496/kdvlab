@@ -14,19 +14,15 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      {/* Optional spacing section */}
-      <section className="py-6 bg-muted/30" aria-hidden="true" />
       {/* Hero Section - Outside main tag since it's full-screen */}
-      <HeroSection />
+    <HeroSection />
 
       {/* Page Content */}
       <ServicesSection />
       <TestimonialsSection />
       <BlogNewsSection />
       <CTASection />
-
-      {/* Optional spacing section */}
-      <section className="py-24 bg-muted/30" aria-hidden="true" />
+      {/* Footer is handled in the layout, so no need to include it here */}
     </>
   );
 }
