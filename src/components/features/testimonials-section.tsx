@@ -202,13 +202,13 @@ const ClientLogo: React.FC<ClientLogoProps> = ({ client, index }) => {
           'hover:scale-105'
         )}
       >
-        {/* Logo container with optimization */}
+        {/* Logo container with optimization - FIXED */}
         <div className="relative z-10 flex items-center justify-center w-full h-full">
           {/* Placeholder for actual logo - replace with Next.js Image component */}
           <div
             className={cn(
               'flex items-center justify-center',
-              'text-white/60 font-heading text-sm tracking-wider',
+              'text-white/60 font-rubik text-sm tracking-wider',
               'group-hover:text-white/80',
               'transition-colors duration-300'
             )}
@@ -295,12 +295,12 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           />
         </div>
 
-        {/* Testimonial content */}
+        {/* Testimonial content - FIXED */}
         <div className="space-y-6 relative z-10">
-          {/* Review text */}
+          {/* Review text - FIXED */}
           <blockquote
             className={cn(
-              'text-body-base text-white/90 leading-relaxed',
+              'text-body-base font-rubik text-white/90 leading-relaxed',
               'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
             )}
           >
@@ -323,7 +323,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
             ))}
           </div>
 
-          {/* Author info */}
+          {/* Author info - FIXED */}
           <div className="flex items-center space-x-4">
             {/* Avatar placeholder */}
             <div
@@ -335,7 +335,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
                 'shadow-[0_4px_12px_rgba(0,0,0,0.15)]'
               )}
             >
-              <span className="text-white font-semibold text-sm">
+              <span className="text-white font-rubik font-semibold text-sm">
                 {testimonial.name
                   .split(' ')
                   .map((n) => n[0])
@@ -343,11 +343,11 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
               </span>
             </div>
 
-            {/* Author details */}
+            {/* Author details - FIXED */}
             <div>
               <div
                 className={cn(
-                  'font-semibold text-white',
+                  'font-rubik font-semibold text-white',
                   'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
                 )}
               >
@@ -355,7 +355,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
               </div>
               <div
                 className={cn(
-                  'text-sm text-white/70',
+                  'text-sm font-rubik text-white/70',
                   'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
                 )}
               >
@@ -431,19 +431,13 @@ export const TestimonialsSection: React.FC = () => {
           variants={containerVariants}
           className="space-y-12 md:space-y-16"
         >
-          {/* Enhanced Section Header */}
+          {/* Section Header with proper typography and glassmorphism */}
           <div className="text-center space-y-6 max-w-4xl mx-auto relative">
-            {/* Glassmorphism background for header */}
-            <div className="absolute inset-0 bg-white/[0.015] backdrop-blur-3xl rounded-3xl border border-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.06)] -mx-8 -my-4" />
 
             <div className="relative z-10 py-8">
               <motion.h2
                 variants={itemVariants}
-                className={cn(
-                  'text-heading-lg md:text-heading-xl font-heading text-white',
-                  'drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]',
-                  'mb-4'
-                )}
+                className="text-heading-lg text-white capitalize mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
               >
                 Trusted by Innovative Companies
               </motion.h2>
@@ -451,11 +445,12 @@ export const TestimonialsSection: React.FC = () => {
               <motion.p
                 variants={itemVariants}
                 className={cn(
-                  'text-body-base text-white/75 leading-relaxed',
+                  'text-body-base font-rubik text-white/75 leading-relaxed',
                   'drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]'
                 )}
               >
-                Placeholder for client logos and testimonials.
+                Organizations around the world trust KDVLab for their
+                engineering needs.
               </motion.p>
             </div>
           </div>
@@ -514,19 +509,13 @@ export const TestimonialsSection: React.FC = () => {
           variants={containerVariants}
           className="mt-24 md:mt-32 space-y-12 md:space-y-16"
         >
-          {/* Enhanced Section Header */}
+          {/* FIXED Section Header with proper typography and glassmorphism */}
           <div className="text-center space-y-6 max-w-4xl mx-auto relative">
-            {/* Glassmorphism background for header */}
-            <div className="absolute inset-0 bg-white/[0.015] backdrop-blur-3xl rounded-3xl border border-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.06)] -mx-8 -my-4" />
 
             <div className="relative z-10 py-8">
               <motion.h2
                 variants={itemVariants}
-                className={cn(
-                  'text-heading-lg md:text-heading-xl font-heading text-white',
-                  'drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]',
-                  'mb-4'
-                )}
+                className="text-heading-lg text-white capitalize mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
               >
                 What Our Clients Say
               </motion.h2>
@@ -534,12 +523,12 @@ export const TestimonialsSection: React.FC = () => {
               <motion.p
                 variants={itemVariants}
                 className={cn(
-                  'text-body-base text-white/75 leading-relaxed max-w-2xl mx-auto',
+                  'text-body-base font-rubik text-white/75 leading-relaxed max-w-2xl mx-auto',
                   'drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]'
                 )}
               >
-                Don&#39;t just take our word for it. Here&#39;s what our clients have to
-                say about working with KDVLAB.
+                Don&#39;t just take our word for it. Here&#39;s what our clients
+                have to say about working with KDVLab.
               </motion.p>
             </div>
           </div>
@@ -560,19 +549,27 @@ export const TestimonialsSection: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Structured Data for SEO */}
+      {/* Enhanced Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Organization',
-            name: 'KDVLAB',
+            name: 'KDVLab',
+            description:
+              'Trusted by innovative companies worldwide for expert software development services.',
+            url: 'https://kdvlab.com',
             review: testimonials.map((testimonial) => ({
               '@type': 'Review',
               author: {
                 '@type': 'Person',
                 name: testimonial.name,
+                jobTitle: testimonial.role,
+                worksFor: {
+                  '@type': 'Organization',
+                  name: testimonial.company,
+                },
               },
               reviewBody: testimonial.content,
               reviewRating: {
@@ -581,6 +578,12 @@ export const TestimonialsSection: React.FC = () => {
                 bestRating: 5,
               },
             })),
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: 5,
+              reviewCount: testimonials.length,
+              bestRating: 5,
+            },
           }),
         }}
       />

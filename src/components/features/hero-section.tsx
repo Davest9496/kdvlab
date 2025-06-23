@@ -84,46 +84,38 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
               <div className="flex items-center justify-center w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full border border-white/10 shadow-lg">
                 <div className="w-0 h-0 border-l-[6px] border-l-white border-y-[4px] border-y-transparent ml-0.5" />
               </div>
-              <span className="text-body-base font-medium text-foreground/80 drop-shadow-sm">
+              <span className="text-body-base font-rubik font-medium text-foreground/80 drop-shadow-sm">
                 Building innovative software solutions
               </span>
             </div>
 
-            {/* Main headline with enhanced text shadow */}
+            {/* Main headline with enhanced text shadow - FIXED */}
             <div className="space-y-4">
-              <h1 className="text-hero-lg font-heading leading-tight drop-shadow-lg">
+              <h1 className="text-hero-lg font-gilroy-bold leading-tight drop-shadow-lg">
                 Innovative Software{' '}
-                <span className="text-gradient bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent drop-shadow-md">
-                  Solutions for Modern
-                </span>{' '}
+                <span className="text-gradient">Solutions for Modern</span>{' '}
                 Businesses
               </h1>
             </div>
 
-            {/* Description with subtle enhancement */}
-            <p className="text-body-lg text-foreground/80 leading-relaxed max-w-xl mx-auto lg:mx-0 drop-shadow-sm">
+            {/* Description with subtle enhancement - FIXED */}
+            <p className="text-body-lg font-rubik text-foreground/80 leading-relaxed max-w-xl mx-auto lg:mx-0 drop-shadow-sm">
               We build custom software that transforms how businesses operate,
               connecting people with technology that works for them.
             </p>
 
-            {/* Responsive CTA Wrapper - Key Change Here */}
+            {/* Responsive CTA Wrapper */}
             <div className="w-full">
-              {/* 
-                Responsive Layout Explanation:
-                - Mobile (default): flex-row with gap-4, items side-by-side using full width
-                - Large screens (lg:): flex-col with gap-6, items stacked vertically
-                - Both: justify-center on mobile, lg:justify-start on desktop
-              */}
               <div className="flex flex-row lg:flex-col gap-4 lg:gap-6 justify-center lg:justify-start items-center lg:items-start w-full">
                 {/* CTA Button - maintains its existing styling */}
                 <div className="flex-shrink-0">
                   <GetInTouchButton
                     size="lg"
-                    className="min-w-[200px] bg-primary hover:bg-primary/90 focus:bg-primary text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm"
+                    className="min-w-[200px] bg-primary hover:bg-primary/90 focus:bg-primary text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm font-rubik font-medium"
                   />
                 </div>
 
-                {/* Discover more section */}
+                {/* Discover more section - FIXED */}
                 <div className="flex-shrink-0">
                   <a
                     href="#services"
@@ -131,7 +123,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                       e.preventDefault();
                       scrollToSection();
                     }}
-                    className="group flex items-center gap-3 text-foreground/60 hover:text-foreground transition-all duration-300 text-body-sm font-medium drop-shadow-sm cursor-pointer"
+                    className="group flex items-center gap-3 text-foreground/60 hover:text-foreground transition-all duration-300 text-body-sm font-rubik font-medium drop-shadow-sm cursor-pointer"
                   >
                     {/* Circular icon container with rounded background */}
                     <div className="relative w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all duration-300">
@@ -151,7 +143,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                       </svg>
                     </div>
 
-                    {/* Standalone text */}
+                    {/* Standalone text - FIXED */}
                     <span className="font-rubik font-medium tracking-wide group-hover:text-white/90 transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
                       Discover more
                     </span>
@@ -299,25 +291,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
         }
       `}</style>
 
-      {/* Performance monitoring comment for development */}
-      {/* 
-        Performance optimizations included:
-        - GPU-accelerated animations using transform and opacity
-        - Will-change property for optimized rendering
-        - Reduced motion support for accessibility
-        - Efficient keyframe animations with proper easing
-        - Layered glow effects for depth without performance impact
-        - Next.js Image component with proper optimization
-        - Semantic HTML for SEO
-        - Enhanced responsive typography system
-        - Backdrop blur effects for modern glass morphism
-        
-        Responsive Layout Features:
-        - Mobile: CTA button and "Discover more" side-by-side for better space utilization
-        - Desktop: Stacked layout maintaining visual hierarchy
-        - Proper flex-shrink-0 to prevent unwanted compression
-        - Consistent alignment and spacing across breakpoints
-      */}
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'KDVLab',
+            description: 'Innovative software solutions for modern businesses',
+            url: 'https://kdvlab.com',
+            serviceType: 'Software Development',
+            areaServed: 'Global',
+            founder: {
+              '@type': 'Person',
+              name: 'Dave Ejezie',
+            },
+          }),
+        }}
+      />
     </section>
   );
 };

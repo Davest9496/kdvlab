@@ -59,7 +59,7 @@ export default function Footer() {
                   'text-gradient' // Gradient effect for brand
                 )}
               >
-                KDVLab
+                KDVLAB
               </h3>
               <p
                 className={cn(
@@ -233,15 +233,7 @@ export default function Footer() {
             >
               Terms
             </Link>
-            <div
-              className={cn(
-                'font-rubik text-white/40',
-                'text-body-sm', // 12px-14px responsive
-                'hidden sm:block'
-              )}
-            >
-              Made in 🇬🇧
-            </div>
+            
           </div>
         </div>
       </div>

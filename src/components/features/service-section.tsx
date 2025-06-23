@@ -79,7 +79,7 @@ const services: Service[] = [
     icon: Cloud,
     title: 'Cloud Services',
     description:
-      'Migration, optimization, and management of cloud infrastructure on AWS, Vercel, and Supabase.',
+      'Migration, optimization, and management of cloud infrastructure.',
     features: [
       'Cloud Migration',
       'DevOps Automation',
@@ -270,23 +270,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
           </div>
         </div>
 
-        {/* Content with enhanced typography - Centered */}
+        {/* Content typography - with proper font classes */}
         <div className="space-y-4 relative z-10 text-center">
-          <h3
-            className={cn(
-              'text-heading-sm font-heading text-white',
-              'drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
-            )}
-          >
+          <h3 className="text-subheading-md text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
             {service.title}
           </h3>
 
-          <p
-            className={cn(
-              'text-body-sm text-white/80 leading-relaxed',
-              'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
-            )}
-          >
+          <p className="text-body-base font-rubik text-white/80 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
             {service.description}
           </p>
         </div>
@@ -358,25 +348,13 @@ const WhyChooseCard: React.FC<WhyChooseCardProps> = ({ item, index }) => {
           'hover:scale-[1.02]'
         )}
       >
-        {/* Enhanced Content - Left Aligned */}
+        {/* Content - Left Aligned with proper typography */}
         <div className="space-y-3 relative z-10 text-left">
-          <h4
-            className={cn(
-              'text-body-lg font-heading text-white',
-              'drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
-            )}
-          >
+          <h4 className="text-subheading-md text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
             {item.title}
           </h4>
 
-          <p
-            className={cn(
-              'text-body-sm text-white/75 leading-relaxed',
-              'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]',
-              'group-hover:text-white/85',
-              'transition-colors duration-300'
-            )}
-          >
+          <p className="text-body-base font-rubik text-white/75 leading-relaxed group-hover:text-white/85 transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
             {item.description}
           </p>
         </div>
@@ -448,31 +426,22 @@ export const ServicesSection: React.FC = () => {
           variants={containerVariants}
           className="space-y-12 md:space-y-16"
         >
-          {/* Enhanced Section Header with Glassmorphism */}
+          {/* Section Header with proper typography and glassmorphism */}
           <div className="text-center space-y-6 max-w-4xl mx-auto relative">
-            {/* Glassmorphism background for header */}
-            <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-3xl rounded-3xl border border-white/[0.05] shadow-[0_8px_32px_rgba(0,0,0,0.08)] -mx-8 -my-4" />
 
             <div className="relative z-10 py-8">
               <motion.h2
                 variants={itemVariants}
-                className={cn(
-                  'text-heading-lg md:text-heading-xl font-heading text-white',
-                  'drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]',
-                  'mb-4'
-                )}
+                className="text-heading-lg text-white capitalize mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
               >
-                Our Services
+                Your solutions
               </motion.h2>
 
               <motion.p
                 variants={itemVariants}
-                className={cn(
-                  'text-body-lg text-white/80 leading-relaxed max-w-2xl mx-auto',
-                  'drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]'
-                )}
+                className="text-body-lg font-rubik text-white/80 leading-relaxed max-w-2xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
               >
-                We offer end-to-end software development services, from ideation
+                We solve all your software development needs, from ideation
                 to deployment and beyond.
               </motion.p>
             </div>
@@ -497,29 +466,20 @@ export const ServicesSection: React.FC = () => {
           variants={containerVariants}
           className="mt-24 md:mt-32 space-y-12 md:space-y-16"
         >
-          {/* Enhanced Section Header with Glassmorphism */}
+          {/* Section Header with proper typography and glassmorphism */}
           <div className="text-center space-y-6 max-w-4xl mx-auto relative">
-            {/* Glassmorphism background for header */}
-            <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-3xl rounded-3xl border border-white/[0.05] shadow-[0_8px_32px_rgba(0,0,0,0.08)] -mx-8 -my-4" />
 
             <div className="relative z-10 py-8">
               <motion.h2
                 variants={itemVariants}
-                className={cn(
-                  'text-heading-lg md:text-heading-xl font-heading text-white',
-                  'drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]',
-                  'mb-4'
-                )}
+                className="text-heading-lg text-white capitalize mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
               >
-                Why Choose KDVLAB
+                your experience
               </motion.h2>
 
               <motion.p
                 variants={itemVariants}
-                className={cn(
-                  'text-body-lg text-white/80 leading-relaxed max-w-2xl mx-auto',
-                  'drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]'
-                )}
+                className="text-body-lg font-rubik text-white/80 leading-relaxed max-w-2xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
               >
                 We combine technical expertise with a deep understanding of
                 business to deliver exceptional results.
@@ -538,6 +498,37 @@ export const ServicesSection: React.FC = () => {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Enhanced Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ProfessionalService',
+            name: 'KDVLab',
+            description:
+              'Expert software development services including custom software, web applications, mobile apps, cloud services, UI/UX design, and technology consultancy.',
+            serviceType: services.map((service) => service.title),
+            areaServed: 'Global',
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: 'Software Development Services',
+              itemListElement: services.map((service, index) => ({
+                '@type': 'Offer',
+                position: index + 1,
+                name: service.title,
+                description: service.description,
+                category: 'Software Development',
+              })),
+            },
+            founder: {
+              '@type': 'Person',
+              name: 'Dave Ejezie',
+            },
+          }),
+        }}
+      />
     </section>
   );
 };

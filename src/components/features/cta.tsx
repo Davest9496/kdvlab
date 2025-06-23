@@ -409,7 +409,7 @@ const SplitCTA: React.FC<SplitCTAProps> = ({ variant }) => {
         {/* Main Title */}
         <h2
           className={cn(
-            'text-heading-lg md:text-heading-xl font-heading text-white',
+            'text-heading-lg md:text-heading-lg font-heading text-white',
             'drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]',
             'leading-tight'
           )}

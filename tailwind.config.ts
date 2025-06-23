@@ -8,27 +8,6 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    // STEP 1: Complete font-weight theme override - Force all weights to 400
-    fontWeight: {
-      thin: '400',
-      extralight: '400',
-      light: '400',
-      normal: '400',
-      medium: '400',
-      semibold: '400',
-      bold: '400',
-      extrabold: '400',
-      black: '400',
-      100: '400',
-      200: '400',
-      300: '400',
-      400: '400',
-      500: '400',
-      600: '400',
-      700: '400',
-      800: '400',
-      900: '400',
-    },
     extend: {
       colors: {
         border: 'hsl(var(--border))',
@@ -88,95 +67,88 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        // Use different font families for hierarchy instead of weights
-        heading: [
-          'var(--font-gilroy-bold)', // This gives "bold" appearance at weight 400
-          'ui-sans-serif',
-          'system-ui',
-          'sans-serif',
-        ],
+        // Match the CSS variable names exactly
+        heading: ['var(--font-gilroy-bold)', 'system-ui', 'sans-serif'],
         'heading-light': [
-          'var(--font-gilroy-light)', // This gives "light" appearance at weight 400
-          'ui-sans-serif',
+          'var(--font-gilroy-light)',
           'system-ui',
           'sans-serif',
         ],
-        body: ['var(--font-rubik)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        sans: ['var(--font-rubik)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        body: ['var(--font-rubik)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-rubik)', 'system-ui', 'sans-serif'], // Default
+
+        // Alternative names for convenience
+        'gilroy-bold': ['var(--font-gilroy-bold)', 'system-ui', 'sans-serif'],
+        'gilroy-light': ['var(--font-gilroy-light)', 'system-ui', 'sans-serif'],
+        rubik: ['var(--font-rubik)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        // STEP 2: Remove all fontWeight specifications from fontSize configs
-        // Let font-family handle the visual weight difference
-
-        // Hero text: Visual impact through font-family, not weight
-        hero: [
-          'clamp(2rem, 8vw, 3rem)', // 32px min, 48px max
-          {
-            lineHeight: '1.1',
-            letterSpacing: '-0.025em',
-            // No fontWeight specified - defaults to 400
-          },
+        // Your existing responsive sizes
+        'hero-xl': [
+          'clamp(2.5rem, 10vw, 4rem)',
+          { lineHeight: '1.05', letterSpacing: '-0.03em' },
         ],
-
-        // Headings: Use font-family for hierarchy
-        heading: [
-          'clamp(1.75rem, 6vw, 2.5rem)', // 28px min, 40px max
-          {
-            lineHeight: '1.2',
-            letterSpacing: '-0.02em',
-            // No fontWeight specified - defaults to 400
-          },
-        ],
-
-        // Sub-headings: Consistent weight, different family if needed
-        subheading: [
-          'clamp(1.125rem, 3vw, 1.25rem)', // 18px min, 20px max
-          {
-            lineHeight: '1.3',
-            letterSpacing: '-0.01em',
-            // No fontWeight specified - defaults to 400
-          },
-        ],
-
-        // Body text: Standard treatment
-        body: [
-          'clamp(0.875rem, 2vw, 1rem)', // 14px min, 16px max
-          {
-            lineHeight: '1.6',
-            letterSpacing: '0em',
-            // No fontWeight specified - defaults to 400
-          },
-        ],
-
-        // Specific sizes for precise control - no weights
-        'hero-xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.025em' }], // 48px
-        'heading-lg': [
-          '2.5rem',
-          { lineHeight: '1.2', letterSpacing: '-0.02em' },
-        ], // 40px
-        'subheading-md': [
-          '1.25rem',
-          { lineHeight: '1.3', letterSpacing: '-0.01em' },
-        ], // 20px
-        'body-base': ['1rem', { lineHeight: '1.6', letterSpacing: '0em' }], // 16px
-
-        // Responsive variants - no weights
-        'hero-responsive': [
-          'clamp(1.75rem, 5vw + 1rem, 3rem)',
+        'hero-lg': [
+          'clamp(2rem, 8vw, 3rem)',
           { lineHeight: '1.1', letterSpacing: '-0.025em' },
         ],
-        'heading-responsive': [
-          'clamp(1.5rem, 4vw + 0.5rem, 2.5rem)',
+        'hero-md': [
+          'clamp(1.5rem, 6vw, 2.25rem)',
+          { lineHeight: '1.15', letterSpacing: '-0.02em' },
+        ],
+
+        'heading-xl': [
+          'clamp(2rem, 7vw, 2.75rem)',
+          { lineHeight: '1.15', letterSpacing: '-0.025em' },
+        ],
+        'heading-lg': [
+          'clamp(1.75rem, 6vw, 2.5rem)',
           { lineHeight: '1.2', letterSpacing: '-0.02em' },
         ],
-        'subheading-responsive': [
-          'clamp(1rem, 2vw + 0.5rem, 1.25rem)',
+        'heading-md': [
+          'clamp(1.5rem, 5vw, 2rem)',
+          { lineHeight: '1.25', letterSpacing: '-0.015em' },
+        ],
+        'heading-sm': [
+          'clamp(1.25rem, 4vw, 1.5rem)',
           { lineHeight: '1.3', letterSpacing: '-0.01em' },
         ],
-        'body-responsive': [
-          'clamp(0.875rem, 1vw + 0.5rem, 1rem)',
+
+        'subheading-lg': [
+          'clamp(1.25rem, 3.5vw, 1.5rem)',
+          { lineHeight: '1.3', letterSpacing: '-0.01em' },
+        ],
+        'subheading-md': [
+          'clamp(1.125rem, 3vw, 1.25rem)',
+          { lineHeight: '1.3', letterSpacing: '-0.01em' },
+        ],
+        'subheading-sm': [
+          'clamp(1rem, 2.5vw, 1.125rem)',
+          { lineHeight: '1.4', letterSpacing: '-0.005em' },
+        ],
+
+        'body-lg': [
+          'clamp(1rem, 2.5vw, 1.125rem)',
           { lineHeight: '1.6', letterSpacing: '0em' },
         ],
+        'body-base': [
+          'clamp(0.875rem, 2vw, 1rem)',
+          { lineHeight: '1.6', letterSpacing: '0em' },
+        ],
+        'body-sm': [
+          'clamp(0.75rem, 1.5vw, 0.875rem)',
+          { lineHeight: '1.5', letterSpacing: '0.01em' },
+        ],
+      },
+      fontWeight: {
+        // Proper weights for your font files
+        light: '300', // Gilroy Light
+        normal: '400', // Default
+        medium: '500', // Rubik medium
+        semibold: '600', // Rubik semibold
+        bold: '700', // Rubik bold
+        extrabold: '800', // Gilroy ExtraBold
+        black: '900', // Rubik black
       },
       spacing: {
         '18': '4.5rem',
@@ -187,7 +159,6 @@ const config: Config = {
         'fade-in': 'fadeIn 0.6s ease-out',
         'slide-up': 'slideUp 0.6s ease-out',
         'scale-in': 'scaleIn 0.4s ease-out',
-        'text-focus': 'textFocus 0.8s ease-out',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
@@ -203,10 +174,6 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'scale3d(0.95, 0.95, 1)' },
           '100%': { opacity: '1', transform: 'scale3d(1, 1, 1)' },
         },
-        textFocus: {
-          '0%': { opacity: '0', transform: 'scale(0.98)', filter: 'blur(2px)' },
-          '100%': { opacity: '1', transform: 'scale(1)', filter: 'blur(0px)' },
-        },
       },
       screens: {
         xs: '475px',
@@ -217,212 +184,91 @@ const config: Config = {
         '2xl': '1536px',
         '3xl': '1600px',
       },
+      maxWidth: {
+        '8xl': '88rem',
+        '9xl': '96rem',
+      },
+      zIndex: {
+        '60': '60',
+        '70': '70',
+        '80': '80',
+        '90': '90',
+        '100': '100',
+      },
+      transitionTimingFunction: {
+        'bounce-out': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        smooth: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      transitionDuration: {
+        '400': '400ms',
+        '600': '600ms',
+        '800': '800ms',
+        '1200': '1200ms',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-primary': 'linear-gradient(135deg, #12A4ED 0%, #47A7EF 100%)',
+        'gradient-dark': 'linear-gradient(135deg, #141414 0%, #262626 100%)',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      boxShadow: {
+        glow: '0 0 20px rgba(18, 164, 237, 0.3)',
+        'glow-lg': '0 0 40px rgba(18, 164, 237, 0.4)',
+        'inner-glow': 'inset 0 0 20px rgba(18, 164, 237, 0.1)',
+      },
     },
   },
   plugins: [
     require('tailwindcss-animate'),
 
-    // STEP 3: Font Weight Enforcement Plugin
-    function ({ addBase, addUtilities, addComponents }: { addBase: any; addUtilities: any; addComponents: any }) {
-      // Base styles - enforce 400 weight globally
-      addBase({
-        // Global font-weight override
-        '*': {
-          'font-weight': '400 !important',
+    // Custom plugin for additional utilities
+    function ({ addUtilities }: { addUtilities: Function }) {
+      const newUtilities = {
+        '.text-shadow': {
+          textShadow: '0 2px 4px rgba(0,0,0,0.1)',
         },
-
-        // Specific element overrides
-        'h1, h2, h3, h4, h5, h6, strong, b, bold': {
-          'font-weight': '400 !important',
+        '.text-shadow-lg': {
+          textShadow: '0 4px 8px rgba(0,0,0,0.2)',
         },
-
-        // CSS custom properties
-        ':root': {
-          '--font-weight': '400',
-          '--font-weight-normal': '400',
-          '--font-weight-bold': '400', // Even "bold" is 400
+        '.backface-hidden': {
+          backfaceVisibility: 'hidden',
         },
-      });
-
-      // Component styles for typography hierarchy using font families
-      addComponents({
-        // Hero text components
-        '.text-hero': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(2rem, 8vw, 3rem)',
-          lineHeight: '1.1',
-          letterSpacing: '-0.025em',
-          fontWeight: '400',
+        '.perspective-1000': {
+          perspective: '1000px',
         },
-
-        // Heading components - use ExtraBold family for impact
-        '.text-heading': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(1.75rem, 6vw, 2.5rem)',
-          lineHeight: '1.2',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
+        '.transform-gpu': {
+          transform: 'translateZ(0)',
         },
-
-        // Subheading components - use Light family for contrast
-        '.text-subheading': {
-          fontFamily: 'var(--font-gilroy-light)',
-          fontSize: 'clamp(1.125rem, 3vw, 1.25rem)',
-          lineHeight: '1.3',
-          letterSpacing: '-0.01em',
-          fontWeight: '400',
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         },
-
-        // Body text components
-        '.text-body': {
-          fontFamily: 'var(--font-rubik)',
-          fontSize: 'clamp(0.875rem, 2vw, 1rem)',
-          lineHeight: '1.6',
-          letterSpacing: '0em',
-          fontWeight: '400',
-        },
-      });
-
-      // Utility classes - override ALL font-weight utilities
-      const fontWeightOverrides: Record<string, any> = {};
-      const weights = [
-        'thin',
-        'extralight',
-        'light',
-        'normal',
-        'medium',
-        'semibold',
-        'bold',
-        'extrabold',
-        'black',
-      ];
-      const numericWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-
-      weights.forEach((weight) => {
-        fontWeightOverrides[`.font-${weight}`] = {
-          'font-weight': '400 !important',
-        };
-      });
-
-      numericWeights.forEach((weight) => {
-        fontWeightOverrides[`.font-${weight}`] = {
-          'font-weight': '400 !important',
-        };
-      });
-
-      // Add responsive typography utilities with proper font families
-      const typographyUtilities = {
-        // Hero variants using ExtraBold family
-        '.text-hero-xl': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(2.5rem, 10vw, 4rem)',
-          lineHeight: '1.05',
-          letterSpacing: '-0.03em',
-          fontWeight: '400',
-        },
-        '.text-hero-lg': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(2rem, 8vw, 3rem)',
-          lineHeight: '1.1',
-          letterSpacing: '-0.025em',
-          fontWeight: '400',
-        },
-        '.text-hero-md': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(1.5rem, 6vw, 2.25rem)',
-          lineHeight: '1.15',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        },
-
-        // Heading variants using ExtraBold family
-        '.text-heading-xl': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(2rem, 7vw, 2.75rem)',
-          lineHeight: '1.15',
-          letterSpacing: '-0.025em',
-          fontWeight: '400',
-        },
-        '.text-heading-lg': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(1.75rem, 6vw, 2.5rem)',
-          lineHeight: '1.2',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        },
-        '.text-heading-md': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(1.5rem, 5vw, 2rem)',
-          lineHeight: '1.25',
-          letterSpacing: '-0.015em',
-          fontWeight: '400',
-        },
-        '.text-heading-sm': {
-          fontFamily: 'var(--font-gilroy-bold)',
-          fontSize: 'clamp(1.25rem, 4vw, 1.5rem)',
-          lineHeight: '1.3',
-          letterSpacing: '-0.01em',
-          fontWeight: '400',
-        },
-
-        // Subheading variants using Light family for contrast
-        '.text-subheading-lg': {
-          fontFamily: 'var(--font-gilroy-light)',
-          fontSize: 'clamp(1.25rem, 3.5vw, 1.5rem)',
-          lineHeight: '1.3',
-          letterSpacing: '-0.01em',
-          fontWeight: '400',
-        },
-        '.text-subheading-md': {
-          fontFamily: 'var(--font-gilroy-light)',
-          fontSize: 'clamp(1.125rem, 3vw, 1.25rem)',
-          lineHeight: '1.3',
-          letterSpacing: '-0.01em',
-          fontWeight: '400',
-        },
-        '.text-subheading-sm': {
-          fontFamily: 'var(--font-rubik)',
-          fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
-          lineHeight: '1.4',
-          letterSpacing: '-0.005em',
-          fontWeight: '400',
-        },
-
-        // Body text variants using Rubik
-        '.text-body-lg': {
-          fontFamily: 'var(--font-rubik)',
-          fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
-          lineHeight: '1.6',
-          letterSpacing: '0em',
-          fontWeight: '400',
-        },
-        '.text-body-base': {
-          fontFamily: 'var(--font-rubik)',
-          fontSize: 'clamp(0.875rem, 2vw, 1rem)',
-          lineHeight: '1.6',
-          letterSpacing: '0em',
-          fontWeight: '400',
-        },
-        '.text-body-sm': {
-          fontFamily: 'var(--font-rubik)',
-          fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
-          lineHeight: '1.5',
-          letterSpacing: '0.01em',
-          fontWeight: '400',
-        },
-        '.text-body-xs': {
-          fontFamily: 'var(--font-rubik)',
-          fontSize: 'clamp(0.625rem, 1.25vw, 0.75rem)',
-          lineHeight: '1.5',
-          letterSpacing: '0.01em',
-          fontWeight: '400',
+        '.scrollbar-thin': {
+          'scrollbar-width': 'thin',
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'hsl(var(--muted))',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'hsl(var(--muted-foreground))',
+            borderRadius: '4px',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: 'hsl(var(--primary))',
+          },
         },
       };
 
-      addUtilities({
-        ...fontWeightOverrides,
-        ...typographyUtilities,
-      });
+      addUtilities(newUtilities);
     },
   ],
 };

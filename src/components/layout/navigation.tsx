@@ -16,7 +16,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { GetInTouchButton } from '@/components/ui/get-in-touch-button';
+import { GetInTouchButtonPill } from '@/components/ui/get-in-touch-button';
 
 // Types for better TypeScript support
 interface NavItem {
@@ -265,7 +265,7 @@ export const Navigation: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
       </div>
 
-      <nav className="px-8 relative z-10">
+      <nav className="container relative z-10">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo - Enhanced with Gilroy font matching your Header component */}
           <Link
@@ -395,14 +395,14 @@ export const Navigation: React.FC = () => {
                     onMouseLeave={() => setIsServicesDropdownOpen(false)}
                     className={cn(
                       'absolute top-full left-0 mt-2 w-80 origin-top',
-                      // Enhanced glassmorphism matching your design system
-                      'bg-white/[0.05] backdrop-blur-2xl',
-                      'border border-white/[0.1] rounded-2xl',
-                      'shadow-[0_20px_40px_rgba(0,0,0,0.3)]',
-                      // Gradient overlay
+                      // Completely opaque dropdown - no see through
+                      'bg-background backdrop-blur-xl',
+                      'border border-white/[0.2] rounded-2xl',
+                      'shadow-[0_20px_40px_rgba(0,0,0,0.5)]',
+                      // Subtle gradient overlay for depth without transparency
                       'before:absolute before:inset-0 before:rounded-2xl',
-                      'before:bg-gradient-to-br before:from-white/[0.08] before:to-transparent',
-                      'before:opacity-60'
+                      'before:bg-gradient-to-br before:from-white/[0.05] before:to-transparent',
+                      'before:opacity-100'
                     )}
                   >
                     <div className="p-4 relative z-10">
@@ -432,7 +432,7 @@ export const Navigation: React.FC = () => {
                                 <Icon className="w-5 h-5 text-primary" />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <div className="text-body-base font-medium text-white mb-1">
+                                <div className="text-body-base font-medium text-white">
                                   {service.label}
                                 </div>
                               </div>
@@ -477,10 +477,13 @@ export const Navigation: React.FC = () => {
             ))}
 
             {/* Enhanced CTA Button using GetInTouchButtonPill */}
-            <GetInTouchButton
-                            size="lg"
-                            className="min-w-[200px] bg-transparent hover:bg-primary focus:bg-primary text-white"
-                          />
+            <GetInTouchButtonPill
+              href="/contact"
+              size="md"
+              className="px-8 py-3"
+            >
+              Get In Touch
+            </GetInTouchButtonPill>
           </div>
 
           {/* Mobile Menu Button */}
@@ -701,7 +704,16 @@ export const Navigation: React.FC = () => {
                   ))}
                 </motion.div>
               </div>
-              
+
+              {/* Mobile Menu Footer */}
+              <div className="p-6 border-t border-white/[0.08]">
+                <GetInTouchButtonPill
+                  href="/contact"
+                  className="w-full text-center justify-center"
+                >
+                  Get In Touch
+                </GetInTouchButtonPill>
+              </div>
             </div>
           </motion.div>
         )}
