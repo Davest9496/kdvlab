@@ -2,9 +2,8 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { PageHero } from '@/components/ui/page-hero';
 import { pageConfigs } from '@/lib/page-configs';
-import { cn } from '@/utils/cn';
 import CTASection from '@/components/features/cta';
-import { AnimatedStatsSection } from '@/components/ui/animated-stats'; // Add this import
+import { AnimatedStatsSection } from '@/components/ui/animated-stats';
 
 // Enhanced metadata with structured data
 export const metadata: Metadata = {
@@ -106,7 +105,7 @@ export default function AboutPage() {
 
                 <div className="relative">
                   {/* Controlled border height - you can adjust this value */}
-                  <div className="absolute left-0 top-0 w-1 bg-primary h-[100px]"></div>
+                  <div className="absolute left-0 top-0 w-1 bg-primary h-[120px]"></div>
 
                   {/* Content with proper spacing from the border */}
                   <div className="space-y-6 text-muted-foreground pl-8">
@@ -128,45 +127,16 @@ export default function AboutPage() {
                     </p>
 
                     <p className="text-body-lg leading-relaxed">
-                      We're proud of the work we do and the relationships we've
-                      built with our clients. We measure our success by their
-                      success, and we're dedicated to delivering software that
-                      exceeds expectations.
+                      {/* Fixed: Escaped apostrophes */}
+                      We&rsquo;re proud of the work we do and the relationships
+                      we&rsquo;ve built with our clients. We measure our success
+                      by their success, and we&rsquo;re dedicated to delivering
+                      software that exceeds expectations.
                     </p>
                   </div>
                 </div>
 
-                {/* REPLACE THIS SECTION WITH THE ANIMATED VERSION */}
-                {/* Old static stats:
-                <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border">
-                  <div className="text-center lg:text-left">
-                    <div className="text-heading-md text-gradient font-gilroy-bold">
-                      50+
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      Projects Delivered
-                    </div>
-                  </div>
-                  <div className="text-center lg:text-left">
-                    <div className="text-heading-md text-gradient font-gilroy-bold">
-                      5+
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      Years Experience
-                    </div>
-                  </div>
-                  <div className="text-center lg:text-left">
-                    <div className="text-heading-md text-gradient font-gilroy-bold">
-                      99%
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      Client Satisfaction
-                    </div>
-                  </div>
-                </div>
-                */}
-
-                {/* NEW: Animated Stats */}
+                {/* Animated Stats */}
                 <AnimatedStatsSection />
               </div>
 
@@ -192,7 +162,9 @@ export default function AboutPage() {
             <div className="text-center mb-16">
               <h2 className="text-heading-lg mb-4">Our Mission & Values</h2>
               <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
-                We're driven by core principles that guide everything we do
+                {/* Fixed: Escaped apostrophe */}
+                We&rsquo;re driven by core principles that guide everything we
+                do
               </p>
             </div>
 

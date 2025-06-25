@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Hook for counter animation with intersection observer
 const useCounterAnimation = (
@@ -56,6 +56,8 @@ const useIntersectionObserver = (
   const hasTriggered = useRef(false);
 
   useEffect(() => {
+    const element = elementRef.current; // Store ref value to avoid stale closure
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasTriggered.current) {
@@ -69,13 +71,13 @@ const useIntersectionObserver = (
       }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
+    if (element) {
+      observer.observe(element);
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (element) {
+        observer.unobserve(element);
       }
     };
   }, [callback, options.threshold, options.rootMargin]);
@@ -114,7 +116,7 @@ const AnimatedCounter = ({
       }, delay);
       return () => clearTimeout(timeoutId);
     }
-  }, [onStart, delay]);
+  }, [onStart, delay, setShouldAnimate]); // Fixed: Added setShouldAnimate dependency
 
   return (
     <div className="text-center lg:text-left group">
@@ -137,7 +139,7 @@ export const AnimatedStatsSection = () => {
   const [animationStates, setAnimationStates] = useState([false, false, false]);
 
   // Function to start all animations with stagger
-  const startAnimations = () => {
+  const startAnimations = useCallback(() => {
     // Start first counter immediately
     setAnimationStates((prev) => {
       const newStates = [...prev];
@@ -162,7 +164,7 @@ export const AnimatedStatsSection = () => {
         return newStates;
       });
     }, 400);
-  };
+  }, []); // Empty dependency array is correct here
 
   // Set up intersection observer
   const containerRef = useIntersectionObserver(startAnimations, {
@@ -202,22 +204,28 @@ export const AnimatedStatsSection = () => {
 
 // Performance-optimized version (alternative implementation)
 export const OptimizedAnimatedStatsSection = () => {
-  const stats = [
-    { value: 50, label: 'Projects Delivered', suffix: '+' },
-    { value: 5, label: 'Years Experience', suffix: '+' },
-    { value: 99, label: 'Client Satisfaction', suffix: '%' },
-  ];
+  // Fixed: Memoize stats array to prevent dependency changes
+  const stats = useMemo(
+    () => [
+      { value: 50, label: 'Projects Delivered', suffix: '+' },
+      { value: 5, label: 'Years Experience', suffix: '+' },
+      { value: 99, label: 'Client Satisfaction', suffix: '%' },
+    ],
+    []
+  );
 
   const [counters, setCounters] = useState([0, 0, 0]);
   const [isVisible, setIsVisible] = useState(false);
   const hasAnimated = useRef(false);
 
-  const containerRef = useIntersectionObserver(() => {
+  const startAnimations = useCallback(() => {
     if (!hasAnimated.current) {
       setIsVisible(true);
       hasAnimated.current = true;
     }
-  });
+  }, []);
+
+  const containerRef = useIntersectionObserver(startAnimations);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -254,7 +262,7 @@ export const OptimizedAnimatedStatsSection = () => {
 
     // Start all animations
     animations.forEach((animate) => requestAnimationFrame(animate));
-  }, [isVisible, stats]);
+  }, [isVisible, stats]); // Fixed: Added stats to dependencies
 
   return (
     <div
@@ -274,26 +282,31 @@ export const OptimizedAnimatedStatsSection = () => {
   );
 };
 
-
+// Accessible version with proper ARIA support
 export const AccessibleAnimatedStatsSection = () => {
   const [counters, setCounters] = useState([0, 0, 0]);
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const hasAnimated = useRef(false);
 
-  const containerRef = useIntersectionObserver(() => {
+  const stats = useMemo(
+    () => [
+      { value: 50, label: 'Projects Delivered', suffix: '+' },
+      { value: 5, label: 'Years Experience', suffix: '+' },
+      { value: 99, label: 'Client Satisfaction', suffix: '%' },
+    ],
+    []
+  );
+
+  const startAnimations = useCallback(() => {
     if (!hasAnimated.current) {
       setIsVisible(true);
       setIsAnimating(true);
       hasAnimated.current = true;
     }
-  });
+  }, []);
 
-  const stats = [
-    { value: 50, label: 'Projects Delivered', suffix: '+' },
-    { value: 5, label: 'Years Experience', suffix: '+' },
-    { value: 99, label: 'Client Satisfaction', suffix: '%' },
-  ];
+  const containerRef = useIntersectionObserver(startAnimations);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -333,7 +346,7 @@ export const AccessibleAnimatedStatsSection = () => {
     });
 
     animations.forEach((animate) => requestAnimationFrame(animate));
-  }, [isVisible]);
+  }, [isVisible, stats]); // Fixed: Added stats to dependencies
 
   return (
     <div
