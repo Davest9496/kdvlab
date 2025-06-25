@@ -1,12 +1,16 @@
+'use client';
+
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { PageHero } from '@/components/ui/page-hero';
 import { pageConfigs } from '@/lib/page-configs';
 import CTASection from '@/components/features/cta';
 import { AnimatedStatsSection } from '@/components/ui/animated-stats';
+import MissionVisionTabs from '@/components/ui/mission-vision-tab';
+import OurValues from '@/components/ui/our-values';
 
 // Enhanced metadata with structured data
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'About KDVLAB - Innovation Through Technology',
   description:
     'Learn about KDVLAB, our mission, values, and the passionate team behind our innovative software development solutions. Founded by experienced engineers dedicated to excellence.',
@@ -157,106 +161,13 @@ export default function AboutPage() {
         </section>
 
         {/* Mission & Values Section */}
-        <section className="py-16 lg:py-24 bg-muted/30">
-          <div className="container">
-            <div className="text-center mb-16">
-              <h2 className="text-heading-lg mb-4">Our Mission & Values</h2>
-              <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
-                {/* Fixed: Escaped apostrophe */}
-                We&rsquo;re driven by core principles that guide everything we
-                do
-              </p>
-            </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Innovation */}
-              <div className="group">
-                <div className="bg-card border border-border rounded-xl p-8 h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                    <svg
-                      className="w-6 h-6 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 10V3L4 14h7v7l9-11h-7z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="text-subheading-lg mb-4 font-gilroy-light">
-                    Innovation
-                  </h3>
-                  <p className="text-muted-foreground">
-                    We embrace cutting-edge technologies and creative
-                    problem-solving to deliver solutions that push boundaries
-                    and drive progress.
-                  </p>
-                </div>
-              </div>
+        <section className="py-16 lg:py-24 bg-muted/30 container max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Our Mission */}
+          <MissionVisionTabs />
 
-              {/* Quality */}
-              <div className="group">
-                <div className="bg-card border border-border rounded-xl p-8 h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                    <svg
-                      className="w-6 h-6 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="text-subheading-lg mb-4 font-gilroy-light">
-                    Quality
-                  </h3>
-                  <p className="text-muted-foreground">
-                    Excellence is not negotiable. We maintain the highest
-                    standards in code quality, design, and user experience
-                    across all our projects.
-                  </p>
-                </div>
-              </div>
-
-              {/* Partnership */}
-              <div className="group md:col-span-2 lg:col-span-1">
-                <div className="bg-card border border-border rounded-xl p-8 h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                    <svg
-                      className="w-6 h-6 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="text-subheading-lg mb-4 font-gilroy-light">
-                    Partnership
-                  </h3>
-                  <p className="text-muted-foreground">
-                    We build lasting relationships with our clients, working as
-                    trusted partners to understand their vision and deliver
-                    solutions that exceed expectations.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Values */}
+          <OurValues/>
         </section>
 
         {/* Team Section */}
