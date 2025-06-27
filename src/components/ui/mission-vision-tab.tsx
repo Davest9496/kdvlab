@@ -106,7 +106,7 @@ interface TabContent {
   description: string;
   imagePath: string;
   imageAlt: string;
-  Icon: React.FC<IconProps>; // Changed from iconPath to Icon component
+  Icon: React.FC<IconProps>;
 }
 
 // Tab data - easily configurable and extensible
@@ -247,66 +247,90 @@ export default function MissionVisionTabs({
       )}
       aria-labelledby="mission-vision-heading"
     >
-      <div>
-        {/* Tab Navigation */}
+      <div className="container">
+        {/* Tab Navigation - Single Line with Responsive Sizing */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
           variants={containerVariants}
-          className="flex flex-wrap justify-center gap-2 mb-12 md:mb-16"
-          role="tablist"
-          aria-label="Mission, Vision, Principles, and Practices"
+          className="mb-12 md:mb-16"
         >
-          {tabsData.map((tab, index) => {
-            const { Icon } = tab;
+          {/* Tab container with reduced gaps and responsive sizing */}
+          <div
+            className="flex gap-1 xs:gap-2 sm:gap-3 md:gap-4 justify-center"
+            role="tablist"
+            aria-label="Mission, Vision, Principles, and Practices"
+          >
+            {tabsData.map((tab, index) => {
+              const { Icon } = tab;
 
-            return (
-              <motion.button
-                key={tab.id}
-                variants={contentVariants}
-                onClick={() => handleTabChange(tab.id)}
-                className={cn(
-                  'relative px-6 py-3 rounded-lg font-rubik font-medium text-sm md:text-base',
-                  'transition-all duration-300 ease-out',
-                  'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
-                  'hover:scale-105 active:scale-95',
-                  'flex items-center gap-2', // Added flex layout for icon and text
-                  activeTab === tab.id
-                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
-                    : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
-                )}
-                role="tab"
-                aria-selected={activeTab === tab.id}
-                aria-controls={`panel-${tab.id}`}
-                id={`tab-${tab.id}`}
-                tabIndex={activeTab === tab.id ? 0 : -1}
-              >
-                {/* Active tab indicator */}
-                {activeTab === tab.id && (
-                  <motion.div
-                    layoutId="activeTabIndicator"
-                    className="absolute inset-0 bg-primary rounded-lg"
-                    style={{ zIndex: -1 }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 30,
-                    }}
+              return (
+                <motion.button
+                  key={tab.id}
+                  variants={contentVariants}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={cn(
+                    'relative flex-shrink-0', // Prevent button shrinking
+                    // Aggressive responsive padding - scales down significantly on mobile
+                    'px-2 py-1.5 xs:px-3 xs:py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3',
+                    'rounded-md sm:rounded-lg font-rubik font-medium',
+                    // More aggressive text scaling
+                    'text-[10px] xs:text-xs sm:text-sm md:text-base',
+                    'transition-all duration-300 ease-out',
+                    'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
+                    'hover:scale-105 active:scale-95',
+                    // Minimal gap between icon and text
+                    'flex items-center gap-1 xs:gap-1.5 sm:gap-2',
+                    activeTab === tab.id
+                      ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                      : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
+                  )}
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={`panel-${tab.id}`}
+                  id={`tab-${tab.id}`}
+                  tabIndex={activeTab === tab.id ? 0 : -1}
+                >
+                  {/* Active tab indicator */}
+                  {activeTab === tab.id && (
+                    <motion.div
+                      layoutId="activeTabIndicator"
+                      className="absolute inset-0 bg-primary rounded-md sm:rounded-lg"
+                      style={{ zIndex: -1 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+
+                  {/* Render SVG icon with aggressive responsive sizing */}
+                  <Icon
+                    className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 flex-shrink-0"
+                    aria-hidden={true}
                   />
-                )}
 
-                {/* Render SVG icon - automatically inherits text color */}
-                <Icon
-                  className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0"
-                  aria-hidden={true}
-                />
-
-                {/* Tab label */}
-                <span className="whitespace-nowrap">{tab.label}</span>
-              </motion.button>
-            );
-          })}
+                  {/* Tab label with smart truncation and responsive display */}
+                  <span className="whitespace-nowrap">
+                    {/* Progressive text revelation based on screen size */}
+                    <span className="hidden sm:inline">Our </span>
+                    <span className="inline sm:hidden">
+                      {/* Ultra-short versions for tiny screens */}
+                      {tab.id === 'mission' && 'Mission'}
+                      {tab.id === 'vision' && 'Vision'}
+                      {tab.id === 'principles' && 'Values'}
+                      {tab.id === 'practices' && 'Methods'}
+                    </span>
+                    <span className="hidden sm:inline">
+                      {tab.label.replace('Our ', '')}
+                    </span>
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
         </motion.div>
 
         {/* Content Area */}
