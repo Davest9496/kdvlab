@@ -223,6 +223,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
         </div>
       </div>
 
+
       {/* Custom Keyframes and Styles */}
       <style jsx>{`
         @keyframes glowFloat {

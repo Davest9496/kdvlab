@@ -267,7 +267,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                         setIsMobileServicesOpen(!isMobileServicesOpen)
                       }
                       className={cn(
-                        'w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300',
+                        'w-full flex items-center px-4 py-3 rounded-xl transition-all duration-300',
                         'font-body text-body-base font-medium',
                         isActive('/services')
                           ? 'bg-primary/10 text-primary border border-primary/20'
@@ -277,7 +277,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                       <span>Services</span>
                       <ChevronDown
                         className={cn(
-                          'w-4 h-4 transition-transform duration-200',
+                          'w-4 h-4 ml-4 transition-transform duration-200',
                           isMobileServicesOpen && 'rotate-180'
                         )}
                       />

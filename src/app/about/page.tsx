@@ -170,8 +170,6 @@ export default function AboutPage() {
           <OurValues/>
         </section>
 
-        {/* Team Section */}
-
         {/* Contact CTA Section */}
         <CTASection />
       </main>
