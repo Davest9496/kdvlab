@@ -110,7 +110,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
               connecting people with technology that works for them.
             </p>
 
-            {/* FIXED: CTA containers always side by side on mobile */}
+            {/* CTA containers always side by side on mobile */}
             <div className="w-full pt-2 sm:pt-4">
               <div className="flex flex-row lg:flex-col gap-4 sm:gap-6 lg:gap-8 justify-center lg:justify-start items-center lg:items-start w-full">
                 {/* CTA Button - Fixed uniform padding */}
@@ -176,10 +176,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             </div>
           </div>
 
-          {/* Right side - FIXED: Enhanced Vector image with iOS-optimized sizing */}
+          {/* Right side - Enhanced Vector image with iOS-optimized sizing */}
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-full">
-              {/* FIXED: iOS-optimized container sizing */}
+              {/* iOS-optimized container sizing */}
               <div
                 className="
                 w-full 
@@ -197,7 +197,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                   style={{ animationDelay: '1s' }}
                 />
 
-                {/* FIXED: Main vector image with iOS-optimized props */}
+                {/* Main vector image with iOS-optimized props */}
                 <div className="relative z-10 animate-float w-full h-full flex items-center justify-center">
                   <Image
                     src="/images/Vector.png"
@@ -220,23 +220,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* FIXED: Improved scroll indicator positioning with device-specific adjustments */}
-      <div
-        className="
-        absolute left-1/2 transform -translate-x-1/2 
-        bottom-4 sm:bottom-6 lg:bottom-8 
-        z-20
-        /* Ensure it doesn't overlap with content on small screens */
-        translate-y-0
-        /* iOS safe area considerations */
-        pb-safe-bottom
-      "
-      >
-        <div className="w-6 h-10 border-2 border-foreground/30 rounded-full flex justify-center cursor-pointer hover:border-primary/50 transition-colors duration-300 backdrop-blur-sm bg-white/5">
-          <div className="w-1 h-3 bg-foreground/40 rounded-full mt-2 animate-pulse" />
         </div>
       </div>
 
