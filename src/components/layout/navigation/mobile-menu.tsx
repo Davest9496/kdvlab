@@ -220,7 +220,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             animate="open"
             exit="closed"
             className={cn(
-              'lg:hidden fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50',
+              'lg:hidden fixed top-0 right-0 h-auto w-full z-50',
               // Enhanced glassmorphism with better mobile support
               'bg-background/95 backdrop-blur-2xl',
               'border-l border-white/[0.08]',
