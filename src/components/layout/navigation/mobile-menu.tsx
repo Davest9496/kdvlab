@@ -8,7 +8,6 @@ import { ChevronDown, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { navItems, serviceItems } from './data';
 import { Logo } from './logo';
-import { GetInTouchButtonPill } from '@/components/ui/get-in-touch-button';
 
 const mobileMenuVariants = {
   closed: {
@@ -72,6 +71,13 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const previousPathnameRef = useRef(pathname);
+
+  // Add debugging
+  const handleClose = (reason: string) => {
+    console.log('📱 Mobile menu closing due to:', reason);
+    onClose();
+  };
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -80,45 +86,70 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     return pathname.startsWith(href);
   };
 
-  // Close mobile menu when route changes
+  // Only close on actual route changes, not initial render
   useEffect(() => {
-    onClose();
-    setIsMobileServicesOpen(false);
-  }, [pathname, onClose]);
-
-  // Handle click outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+    // Only close if pathname actually changed from a previous value
+    if (
+      previousPathnameRef.current !== pathname &&
+      previousPathnameRef.current !== undefined
+    ) {
+      console.log(
+        '📱 Route changed from',
+        previousPathnameRef.current,
+        'to',
+        pathname
+      );
+      handleClose('route change');
+      setIsMobileServicesOpen(false);
     }
+    previousPathnameRef.current = pathname;
+  }, [pathname]);
 
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, onClose]);
-
-  // Handle escape key
+  // FIXED: Only add click outside listener when menu is actually open and after a delay
   useEffect(() => {
+    if (!isOpen) return;
+
+    // Add a small delay before enabling click outside detection
+    // This prevents immediate closure when the menu just opened
+    const timer = setTimeout(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          mobileMenuRef.current &&
+          !mobileMenuRef.current.contains(event.target as Node)
+        ) {
+          console.log('📱 Click detected outside mobile menu');
+          handleClose('click outside');
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+
+      // Cleanup function
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, 100); // 100ms delay
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isOpen]);
+
+  // Only add escape listener when menu is open
+  useEffect(() => {
+    if (!isOpen) return;
+
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose();
+        console.log('📱 Escape key pressed');
+        handleClose('escape key');
         setIsMobileServicesOpen(false);
       }
     };
 
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-    }
-
+    document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -139,7 +170,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   }> = ({ href, children }) => (
     <Link
       href={href}
-      onClick={onClose}
+      onClick={() => handleClose('nav link click')}
       className={cn(
         'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
         'font-body text-body-base font-medium',
@@ -149,6 +180,17 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       )}
     >
       <span>{children}</span>
+    </Link>
+  );
+
+  // Fallback CTA button if GetInTouchButtonPill doesn't exist
+  const CTAButton = () => (
+    <Link
+      href="/contact"
+      onClick={() => handleClose('CTA button click')}
+      className="w-full text-center justify-center px-8 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 font-medium text-body-base block"
+    >
+      Get In Touch
     </Link>
   );
 
@@ -163,7 +205,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-            onClick={onClose}
+            onClick={() => handleClose('overlay click')}
           />
         )}
       </AnimatePresence>
@@ -184,17 +226,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               'border-l border-white/[0.08]',
               'shadow-[0_0_50px_rgba(0,0,0,0.5)]',
               // Ensure proper height on mobile devices
-              'min-h-screen max-h-screen',
-              // Add safe area support for devices with notches
-              'pt-safe-top pb-safe-bottom'
+              'min-h-screen max-h-screen'
             )}
           >
             <div className="flex flex-col h-full">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between p-6 border-b border-white/[0.08] flex-shrink-0">
-                <Logo onClick={onClose} />
+                <Logo onClick={() => handleClose('logo click')} />
                 <button
-                  onClick={onClose}
+                  onClick={() => handleClose('close button click')}
                   className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white/[0.08] transition-colors"
                   aria-label="Close mobile menu"
                 >
@@ -259,7 +299,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                                 <Link
                                   key={service.id}
                                   href={service.href}
-                                  onClick={onClose}
+                                  onClick={() =>
+                                    handleClose('service link click')
+                                  }
                                   className={cn(
                                     'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
                                     'font-body',
@@ -296,12 +338,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
               {/* Mobile Menu Footer */}
               <div className="p-6 border-t border-white/[0.08] flex-shrink-0">
-                <GetInTouchButtonPill
-                  href="/contact"
-                  className="w-full text-center justify-center"
-                >
-                  Get In Touch
-                </GetInTouchButtonPill>
+                <CTAButton />
               </div>
             </div>
           </motion.div>
