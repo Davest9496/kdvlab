@@ -18,7 +18,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
 
   return (
     <section
-      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${className}`}
+      className={`relative flex items-center justify-center overflow-hidden ${className}`}
+      style={{
+        // Fixed height approach that works consistently across devices
+        minHeight: 'calc(100vh - env(safe-area-inset-top))',
+        // Alternative: Use dvh (dynamic viewport height) for modern browsers
+        // minHeight: '100dvh', // Fallback to 100vh for older browsers
+      }}
     >
       {/* Enhanced Background with Single Moving Glow */}
       <div className="absolute inset-0 pointer-events-none">
@@ -75,10 +81,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
         className="absolute bottom-0 right-0 w-96 h-96 lg:w-[36rem] lg:h-[36rem] pointer-events-none select-none hidden sm:block opacity-30"
       />
 
-      <div className="container relative z-10">
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container relative z-10 py-8 sm:py-12 lg:py-16">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
           {/* Left content */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
             {/* Subtitle with play icon */}
             <div className="flex items-center gap-3 justify-center lg:justify-start">
               <div className="flex items-center justify-center w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full border border-white/10 shadow-lg">
@@ -89,7 +95,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
               </span>
             </div>
 
-            {/* Main headline with enhanced text shadow - FIXED */}
+            {/* Main headline with enhanced text shadow */}
             <div className="space-y-4">
               <h1 className="text-hero-lg font-gilroy-bold leading-tight drop-shadow-lg">
                 Innovative Software{' '}
@@ -98,24 +104,34 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
               </h1>
             </div>
 
-            {/* Description with subtle enhancement - FIXED */}
+            {/* Description with subtle enhancement */}
             <p className="text-body-lg font-rubik text-foreground/80 leading-relaxed max-w-xl mx-auto lg:mx-0 drop-shadow-sm">
               We build custom software that transforms how businesses operate,
               connecting people with technology that works for them.
             </p>
 
-            {/* Responsive CTA Wrapper */}
-            <div className="w-full">
-              <div className="flex flex-row lg:flex-col gap-4 lg:gap-6 justify-center lg:justify-start items-center lg:items-start w-full">
-                {/* CTA Button - maintains its existing styling */}
+            {/* FIXED: CTA containers always side by side on mobile */}
+            <div className="w-full pt-2 sm:pt-4">
+              <div className="flex flex-row lg:flex-col gap-4 sm:gap-6 lg:gap-8 justify-center lg:justify-start items-center lg:items-start w-full">
+                {/* CTA Button - Fixed uniform padding */}
                 <div className="flex-shrink-0">
                   <GetInTouchButton
                     size="lg"
-                    className="min-w-[200px] bg-primary hover:bg-primary/90 focus:bg-primary text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm font-rubik font-medium"
+                    className="
+                      min-w-[120px] sm:min-w-[160px]
+                      px-6 py-3
+                      text-sm sm:text-base
+                      bg-primary hover:bg-primary/90 focus:bg-primary 
+                      text-white border-none 
+                      shadow-lg hover:shadow-xl 
+                      transition-all duration-300 
+                      backdrop-blur-sm 
+                      font-rubik font-medium
+                    "
                   />
                 </div>
 
-                {/* Discover more section - FIXED */}
+                {/* Discover more section - Optimized for mobile side-by-side */}
                 <div className="flex-shrink-0">
                   <a
                     href="#services"
@@ -123,15 +139,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                       e.preventDefault();
                       scrollToSection();
                     }}
-                    className="group flex items-center gap-3 text-foreground/60 hover:text-foreground transition-all duration-300 text-body-sm font-rubik font-medium drop-shadow-sm cursor-pointer"
+                    className="group flex items-center gap-2 sm:gap-3 text-foreground/60 hover:text-foreground transition-all duration-300 text-body-sm font-rubik font-medium drop-shadow-sm cursor-pointer"
                   >
-                    {/* Circular icon container with rounded background */}
-                    <div className="relative w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all duration-300">
-                      {/* Arrow icon - V-shaped down arrow */}
+                    {/* Circular icon container - Slightly smaller on mobile for better fit */}
+                    <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center backdrop-blur-sm bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all duration-300">
                       <svg
                         viewBox="0 0 16 16"
                         fill="none"
-                        className="w-4 h-4 group-hover:text-primary/80 transition-colors duration-300"
+                        className="w-3 h-3 sm:w-4 sm:h-4 group-hover:text-primary/80 transition-colors duration-300"
                       >
                         <path
                           d="m4 6 4 4 4-4"
@@ -143,8 +158,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                       </svg>
                     </div>
 
-                    {/* Standalone text - FIXED */}
-                    <span className="font-rubik font-medium tracking-wide group-hover:text-white/90 transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
+                    {/* Text - Responsive sizing */}
+                    <span
+                      className="
+                      font-rubik font-medium tracking-wide 
+                      group-hover:text-white/90 
+                      transition-colors duration-300 
+                      drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]
+                      text-xs sm:text-sm
+                    "
+                    >
                       Discover more
                     </span>
                   </a>
@@ -153,38 +176,65 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             </div>
           </div>
 
-          {/* Right side - Enhanced Vector image */}
+          {/* Right side - FIXED: Enhanced Vector image with iOS-optimized sizing */}
           <div className="relative flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-lg lg:max-w-2xl">
-              {/* Enhanced glow effect behind the image with interaction with background glows */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-transparent rounded-full blur-3xl scale-110 animate-pulse-slow opacity-80" />
-
-              {/* Secondary glow for depth */}
+            <div className="relative w-full">
+              {/* FIXED: iOS-optimized container sizing */}
               <div
-                className="absolute inset-0 bg-gradient-to-tl from-blue-400/10 via-transparent to-primary/15 rounded-full blur-2xl scale-125 animate-pulse-slow opacity-60"
-                style={{ animationDelay: '1s' }}
-              />
-
-              {/* Main vector image using Next.js Image */}
-              <div className="relative z-10 animate-float">
-                <Image
-                  src="/images/Vector.png"
-                  alt="Innovative software solutions visualization showing modern technology stack"
-                  width={800}
-                  height={800}
-                  className="w-full h-auto object-contain drop-shadow-2xl"
-                  priority
-                  quality={90}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                className="
+                w-full 
+                max-w-[85vw] sm:max-w-[70vw] 
+                md:max-w-lg 
+                lg:max-w-xl xl:max-w-2xl
+                mx-auto lg:mx-0
+                aspect-square
+              "
+              >
+                {/* Enhanced glow effects */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-transparent rounded-full blur-3xl scale-110 animate-pulse-slow opacity-80" />
+                <div
+                  className="absolute inset-0 bg-gradient-to-tl from-blue-400/10 via-transparent to-primary/15 rounded-full blur-2xl scale-125 animate-pulse-slow opacity-60"
+                  style={{ animationDelay: '1s' }}
                 />
+
+                {/* FIXED: Main vector image with iOS-optimized props */}
+                <div className="relative z-10 animate-float w-full h-full flex items-center justify-center">
+                  <Image
+                    src="/images/Vector.png"
+                    alt="Innovative software solutions visualization showing modern technology stack"
+                    width={800}
+                    height={800}
+                    className="w-full h-full object-contain drop-shadow-2xl"
+                    priority
+                    quality={95} // Increased quality for iOS
+                    sizes="(max-width: 640px) 85vw, (max-width: 768px) 70vw, (max-width: 1024px) 50vw, 600px"
+                    // iOS-specific optimizations
+                    style={{
+                      maxWidth: '100%',
+                      height: 'auto',
+                      // Prevent iOS image scaling issues
+                      imageRendering: 'crisp-edges',
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Enhanced scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
+      {/* FIXED: Improved scroll indicator positioning with device-specific adjustments */}
+      <div
+        className="
+        absolute left-1/2 transform -translate-x-1/2 
+        bottom-4 sm:bottom-6 lg:bottom-8 
+        z-20
+        /* Ensure it doesn't overlap with content on small screens */
+        translate-y-0
+        /* iOS safe area considerations */
+        pb-safe-bottom
+      "
+      >
         <div className="w-6 h-10 border-2 border-foreground/30 rounded-full flex justify-center cursor-pointer hover:border-primary/50 transition-colors duration-300 backdrop-blur-sm bg-white/5">
           <div className="w-1 h-3 bg-foreground/40 rounded-full mt-2 animate-pulse" />
         </div>
@@ -253,7 +303,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
           animation: float 6s ease-in-out infinite;
         }
 
-        /* Enhanced blur effects for more noticeable glow */
+        /* Enhanced blur effects */
         .blur-xl {
           filter: blur(24px);
         }
@@ -274,7 +324,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
           backface-visibility: hidden;
         }
 
-        /* Reduce motion for users who prefer it */
+        /* iOS-specific optimizations */
+        @supports (-webkit-touch-callout: none) {
+          /* iOS Safari specific styles */
+          .relative img {
+            /* Prevent iOS image scaling bugs */
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+          }
+        }
+
+        /* Reduce motion for accessibility */
         @media (prefers-reduced-motion: reduce) {
           .animate-float,
           .animate-bounce,
@@ -283,7 +343,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             animation: none;
           }
 
-          /* Provide a static glow position for reduced motion users */
           [style*='glowFloat'] {
             transform: translate(200px, 0px) scale(1.1);
             opacity: 0.8;
