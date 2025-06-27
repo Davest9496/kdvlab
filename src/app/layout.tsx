@@ -163,7 +163,7 @@ export default function RootLayout({
         </a>
 
         {/* Global Header */}
-        <Navigation/>
+        <Navigation />
 
         {/* Main Content Area */}
         <main id="main-content" className="flex-1 mt-12 md:mt-16 lg:mt-20">
