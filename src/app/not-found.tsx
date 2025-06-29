@@ -41,7 +41,7 @@ export default function NotFound() {
               </h1>
 
               <p className="text-heading-lg font-gilroy-light text-white/90 max-w-md mx-auto lg:mx-0">
-                This Page Are Can't Be Found
+                This Page Can&apos;t Be Found
               </p>
             </div>
 
@@ -159,7 +159,6 @@ export default function NotFound() {
                   priority
                   quality={95}
                 />
-
               </div>
             </div>
           </div>
