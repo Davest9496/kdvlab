@@ -152,7 +152,7 @@ export default function OpenPositions({ onJobClick }: OpenPositionsProps) {
         >
           <motion.h2
             variants={itemVariants}
-            className="text-heading-xl font-gilroy-bold text-gradient mb-6"
+            className="text-heading-xl font-gilroy-bold mb-6"
           >
             OPEN POSITIONS
           </motion.h2>
