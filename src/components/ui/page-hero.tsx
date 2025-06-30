@@ -1,10 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/lib/page-configs';
 
-// Comprehensive TypeScript interface for all hero configurations
+// Enhanced TypeScript interface with background image support
 interface PageHeroProps {
   title: string;
   subtitle?: string;
@@ -14,6 +17,17 @@ interface PageHeroProps {
   backLabel?: string;
   className?: string;
   variant?: 'default' | 'compact' | 'expanded';
+
+  // New props for custom backgrounds
+  backgroundImage?: string;
+  backgroundImageAlt?: string;
+  overlayOpacity?: number; // 0-100, defaults to 50
+  backgroundPosition?: string; // 'center', 'top', 'bottom', etc.
+  backgroundSize?: string; // 'cover', 'contain', etc.
+
+  // Breadcrumb display options
+  showBreadcrumbs?: boolean; // defaults to true if breadcrumbs provided
+  showSubtitle?: boolean; // defaults to false when breadcrumbs are shown
 }
 
 // Animation variants optimized for performance
@@ -59,12 +73,47 @@ const textFocusVariants = {
   },
 };
 
+// Enhanced Breadcrumb component matching your design
+const Breadcrumbs: React.FC<{ breadcrumbs: BreadcrumbItem[] }> = ({
+  breadcrumbs,
+}) => (
+  <nav
+    className="flex justify-center items-center space-x-2 mb-6"
+    aria-label="Breadcrumb"
+  >
+    {breadcrumbs.map((breadcrumb, index) => (
+      <div key={breadcrumb.href} className="flex items-center">
+        {index > 0 && <ChevronRight className="w-5 h-5 mx-3 text-white/50" />}
+        <Link
+          href={breadcrumb.href}
+          className={cn(
+            'transition-colors duration-200',
+            index === breadcrumbs.length - 1
+              ? 'text-white font-medium text-lg' // Active/current page
+              : 'text-white/70 hover:text-white text-lg' // Previous pages
+          )}
+        >
+          {breadcrumb.label}
+        </Link>
+      </div>
+    ))}
+  </nav>
+);
+
 // Main PageHero Component
 export const PageHero: React.FC<PageHeroProps> = ({
   title,
   subtitle,
+  breadcrumbs,
   className,
   variant = 'default',
+  backgroundImage,
+  backgroundImageAlt,
+  overlayOpacity = 50,
+  backgroundPosition = 'center',
+  backgroundSize = 'cover',
+  showBreadcrumbs = true,
+  showSubtitle = false, // Don't show subtitle by default when breadcrumbs exist
 }) => {
   // Variant-based height classes
   const heightClasses = {
@@ -72,6 +121,17 @@ export const PageHero: React.FC<PageHeroProps> = ({
     default: 'min-h-[60vh] py-20 md:py-24 lg:py-28',
     expanded: 'min-h-[70vh] py-24 md:py-28 lg:py-32',
   };
+
+  // Default background image
+  const defaultBackgroundImage =
+    '/images/dark-background-abstract-with-light-effect-vector.jpg';
+  const currentBackgroundImage = backgroundImage || defaultBackgroundImage;
+  const isUsingCustomImage = !!backgroundImage;
+
+  // Determine what to show in the top section
+  const shouldShowBreadcrumbs =
+    showBreadcrumbs && breadcrumbs && breadcrumbs.length > 0;
+  const shouldShowSubtitle = showSubtitle && subtitle && !shouldShowBreadcrumbs;
 
   return (
     <section
@@ -83,33 +143,63 @@ export const PageHero: React.FC<PageHeroProps> = ({
       role="banner"
       aria-label={`${title} page header`}
     >
-      {/* Enhanced Neo-Tech Background with Performance Optimization */}
-      <div className="absolute inset-0">
-        {/* Optimized background image with Next.js Image would go here */}
-        {/* For now, using the provided background path */}
+      {/* Background Container */}
+      <div className="absolute inset-0 z-0">
+        {/* Background Image */}
+        {isUsingCustomImage ? (
+          // Use Next.js Image for custom images (better for SEO and performance)
+          <Image
+            src={currentBackgroundImage}
+            alt={backgroundImageAlt || `${title} background`}
+            fill
+            className={cn(
+              'object-cover',
+              backgroundPosition === 'top' && 'object-top',
+              backgroundPosition === 'bottom' && 'object-bottom',
+              backgroundPosition === 'left' && 'object-left',
+              backgroundPosition === 'right' && 'object-right',
+              backgroundSize === 'contain' && 'object-contain'
+            )}
+            priority
+            sizes="100vw"
+            quality={85}
+          />
+        ) : (
+          // Use CSS background for default abstract image (smaller file)
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('${currentBackgroundImage}')`,
+            }}
+          />
+        )}
+
+        {/* Dynamic overlay opacity */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage:
-              "url('/images/dark-background-abstract-with-light-effect-vector.jpg')",
-          }}
+          className="absolute inset-0 bg-black"
+          style={{ opacity: overlayOpacity / 100 }}
         />
 
-        {/* Subtle noise texture for enhanced glass effect */}
-        <div
-          className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              'url(\'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"%3E%3Cpath fill="%23ffffff" fill-opacity="0.4" d="M1 3h1v1H1V3zm2-2h1v1H3V1z"%3E%3C/path%3E%3C/svg%3E\')',
-          }}
-        />
+        {/* Enhanced effects only for default background */}
+        {!isUsingCustomImage && (
+          <>
+            {/* Subtle noise texture for enhanced glass effect */}
+            <div
+              className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
+              style={{
+                backgroundImage:
+                  'url(\'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"%3E%3Cpath fill="%23ffffff" fill-opacity="0.4" d="M1 3h1v1H1V3zm2-2h1v1H3V1z"%3E%3C/path%3E%3C/svg%3E\')',
+              }}
+            />
 
-        {/* Animated gradient orbs for movement */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/[0.02] rounded-full blur-3xl animate-pulse-slow" />
-        <div
-          className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-blue-400/[0.015] rounded-full blur-3xl animate-pulse-slow"
-          style={{ animationDelay: '2s' }}
-        />
+            {/* Animated gradient orbs for movement */}
+            <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/[0.02] rounded-full blur-3xl animate-pulse-slow" />
+            <div
+              className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-blue-400/[0.015] rounded-full blur-3xl animate-pulse-slow"
+              style={{ animationDelay: '2s' }}
+            />
+          </>
+        )}
       </div>
 
       {/* Content Container */}
@@ -120,9 +210,15 @@ export const PageHero: React.FC<PageHeroProps> = ({
           variants={containerVariants}
           className="max-w-4xl mx-auto text-center"
         >
+          {/* Breadcrumbs - Replaces subtitle when available */}
+          {shouldShowBreadcrumbs && (
+            <motion.div variants={itemVariants}>
+              <Breadcrumbs breadcrumbs={breadcrumbs} />
+            </motion.div>
+          )}
 
-          {/* Main Title - Now using subtitle styling */}
-          {subtitle && (
+          {/* Subtitle Badge - Only shown when explicitly requested and no breadcrumbs */}
+          {shouldShowSubtitle && (
             <motion.div variants={itemVariants} className="mb-6">
               <span
                 className={cn(
@@ -137,7 +233,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
             </motion.div>
           )}
 
-          {/* Subtitle - Now using title styling with enhanced typography */}
+          {/* Main Title */}
           <motion.h1
             variants={textFocusVariants}
             className={cn(

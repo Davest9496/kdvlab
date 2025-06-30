@@ -1,17 +1,14 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import { ContactForm } from '@/components/forms/contact-form';
+import { PageHero } from '@/components/ui/page-hero';
 import { getPageConfig } from '@/lib/page-configs';
-import { Mail, MapPin, Clock, ArrowRight, ChevronRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { redirect } from 'next/navigation';
+import { Mail, MapPin, Clock, ArrowRight } from 'lucide-react';
 
 // SEO Metadata with structured data
 export const metadata: Metadata = {
   title: 'Contact Us - Get In Touch | KDVLab',
   description:
-    'Ready to start your project? Get in touch with KDVLab for expert web development services. Located in San Francisco, California.',
+    'Ready to start your project? Get in touch with KDVLab for expert web development services. Located in London, United Kingdom.',
   keywords: [
     'contact kdvlab',
     'web development consultation',
@@ -79,60 +76,17 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section with Background Image */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/socials.jpg"
-            alt="Contact KDVLab - Social and Communication"
-            fill
-            className="object-cover object-center"
-            priority
-            sizes="100vw"
-            quality={85}
-          />
-          {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 container text-center text-white">
-          {/* Breadcrumbs */}
-          <nav
-            className="flex justify-center items-center space-x-2 text-sm mb-6"
-            aria-label="Breadcrumb"
-          >
-            {pageConfig.breadcrumbs?.map((breadcrumb, index) => (
-              <div key={breadcrumb.href} className="flex items-center">
-                {index > 0 && (
-                  <ChevronRight className="w-4 h-4 mx-2 text-white/70" />
-                )}
-                <Link
-                  href={breadcrumb.href}
-                  className={cn(
-                    'transition-colors hover:text-primary',
-                    index === pageConfig.breadcrumbs!.length - 1
-                      ? 'text-white font-medium'
-                      : 'text-white/70 hover:text-white'
-                  )}
-                >
-                  {breadcrumb.label}
-                </Link>
-              </div>
-            ))}
-          </nav>
-
-          {/* Hero Content */}
-          <h1 className="text-hero-lg font-gilroy-bold text-white mb-4">
-            {pageConfig.title}
-          </h1>
-          <p className="text-body-lg text-white/90 max-w-2xl mx-auto">
-            Ready to bring your vision to life? Let&apos;s start a conversation
-            about your next project.
-          </p>
-        </div>
-      </section>
+      {/* Hero Section using PageHero component */}
+      <PageHero
+        title={pageConfig.title}
+        breadcrumbs={pageConfig.breadcrumbs?.slice()}
+        backgroundImage="/images/socials.jpg"
+        backgroundImageAlt="Contact KDVLab - Social and Communication"
+        overlayOpacity={50}
+        variant="default"
+        showBreadcrumbs={true}
+        showSubtitle={false}
+      />
 
       {/* Main Content */}
       <section className="py-16 lg:py-24">
@@ -304,9 +258,9 @@ export default function ContactPage() {
               email: 'info@kdvlab.com',
               address: {
                 '@type': 'PostalAddress',
-                addressLocality: 'San Francisco',
-                addressRegion: 'CA',
-                addressCountry: 'US',
+                addressLocality: 'London',
+                addressRegion: 'England',
+                addressCountry: 'GB',
               },
               contactPoint: {
                 '@type': 'ContactPoint',
