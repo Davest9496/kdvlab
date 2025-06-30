@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
@@ -73,11 +73,14 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const pathname = usePathname();
   const previousPathnameRef = useRef(pathname);
 
-  // Add debugging
-  const handleClose = (reason: string) => {
-    console.log('📱 Mobile menu closing due to:', reason);
-    onClose();
-  };
+  // Memoize handleClose to avoid lint warnings about missing dependencies
+  const handleClose = useCallback(
+    (reason: string) => {
+      console.log('📱 Mobile menu closing due to:', reason);
+      onClose();
+    },
+    [onClose]
+  );
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -88,7 +91,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
   // Only close on actual route changes, not initial render
   useEffect(() => {
-    // Only close if pathname actually changed from a previous value
     if (
       previousPathnameRef.current !== pathname &&
       previousPathnameRef.current !== undefined
@@ -103,14 +105,12 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       setIsMobileServicesOpen(false);
     }
     previousPathnameRef.current = pathname;
-  }, [pathname]);
+  }, [pathname, handleClose]);
 
-  // FIXED: Only add click outside listener when menu is actually open and after a delay
+  // Only add click outside listener when menu is actually open and after a delay
   useEffect(() => {
     if (!isOpen) return;
 
-    // Add a small delay before enabling click outside detection
-    // This prevents immediate closure when the menu just opened
     const timer = setTimeout(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -128,12 +128,12 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, 100); // 100ms delay
+    }, 100);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
 
   // Only add escape listener when menu is open
   useEffect(() => {
@@ -149,7 +149,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
