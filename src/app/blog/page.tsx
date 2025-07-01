@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/ui/page-hero';
-import { BlogNewsSection } from '@/components/features/blog-news-section';
-import { getPageConfig } from '@/lib/page-configs';
+import { pageConfigs } from '@/lib/page-configs';
+import CTASection from '@/components/features/cta';
+import { createOrganizationLD, createWebsiteLD } from '@/lib/seo';
 
-// Enhanced SEO metadata for blog page
+// Enhanced SEO metadata following your pattern
 export const metadata: Metadata = {
-  title: 'Blog & Insights',
+  title: 'Blog & Insights - Latest Technology Trends',
   description:
     'Discover the latest insights, industry news, and thought leadership content about software development, web technologies, and digital innovation from the KDVLAB team.',
   keywords: [
@@ -19,69 +20,159 @@ export const metadata: Metadata = {
     'Developer Resources',
     'Programming Tips',
     'Modern Web Technologies',
+    'Dave Ejezie Blog',
+    'Technology Insights',
   ],
   openGraph: {
-    title: 'Blog & Insights | KDVLAB',
+    title: 'Blog & Insights - Latest Technology Trends | KDVLAB',
     description:
-      'Stay updated with the latest trends in software development, project showcases, and industry insights.',
+      'Stay updated with the latest trends in software development, project showcases, and industry insights from our expert team.',
+    type: 'website',
     images: [
       {
-        url: '/images/blog-og-image.jpg',
+        url: '/images/blog-hero.jpg',
         width: 1200,
         height: 630,
-        alt: 'KDVLAB Blog - Insights & Resources',
+        alt: 'KDVLAB Blog - Technology insights and industry trends',
       },
     ],
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog & Insights | KDVLAB',
+    title: 'Blog & Insights - Latest Technology Trends | KDVLAB',
     description:
       'Stay updated with the latest trends in software development, project showcases, and industry insights.',
+    images: ['/images/blog-hero.jpg'],
   },
   alternates: {
     canonical: 'https://kdvlab.com/blog',
   },
 };
 
-// Coming Soon Component with your exact design
-const ComingSoonSection = () => {
-  return (
-    <section className="py-20 md:py-32 lg:py-40 relative overflow-hidden">
-      {/* Background matching your image */}
-      <div className="absolute inset-0">
-        {/* Abstract geometric background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 via-transparent to-gray-800/20" />
+// Generate structured data following your SEO pattern
+const blogStructuredData = createWebsiteLD({
+  name: 'KDVLAB Blog',
+  url: 'https://kdvlab.com/blog',
+  description:
+    'Technology insights, tutorials, and industry trends from KDVLAB',
+  publisher: 'KDVLAB',
+});
 
-        {/* Geometric shapes - matching your design */}
+const organizationLD = createOrganizationLD({
+  name: 'KDVLAB',
+  url: 'https://kdvlab.com',
+  logo: 'https://kdvlab.com/logo.png',
+  description:
+    'Innovative software development company specializing in modern web technologies',
+});
+
+// Blog-specific structured data
+const blogLD = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'KDVLAB Blog',
+  description: 'Technology insights, tutorials, and industry trends',
+  url: 'https://kdvlab.com/blog',
+  publisher: {
+    '@type': 'Organization',
+    name: 'KDVLAB',
+    url: 'https://kdvlab.com',
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://kdvlab.com/blog',
+  },
+  about: [
+    'Software Development',
+    'Web Development',
+    'Mobile Development',
+    'UI/UX Design',
+    'DevOps',
+  ],
+};
+
+// Coming Soon Content Component (Server Component)
+const ComingSoonContent = () => {
+  return (
+    <section className="bg-background py-16 md:py-24 lg:py-32 relative overflow-hidden">
+      {/* Background Effects - matching your design system */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+      </div>
+
+      {/* Geometric shapes - matching your work page style */}
+      <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-primary/10 to-transparent rounded-lg transform rotate-45 blur-sm" />
         <div className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-gradient-to-tl from-blue-400/8 to-transparent rounded-lg transform -rotate-12 blur-sm" />
 
-        {/* Connecting lines/borders effect */}
+        {/* Connecting lines effect */}
         <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
       </div>
 
-      <div className="container relative z-10">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          {/* Main heading - matching your image exactly */}
-          <h1 className="text-hero-lg md:text-hero-xl font-heading text-white tracking-tight leading-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="text-center max-w-4xl mx-auto space-y-8">
+          {/* Main Heading - following your typography pattern */}
+          <h1 className="text-hero-lg md:text-hero-xl font-gilroy-bold text-foreground tracking-tight leading-tight">
             COMING SOON
           </h1>
 
-          {/* Description paragraph - matching your content */}
-          <div className="max-w-2xl mx-auto space-y-4">
-            <p className="text-body-lg font-rubik text-white/80 leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-              We&apos;re working on bringing you valuable insights, industry news,
-              and thought leadership content. Check back soon for articles on
-              software development, technology trends, and more.
+          {/* Description - matching your about page style */}
+          <div className="space-y-6 max-w-3xl mx-auto">
+            <p className="text-body-lg text-muted-foreground leading-relaxed">
+              We&rsquo;re working on bringing you valuable insights, industry
+              news, and thought leadership content. Check back soon for articles
+              on software development, technology trends, and more.
+            </p>
+
+            <p className="text-body-base text-muted-foreground leading-relaxed">
+              Our blog will feature in-depth tutorials, case studies from our
+              projects, industry analysis, and best practices for modern web
+              development.
             </p>
           </div>
 
-          {/* Optional: Newsletter signup */}
+          {/* Feature Preview Cards - using your card style */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto">
+            {[
+              {
+                title: 'Technical Tutorials',
+                description: 'Step-by-step guides for modern web development',
+                icon: '📚',
+              },
+              {
+                title: 'Project Case Studies',
+                description:
+                  'Behind-the-scenes look at our development process',
+                icon: '🔍',
+              },
+              {
+                title: 'Industry Insights',
+                description: 'Analysis of trends and emerging technologies',
+                icon: '💡',
+              },
+            ].map((feature, index) => (
+              <div
+                key={feature.title}
+                className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-2xl p-6 h-full"
+              >
+                <div className="text-center space-y-4">
+                  <div className="text-4xl mb-4">{feature.icon}</div>
+                  <h3 className="text-heading-sm font-gilroy-bold text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="text-body-base text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Newsletter signup hint */}
           <div className="pt-8">
-            <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] text-white/70">
+            <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-card/40 backdrop-blur-xl border border-border/50 text-muted-foreground">
               <span className="text-sm font-medium">
                 Stay tuned for updates
               </span>
@@ -93,51 +184,40 @@ const ComingSoonSection = () => {
   );
 };
 
-// Main Blog Page Component
+// Main Blog Page Component - Server Component following your pattern
 export default function BlogPage() {
-  const pageConfig = getPageConfig('blog');
+  const pageConfig = pageConfigs.blog;
 
   return (
     <>
-      {/* Page Hero with breadcrumbs */}
-      <PageHero
-        title="Insights & Resources"
-        breadcrumbs={pageConfig.breadcrumbs?.slice()}
-        variant="compact"
-        backgroundImage="/images/dark-background-abstract-with-light-effect-vector.jpg"
-        overlayOpacity={60}
-      />
-
-      {/* Coming Soon Section */}
-      <ComingSoonSection />
-
-      {/* Optional: Show preview of upcoming content using your existing component */}
-      {/* Uncomment this when you want to show the blog posts preview */}
-      {/* <BlogNewsSection /> */}
-
-      {/* Structured Data for SEO */}
+      {/* Structured Data - following your pattern */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Blog',
-            name: 'KDVLAB Blog',
-            description:
-              'Insights and resources about software development, web technologies, and digital innovation.',
-            url: 'https://kdvlab.com/blog',
-            publisher: {
-              '@type': 'Organization',
-              name: 'KDVLAB',
-              url: 'https://kdvlab.com',
-            },
-            mainEntityOfPage: {
-              '@type': 'WebPage',
-              '@id': 'https://kdvlab.com/blog',
-            },
-          }),
+          __html: JSON.stringify([organizationLD, blogStructuredData, blogLD]),
         }}
       />
+
+      <main>
+        {/* Page Hero - following your exact pattern */}
+        <PageHero
+          title={pageConfig.title}
+          breadcrumbs={pageConfig.breadcrumbs.slice()}
+          backgroundImageAlt="Blog KDVLab - Insights and updates from our team"
+          overlayOpacity={50}
+          variant="default"
+          showBreadcrumbs={true}
+          showSubtitle={false}
+        />
+
+        {/* Coming Soon Content */}
+        <ComingSoonContent />
+
+        {/* CTA Section - following your pattern */}
+        <section className="bg-muted/30 py-16 md:py-24 lg:py-32">
+          <CTASection />
+        </section>
+      </main>
     </>
   );
 }

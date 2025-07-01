@@ -39,8 +39,8 @@ export const pageConfigs = {
     ],
   },
   blog: {
-    title: 'Blog',
-    subtitle: 'Insights & Stories',
+    title: 'Insights & Stories',
+    subtitle: 'Blog',
     breadcrumbs: [
       { label: 'Home', href: '/' },
       { label: 'Blog', href: '/blog' },
