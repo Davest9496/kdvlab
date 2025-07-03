@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, X } from 'lucide-react';
+import { ChevronDown, X, Grid3X3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { navItems, serviceItems } from './data';
 import { Logo } from './logo';
@@ -293,6 +293,30 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                           className="overflow-hidden"
                         >
                           <div className="pl-4 pt-2 space-y-1">
+                            {/* View All Services Link */}
+                            <Link
+                              href="/services"
+                              onClick={() =>
+                                handleClose('services overview link')
+                              }
+                              className={cn(
+                                'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300',
+                                'bg-primary/10 border border-primary/20 hover:bg-primary/15',
+                                'font-body'
+                              )}
+                            >
+                              <Grid3X3 className="w-4 h-4 flex-shrink-0 text-primary" />
+                              <div className="flex-1 min-w-0">
+                                <div className="text-body-sm font-semibold text-primary">
+                                  View All Services
+                                </div>
+                                <div className="text-xs text-white/70">
+                                  Complete service overview
+                                </div>
+                              </div>
+                            </Link>
+
+                            {/* Individual Services */}
                             {serviceItems.map((service) => {
                               const Icon = service.icon;
                               return (

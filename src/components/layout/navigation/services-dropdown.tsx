@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight, Grid3X3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { serviceItems } from './data';
 
@@ -122,6 +122,36 @@ export const ServicesDropdown: React.FC = () => {
             )}
           >
             <div className="p-4 relative z-10">
+              {/* View All Services Link */}
+              <Link
+                href="/services"
+                className={cn(
+                  'flex items-center justify-between p-3 mb-3 rounded-xl transition-all duration-300',
+                  'bg-primary/10 border border-primary/20 hover:bg-primary/15',
+                  'group'
+                )}
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/20 border border-primary/30">
+                    <Grid3X3 className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-body-base font-semibold text-white">
+                      View All Services
+                    </div>
+                    <div className="text-body-sm text-white/70">
+                      Explore our complete service offering
+                    </div>
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
+
+              {/* Divider */}
+              <div className="h-px bg-white/[0.08] mb-3" />
+
+              {/* Individual Services */}
               <div className="grid gap-2">
                 {serviceItems.map((service) => {
                   const Icon = service.icon;
