@@ -1,3 +1,4 @@
+// src/app/services/[slug]/page.tsx (Updated with CTA Button)
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import {
@@ -46,7 +47,24 @@ export async function generateMetadata({
   return metadata;
 }
 
-// Server Component with inline sections
+// Hero CTA Button Component (inline to avoid import issues)
+const HeroCtaButton: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <a
+    href="/contact"
+    className="group relative inline-flex items-center gap-4 px-12 py-5 rounded-full border-2 border-white/25 bg-transparent text-white font-medium text-body-lg min-w-[200px] transition-all duration-500 ease-out focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background hover:border-primary hover:bg-primary hover:shadow-[0_12px_40px_rgba(18,164,237,0.4)] hover:scale-105"
+  >
+    <span className="relative z-10">{children}</span>
+
+    <ArrowRight className="w-6 h-6 relative z-10 transition-all duration-300 group-hover:translate-x-2" />
+
+    {/* Smooth background fill on hover */}
+    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-primary opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out scale-95 group-hover:scale-100" />
+  </a>
+);
+
+// Server Component with inline sections and hero images
 export default function ServicePage({ params }: ServicePageProps) {
   const service = getServiceBySlug(params.slug);
 
@@ -58,39 +76,43 @@ export default function ServicePage({ params }: ServicePageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-background/95 py-20 md:py-24 lg:py-28">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-[url('/images/dark-background-abstract-with-light-effect-vector.jpg')] bg-cover bg-center opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5" />
+      {/* Hero Section with Custom Background Image */}
+      <section className="relative overflow-hidden py-20 md:py-24 lg:py-28">
+        {/* Hero Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('${service.heroImage}')`,
+          }}
+        />
+
+        {/* Dark Overlay for Better Text Readability */}
+        <div className="absolute inset-0 bg-black/60" />
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-black/40 to-blue-500/20" />
 
         {/* Content */}
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8">
               <div className="flex items-center justify-center mb-6">
-                <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20">
-                  <ServiceIcon className="w-12 h-12 text-primary" />
+                <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                  <ServiceIcon className="w-12 h-12 text-white" />
                 </div>
               </div>
 
-              <h1 className="text-hero-lg font-heading text-white mb-4">
+              <h1 className="text-hero-lg font-heading text-white mb-4 drop-shadow-lg">
                 {service.heroTitle}
               </h1>
 
-              <p className="text-body-lg text-white/80 mb-8 max-w-2xl mx-auto">
+              <p className="text-body-lg text-white/90 mb-8 max-w-2xl mx-auto drop-shadow-md">
                 {service.heroDescription}
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-white/60">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-primary rounded-full"></span>
-                  <span>Starting from {service.startingPrice}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-primary rounded-full"></span>
-                  <span>Delivery in {service.deliveryTimeline}</span>
-                </div>
+              {/* CTA Button instead of pricing/timeline */}
+              <div className="flex justify-center">
+                <HeroCtaButton>Book a Call</HeroCtaButton>
               </div>
             </div>
           </div>
@@ -256,19 +278,13 @@ export default function ServicePage({ params }: ServicePageProps) {
                   <h3 className="text-subheading-lg font-heading text-white mb-4">
                     Ready to Get Started?
                   </h3>
-                  <p className="text-body-base text-white/70 mb-6">
+                  <p className="text-body-base text-white/70 mb-8">
                     {service.ctaDescription}
                   </p>
 
-                  <div className="flex flex-col sm:flex-row gap-4 text-sm text-white/60">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full"></span>
-                      <span>Starting from {service.startingPrice}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-primary rounded-full"></span>
-                      <span>Delivery in {service.deliveryTimeline}</span>
-                    </div>
+                  {/* CTA Button in Benefits Section */}
+                  <div className="flex justify-center">
+                    <HeroCtaButton>Get In Touch</HeroCtaButton>
                   </div>
                 </div>
               </div>

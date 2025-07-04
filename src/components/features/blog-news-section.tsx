@@ -78,7 +78,7 @@ const blogPosts: BlogPost[] = [
     title: 'Will you be enrolling for our mobile app development service?',
     excerpt:
       'Explore our comprehensive mobile app development services and learn how we can help bring your mobile app ideas to life.',
-    image: '/images/mobile-apps-1-scaled.jpg',
+    image: '/images/mobile-app-development.jpg',
     imageAlt:
       'Mobile app development process showing various app icons and smartphone interfaces',
     publishedAt: '2025-05-22',

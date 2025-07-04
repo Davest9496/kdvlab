@@ -1,13 +1,20 @@
-export interface TechStack {
-  name: string;
-  iconName: string; // Changed from icon component to string
+export interface ServiceMetadata {
+  title: string;
   description: string;
+  keywords: string[];
+  ogImage: string;
 }
 
 export interface ServiceFeature {
   title: string;
   description: string;
-  iconName: string; // Changed from icon component to string
+  iconName: string;
+}
+
+export interface TechStack {
+  name: string;
+  iconName: string;
+  description: string;
 }
 
 export interface ProcessStep {
@@ -17,20 +24,16 @@ export interface ProcessStep {
   duration: string;
 }
 
-export interface ServiceMetadata {
-  title: string;
-  description: string;
-  keywords: string[];
-  ogImage: string;
-}
-
 export interface ServiceContent {
   id: string;
   slug: string;
   title: string;
   subtitle: string;
   description: string;
-  iconName: string; // Changed from icon component to string
+  iconName: string;
+
+  // Hero Image
+  heroImage: string; // NEW: Path to hero background image
 
   // SEO & Meta
   metadata: ServiceMetadata;
@@ -72,6 +75,7 @@ export const servicesData: ServiceContent[] = [
     description:
       'Bespoke software solutions designed specifically for your unique business requirements and processes.',
     iconName: 'Code2',
+    heroImage: '/images/Custom-software-development.jpg',
 
     metadata: {
       title: 'Custom Software Development Services | KDVLAB',
@@ -205,6 +209,7 @@ export const servicesData: ServiceContent[] = [
     description:
       'High-performance web applications built with cutting-edge technologies for optimal user experience.',
     iconName: 'Globe',
+    heroImage: '/images/web-application.webp',
 
     metadata: {
       title: 'Web Application Development Services | KDVLAB',
@@ -335,6 +340,7 @@ export const servicesData: ServiceContent[] = [
     description:
       'High-quality mobile applications for iOS and Android with native performance and user experience.',
     iconName: 'Smartphone',
+    heroImage: '/images/mobile-app-development.jpg',
 
     metadata: {
       title: 'Mobile App Development Services | KDVLAB',
@@ -464,6 +470,7 @@ export const servicesData: ServiceContent[] = [
     description:
       'Modern cloud infrastructure and services for scalable, secure, and cost-effective operations.',
     iconName: 'Cloud',
+    heroImage: '/images/cloud-services.jpg',
 
     metadata: {
       title: 'Cloud Services & Infrastructure | KDVLAB',
@@ -596,6 +603,7 @@ export const servicesData: ServiceContent[] = [
     description:
       'Beautiful, intuitive interfaces that prioritize user experience and drive engagement.',
     iconName: 'Palette',
+    heroImage: '/images/ui-ux-design.jpg',
 
     metadata: {
       title: 'UI/UX Design Services | KDVLAB',
@@ -725,6 +733,7 @@ export const servicesData: ServiceContent[] = [
     description:
       'Expert technology consulting to help you make informed decisions and accelerate your digital transformation.',
     iconName: 'MessageSquare',
+    heroImage: '/images/business-consultancy-services.jpg',
 
     metadata: {
       title: 'Technology Consultancy Services | KDVLAB',
@@ -847,7 +856,7 @@ export const servicesData: ServiceContent[] = [
   },
 ];
 
-// Helper functions
+// Helper functions remain the same
 export const getServiceBySlug = (slug: string): ServiceContent | undefined => {
   return servicesData.find((service) => service.slug === slug);
 };
