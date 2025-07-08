@@ -8,7 +8,7 @@ author:
   role: "Senior Developer"
 featured: true
 tags: ["Next.js", "TypeScript", "React", "Web Development"]
-image: "/images/nextjs-typescript.jpg"
+image: "/images/cloud-services.jpg"
 imageAlt: "Next.js and TypeScript development setup"
 seo:
   title: "Getting Started with Next.js and TypeScript | KDVLAB"

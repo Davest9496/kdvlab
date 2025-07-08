@@ -4,11 +4,11 @@ excerpt: "Discover when custom software development is the right choice for your
 date: "2025-01-22"
 category: "Development"
 author:
-  name: "Dave Ejezie"
-  role: "Senior Developer"
+  name: "Darryl Jnr"
+  role: "Lead Developer"
 featured: true
 tags: ["Custom Development", "Software Strategy", "Business Solutions", "TypeScript"]
-image: "/images/blog/custom-software-development.jpg"
+image: "/images/Custom-software-development.jpg"
 imageAlt: "Custom software development workspace with multiple screens showing code and cloud services"
 seo:
   title: "Custom Software Development Guide | When Do You Need It? | KDVLAB"

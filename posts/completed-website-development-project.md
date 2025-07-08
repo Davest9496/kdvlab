@@ -8,7 +8,7 @@ author:
   role: "Design Team"
 featured: false
 tags: ["Web Development", "Case Study", "React", "Next.js", "UI/UX"]
-image: "/images/blog/website-project-showcase.jpg"
+image: "/images/Web-Application (1).webp"
 imageAlt: "Completed website development project showcase with design elements and mobile responsiveness"
 seo:
   title: "Website Development Project Showcase | Modern Web Design | KDVLAB"

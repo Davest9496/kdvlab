@@ -156,10 +156,6 @@ export default async function BlogPage() {
             )}
           </div>
         </section>
-
-        <section className="bg-muted/30 py-16 md:py-24 lg:py-32">
-          <CTASection />
-        </section>
       </main>
     </>
   );

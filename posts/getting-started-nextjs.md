@@ -5,10 +5,10 @@ date: "2025-01-15"
 category: "Development"
 author:
   name: "Dave Ejezie"
-  role: "Senior Developer"
+  role: "Solutions Architect"
 featured: true
 tags: ["Next.js", "TypeScript", "React", "Web Development"]
-image: "/images/blog/nextjs-guide.jpg"
+image: "/images/Custom-software-development.jpg"
 imageAlt: "Next.js 14 development environment with TypeScript"
 seo:
   title: "Complete Next.js 14 & TypeScript Guide | KDVLAB Blog"

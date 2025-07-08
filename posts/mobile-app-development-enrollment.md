@@ -8,7 +8,7 @@ author:
   role: "Mobile Development Team"
 featured: false
 tags: ["Mobile Development", "React Native", "iOS", "Android", "App Development"]
-image: "/images/blog/mobile-app-development.jpg"
+image: "/images/mobile-app-development.jpg"
 imageAlt: "Mobile app development process showing various app icons and smartphone interfaces"
 seo:
   title: "Mobile App Development Services | iOS & Android Apps | KDVLAB"
