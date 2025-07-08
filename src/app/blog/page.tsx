@@ -149,7 +149,7 @@ export default async function BlogPage() {
                   COMING SOON
                 </h1>
                 <p className="text-body-lg text-muted-foreground">
-                  We're working on bringing you valuable insights, industry
+                  We&apos;re working on bringing you valuable insights, industry
                   news, and thought leadership content.
                 </p>
               </div>
