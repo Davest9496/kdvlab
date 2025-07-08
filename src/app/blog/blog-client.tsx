@@ -20,6 +20,20 @@ interface BlogPageClientProps {
   }>;
 }
 
+// FIXED: Helper function to normalize category for filtering
+function normalizeCategoryForFilter(category: string): string {
+  const categoryMap: Record<string, string> = {
+    'Case Study': 'case-studies',
+    Development: 'development',
+    Mobile: 'mobile',
+    Tutorial: 'tutorials',
+    News: 'news',
+    General: 'general',
+  };
+
+  return categoryMap[category] || category.toLowerCase().replace(/\s+/g, '-');
+}
+
 export default function BlogPageClient({
   initialPosts,
   categories,
@@ -30,15 +44,16 @@ export default function BlogPageClient({
 
   const pageConfig = pageConfigs.blog;
 
-  // Filter and search logic
+  // FIXED: Filter and search logic with proper category matching
   const filteredPosts = useMemo(() => {
     let filtered = initialPosts;
 
-    // Apply category filter
+    // Apply category filter - FIXED the matching logic
     if (activeFilter !== 'all') {
-      filtered = filtered.filter(
-        (post) => post.category.toLowerCase() === activeFilter.toLowerCase()
-      );
+      filtered = filtered.filter((post) => {
+        const postCategorySlug = normalizeCategoryForFilter(post.category);
+        return postCategorySlug === activeFilter;
+      });
     }
 
     // Apply search filter

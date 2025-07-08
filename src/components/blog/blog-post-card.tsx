@@ -48,9 +48,11 @@ export const BlogPostCard: React.FC<BlogPostCardProps> = ({
         variants={cardVariants}
         className="relative h-full overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] before:absolute before:inset-0 before:rounded-2xl before:z-[1] before:bg-gradient-to-br before:from-white/[0.04] before:via-transparent before:to-black/[0.03] hover:bg-white/[0.04] hover:border-white/[0.12] hover:shadow-[0_20px_40px_rgba(18,164,237,0.15),0_8px_32px_rgba(0,0,0,0.2)] hover:before:from-primary/[0.06] hover:before:to-primary/[0.02] transition-all duration-500 ease-out"
       >
-        {/* Image Container */}
+        {/* Image Container - FIXED: Increased height for list view */}
         <div
-          className={`relative overflow-hidden ${compact ? 'h-40' : 'h-48 md:h-52'}`}
+          className={`relative overflow-hidden ${
+            compact ? 'h-48 sm:h-52' : 'h-48 md:h-52'
+          }`}
         >
           <Image
             src={post.image}
