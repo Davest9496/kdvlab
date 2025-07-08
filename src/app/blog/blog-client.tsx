@@ -144,8 +144,8 @@ export default function BlogPageClient({
           <div className="container">
             {initialPosts.length > 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-                {/* Sidebar - Appears first on mobile, second on desktop */}
-                <div className="lg:col-span-1 order-1 lg:order-2">
+                {/* Sidebar - Appears first on mobile */}
+                <div className="lg:col-span-1 order-2 lg:order-1">
                   <BlogSidebar
                     categories={categories}
                     popularTags={popularTags}
@@ -156,8 +156,8 @@ export default function BlogPageClient({
                   />
                 </div>
 
-                {/* Main Content - Appears second on mobile, first on desktop */}
-                <div className="lg:col-span-3 space-y-8 order-2 lg:order-1">
+                {/* Main Content - Appears second on mobile */}
+                <div className="lg:col-span-3 space-y-8 order-1 lg:order-2">
                   <BlogFilters
                     categories={categories}
                     activeFilter={activeFilter}
