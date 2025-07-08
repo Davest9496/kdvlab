@@ -97,7 +97,7 @@ export const BlogSidebar: React.FC<BlogSidebarProps> = ({
         </div>
         {searchTerm && (
           <p className="text-xs text-muted-foreground">
-            Searching for: "{searchTerm}"
+            Searching for: &quot;{searchTerm}&quot;
           </p>
         )}
       </motion.div>
