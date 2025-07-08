@@ -144,8 +144,20 @@ export default function BlogPageClient({
           <div className="container">
             {initialPosts.length > 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-                {/* Main Content */}
-                <div className="lg:col-span-3 space-y-8">
+                {/* Sidebar - Appears first on mobile, second on desktop */}
+                <div className="lg:col-span-1 order-1 lg:order-2">
+                  <BlogSidebar
+                    categories={categories}
+                    popularTags={popularTags}
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    onCategoryFilter={setActiveFilter}
+                    onTagFilter={(tag) => setSearchTerm(tag)}
+                  />
+                </div>
+
+                {/* Main Content - Appears second on mobile, first on desktop */}
+                <div className="lg:col-span-3 space-y-8 order-2 lg:order-1">
                   <BlogFilters
                     categories={categories}
                     activeFilter={activeFilter}
@@ -213,18 +225,6 @@ export default function BlogPageClient({
                       </div>
                     </div>
                   )}
-                </div>
-
-                {/* Sidebar */}
-                <div className="lg:col-span-1">
-                  <BlogSidebar
-                    categories={categories}
-                    popularTags={popularTags}
-                    searchTerm={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    onCategoryFilter={setActiveFilter}
-                    onTagFilter={(tag) => setSearchTerm(tag)}
-                  />
                 </div>
               </div>
             ) : (
