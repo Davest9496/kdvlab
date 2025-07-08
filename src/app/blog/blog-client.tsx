@@ -171,7 +171,7 @@ export default function BlogPageClient({
                       className={
                         viewMode === 'grid'
                           ? 'grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8'
-                          : 'space-y-6'
+                          : 'grid grid-cols-1 gap-6'
                       }
                     >
                       {filteredPosts.map((post, index) => (

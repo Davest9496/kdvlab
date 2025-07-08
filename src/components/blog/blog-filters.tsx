@@ -43,15 +43,18 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({
       className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0 sm:space-x-6 p-6 rounded-xl bg-card/20 backdrop-blur-xl border border-border/30"
     >
       {/* Category Filters */}
-      <div className="flex items-center space-x-2">
-        <Filter className="w-5 h-5 text-primary" />
-        <span className="text-sm font-medium text-foreground mr-3">
-          Filter:
-        </span>
-        <div className="flex flex-wrap gap-2">
+      <div className="w-full md:w-auto">
+        {/* Icon and Filter label - always on top on small screens */}
+        <div className="flex items-center space-x-2 mb-3 md:mb-0 md:mr-3 md:inline-flex">
+          <Filter className="w-5 h-5 text-primary" />
+          <span className="text-sm font-medium text-foreground">Filter:</span>
+        </div>
+
+        {/* Filter buttons - horizontal scroll on small screens, wrap on larger */}
+        <div className="flex md:flex-wrap gap-2 overflow-x-auto scrollbar-hide pb-2 md:pb-0">
           <button
             onClick={() => handleFilterClick('all')}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
+            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
               activeFilter === 'all'
                 ? 'bg-primary text-primary-foreground shadow-[0_4px_12px_rgba(18,164,237,0.4)]'
                 : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -63,7 +66,7 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({
             <button
               key={category.id}
               onClick={() => handleFilterClick(category.slug)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`flex-shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                 activeFilter === category.slug
                   ? 'bg-primary text-primary-foreground shadow-[0_4px_12px_rgba(18,164,237,0.4)]'
                   : 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -78,8 +81,8 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({
         </div>
       </div>
 
-      {/* View Mode Toggle */}
-      <div className="flex items-center space-x-2">
+      {/* View Mode Toggle - Hidden on small screens where all posts are stacked */}
+      <div className="hidden md:flex items-center space-x-2">
         <span className="text-sm font-medium text-foreground">View:</span>
         <div className="flex rounded-lg bg-muted/30 p-1">
           <button
