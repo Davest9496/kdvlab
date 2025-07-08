@@ -105,7 +105,7 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* RESTORED: Your original typography hierarchy */
+  /* ORIGINAL: Your existing typography hierarchy */
   
   /* Hero text: Use ExtraBold family for maximum impact */
   .hero-text,
@@ -202,7 +202,7 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* RESTORED: Your gradient text utilities */
+  /* ORIGINAL: Your gradient text utilities */
   .text-gradient {
     @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
     
@@ -214,42 +214,36 @@
     display: inline-block;
   }
 
-
-  @layer components {
-    /* Updated gradient text utility - inherits parent font */
-    .text-gradient {
-      @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
-      
-      /* REMOVE font-family specification to inherit from parent */
-      /* font-family: var(--font-gilroy-bold); <- Remove this line */
-      
-      /* Keep only the gradient-specific properties */
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline;
-      
-      /* Inherit font properties from parent */
-      font-family: inherit;
-      font-size: inherit;
-      font-weight: inherit;
-      line-height: inherit;
-      letter-spacing: inherit;
-    }
+  /* Updated gradient text utility - inherits parent font */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
     
-    /* Alternative: Create specific gradient classes if you need different fonts */
-    .text-gradient-gilroy {
-      @apply text-gradient;
-      font-family: var(--font-gilroy-bold);
-      font-weight: 800;
-    }
+    /* Keep only the gradient-specific properties */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
     
-    .text-gradient-rubik {
-      @apply text-gradient;
-      font-family: var(--font-rubik);
-      font-weight: 600;
-    }
+    /* Inherit font properties from parent */
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
+  
+  /* Alternative: Create specific gradient classes if you need different fonts */
+  .text-gradient-gilroy {
+    @apply text-gradient;
+    font-family: var(--font-gilroy-bold);
+    font-weight: 800;
+  }
+  
+  .text-gradient-rubik {
+    @apply text-gradient;
+    font-family: var(--font-rubik);
+    font-weight: 600;
   }
   
   /* Gradient text for headings */
@@ -318,7 +312,7 @@
     }
   }
 
-  /* RESTORED: Button variants with proper fonts */
+  /* ORIGINAL: Button variants with proper fonts */
   .btn-primary {
     @apply bg-primary text-primary-foreground hover:bg-primary/90 
            transition-all duration-200 will-change-transform
@@ -375,10 +369,134 @@
     font-family: var(--font-rubik);
     font-weight: 400;
   }
+
+  /* Blog-specific prose enhancements */
+  .prose-blog {
+    /* Enhanced heading counters for better organization */
+    counter-reset: blog-section;
+  }
+  
+  .prose-blog h2 {
+    counter-increment: blog-section;
+    position: relative;
+  }
+  
+  .prose-blog h2::before {
+    content: counter(blog-section, decimal) ".";
+    color: hsl(var(--primary));
+    font-weight: 800;
+    margin-right: 0.75rem;
+    font-size: 0.9em;
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  /* Enhanced list styling for blog content */
+  .prose-blog ul li {
+    position: relative;
+    padding-left: 0.5rem;
+  }
+  
+  .prose-blog ul li::marker {
+    content: "▸";
+    color: hsl(var(--primary));
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  .prose-blog ol li {
+    position: relative;
+    padding-left: 0.5rem;
+  }
+  
+  .prose-blog ol li::marker {
+    color: hsl(var(--primary));
+    font-weight: bold;
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  /* Enhanced paragraph spacing for blog content */
+  .prose-blog p + p {
+    margin-top: 2rem;
+  }
+  
+  /* Special styling for introduction paragraphs */
+  .prose-blog h1 + p,
+  .prose-blog h2 + p {
+    font-size: 1.375rem;
+    line-height: 1.7;
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    font-family: var(--font-rubik);
+  }
+  
+  /* Enhanced blockquote styling for blog */
+  .prose-blog blockquote {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.05) 0%, hsl(var(--primary) / 0.02) 100%);
+    border-left: 4px solid hsl(var(--primary) / 0.6);
+    border-radius: 0 0.75rem 0.75rem 0;
+  }
+  
+  .prose-blog blockquote::before {
+    content: "\201C";
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    font-size: 4rem;
+    color: hsl(var(--primary) / 0.3);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  
+  /* Enhanced code block styling for blog */
+  .prose-blog pre {
+    position: relative;
+    background: linear-gradient(135deg, hsl(var(--muted) / 0.8) 0%, hsl(var(--muted) / 0.9) 100%);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+  
+  .prose-blog pre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.3));
+  }
+  
+  /* Enhanced table styling for blog */
+  .prose-blog table {
+    border-collapse: separate;
+    border-spacing: 0;
+    background: hsl(var(--card));
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .prose-blog table th:first-child {
+    border-top-left-radius: 0.75rem;
+  }
+  
+  .prose-blog table th:last-child {
+    border-top-right-radius: 0.75rem;
+  }
+
+  .prose-blog table th {
+    background: hsl(var(--muted) / 0.3);
+    font-family: var(--font-gilroy-bold);
+    font-weight: 800;
+  }
 }
 
 @layer utilities {
-  /* Responsive text utilities */
+  /* ORIGINAL: Your responsive text utilities */
+  
   /* Hero text variants */
   .text-hero-xl {
     font-size: clamp(2.5rem, 10vw, 4rem);
@@ -581,11 +699,122 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
-  .safe-left {
-    padding-left: env(safe-area-inset-left);
-  }
-
   .safe-right {
     padding-right: env(safe-area-inset-right);
+  }
+
+  /* Blog-specific typography utilities */
+  
+  /* Enhanced blog heading utilities with automatic numbering */
+  .blog-heading-numbered {
+    counter-increment: section;
+  }
+  
+  .blog-heading-numbered::before {
+    content: counter(section) ". ";
+    color: hsl(var(--primary));
+    font-weight: 800;
+    font-family: var(--font-gilroy-bold);
+  }
+  
+  /* Blog content emphasis utilities */
+  .blog-intro-text {
+    font-size: 1.375rem;
+    line-height: 1.7;
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    font-family: var(--font-rubik);
+  }
+  
+  /* Blog list enhancement utilities */
+  .blog-list-primary li::marker {
+    color: hsl(var(--primary));
+    font-weight: bold;
+  }
+  
+  .blog-list-custom li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  
+  .blog-list-custom li::before {
+    content: "\2192";
+    position: absolute;
+    left: 0;
+    color: hsl(var(--primary));
+    font-weight: bold;
+  }
+
+  /* Target highlighting for smooth navigation */
+  .target-highlight:target {
+    scroll-margin-top: 6rem;
+    animation: highlight-target 2s ease-out;
+  }
+
+  @keyframes highlight-target {
+    0% {
+      background-color: hsl(var(--primary) / 0.1);
+      transform: scale(1.02);
+    }
+    100% {
+      background-color: transparent;
+      transform: scale(1);
+    }
+  }
+}
+
+/* Smooth scroll behavior */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Enhanced smooth scrolling for blog navigation */
+  .prose a[href^="#"] {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Enhanced focus management for better accessibility */
+.prose h1:target,
+.prose h2:target,
+.prose h3:target,
+.prose h4:target {
+  scroll-margin-top: 6rem;
+  animation: highlight-target 2s ease-out;
+}
+
+/* Print styles for blog content */
+@media print {
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: #000 !important;
+    break-after: avoid;
+  }
+  
+  .prose p,
+  .prose li {
+    color: #333 !important;
+    orphans: 3;
+    widows: 3;
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid #666 !important;
+    background: #f5f5f5 !important;
+  }
+  
+  .prose pre {
+    background: #f8f8f8 !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  /* Hide non-essential elements when printing */
+  .blog-share-buttons,
+  .related-posts,
+  .cta-section {
+    display: none !important;
   }
 }
