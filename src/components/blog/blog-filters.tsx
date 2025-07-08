@@ -1,18 +1,24 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { Filter, Grid, List } from 'lucide-react';
 import type { BlogCategory } from '@/lib/blog';
 
 interface BlogFiltersProps {
   categories: BlogCategory[];
+  activeFilter: string;
+  onFilterChange: (filter: string) => void;
+  viewMode: 'grid' | 'list';
+  onViewModeChange: (mode: 'grid' | 'list') => void;
 }
 
-export const BlogFilters: React.FC<BlogFiltersProps> = ({ categories }) => {
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-
+export const BlogFilters: React.FC<BlogFiltersProps> = ({
+  categories,
+  activeFilter,
+  onFilterChange,
+  viewMode,
+  onViewModeChange,
+}) => {
   const filterVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -23,6 +29,10 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({ categories }) => {
         ease: [0.25, 0.25, 0, 1],
       },
     },
+  };
+
+  const handleFilterClick = (filter: string) => {
+    onFilterChange(filter);
   };
 
   return (
@@ -40,7 +50,7 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({ categories }) => {
         </span>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => setActiveFilter('all')}
+            onClick={() => handleFilterClick('all')}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
               activeFilter === 'all'
                 ? 'bg-primary text-primary-foreground shadow-[0_4px_12px_rgba(18,164,237,0.4)]'
@@ -52,7 +62,7 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({ categories }) => {
           {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setActiveFilter(category.slug)}
+              onClick={() => handleFilterClick(category.slug)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeFilter === category.slug
                   ? 'bg-primary text-primary-foreground shadow-[0_4px_12px_rgba(18,164,237,0.4)]'
@@ -73,22 +83,24 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({ categories }) => {
         <span className="text-sm font-medium text-foreground">View:</span>
         <div className="flex rounded-lg bg-muted/30 p-1">
           <button
-            onClick={() => setViewMode('grid')}
+            onClick={() => onViewModeChange('grid')}
             className={`p-2 rounded-md transition-all duration-300 ${
               viewMode === 'grid'
                 ? 'bg-primary text-primary-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
+            aria-label="Grid view"
           >
             <Grid className="w-4 h-4" />
           </button>
           <button
-            onClick={() => setViewMode('list')}
+            onClick={() => onViewModeChange('list')}
             className={`p-2 rounded-md transition-all duration-300 ${
               viewMode === 'list'
                 ? 'bg-primary text-primary-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
+            aria-label="List view"
           >
             <List className="w-4 h-4" />
           </button>

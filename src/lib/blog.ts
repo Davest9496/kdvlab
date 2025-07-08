@@ -38,6 +38,43 @@ export interface BlogCategory {
   count: number;
 }
 
+// Predefined categories with proper slug mapping
+const CATEGORY_MAP: Record<
+  string,
+  { name: string; slug: string; description: string }
+> = {
+  Development: {
+    name: 'Development',
+    slug: 'development',
+    description: 'Web and software development insights',
+  },
+  'Case Study': {
+    name: 'Case Study',
+    slug: 'case-studies',
+    description: 'Real-world project showcases',
+  },
+  Mobile: {
+    name: 'Mobile',
+    slug: 'mobile',
+    description: 'Mobile app development topics',
+  },
+  Tutorial: {
+    name: 'Tutorial',
+    slug: 'tutorials',
+    description: 'Step-by-step guides and tutorials',
+  },
+  News: {
+    name: 'News',
+    slug: 'news',
+    description: 'Industry news and updates',
+  },
+  General: {
+    name: 'General',
+    slug: 'general',
+    description: 'General technology topics',
+  },
+};
+
 function calculateReadTime(content: string): number {
   const wordsPerMinute = 200;
   const wordCount = content.trim().split(/\s+/).length;
@@ -46,6 +83,13 @@ function calculateReadTime(content: string): number {
 
 function ensurePostsDirectory(): boolean {
   return fs.existsSync(postsDirectory);
+}
+
+function normalizeCategorySlug(categoryName: string): string {
+  return (
+    CATEGORY_MAP[categoryName]?.slug ||
+    categoryName.toLowerCase().replace(/\s+/g, '-')
+  );
 }
 
 export function getSortedPostsData(): BlogPost[] {
@@ -94,6 +138,7 @@ export function getSortedPostsData(): BlogPost[] {
             },
           } as BlogPost;
         } catch (error) {
+          console.error(`Error processing blog post ${fileName}:`, error);
           return null;
         }
       })
@@ -105,6 +150,7 @@ export function getSortedPostsData(): BlogPost[] {
       return dateB.getTime() - dateA.getTime();
     });
   } catch (error) {
+    console.error('Error reading blog posts:', error);
     return [];
   }
 }
@@ -124,6 +170,7 @@ export function getAllPostSlugs() {
         },
       }));
   } catch (error) {
+    console.error('Error getting post slugs:', error);
     return [];
   }
 }
@@ -175,44 +222,87 @@ export async function getPostData(slug: string): Promise<BlogPost | null> {
       },
     };
   } catch (error) {
+    console.error(`Error getting post data for ${slug}:`, error);
     return null;
   }
 }
 
 export function getAllCategories(): BlogCategory[] {
   const posts = getSortedPostsData();
-  const categoryMap = new Map<string, number>();
+  const categoryCount = new Map<string, number>();
 
+  // Count posts by category
   posts.forEach((post) => {
     const category = post.category;
-    categoryMap.set(category, (categoryMap.get(category) || 0) + 1);
+    categoryCount.set(category, (categoryCount.get(category) || 0) + 1);
   });
 
-  const predefinedCategories: Omit<BlogCategory, 'count'>[] = [
-    {
-      id: 'development',
-      name: 'Development',
-      slug: 'development',
-      description: 'Web and software development insights',
-    },
-    {
-      id: 'case-study',
-      name: 'Case Study',
-      slug: 'case-studies',
-      description: 'Real-world project showcases',
-    },
-    {
-      id: 'mobile',
-      name: 'Mobile',
-      slug: 'mobile',
-      description: 'Mobile app development topics',
-    },
-  ];
+  // Create categories with proper mapping
+  const categories: BlogCategory[] = [];
 
-  const categories = predefinedCategories.map((category) => ({
-    ...category,
-    count: categoryMap.get(category.name) || 0,
-  }));
+  categoryCount.forEach((count, categoryName) => {
+    const categoryConfig = CATEGORY_MAP[categoryName];
 
-  return categories.filter((category) => category.count > 0);
+    categories.push({
+      id: categoryConfig?.slug || categoryName.toLowerCase(),
+      name: categoryName,
+      slug:
+        categoryConfig?.slug || categoryName.toLowerCase().replace(/\s+/g, '-'),
+      description:
+        categoryConfig?.description || `${categoryName} related posts`,
+      count,
+    });
+  });
+
+  // Sort by count (descending) then by name
+  return categories.sort((a, b) => {
+    if (a.count !== b.count) {
+      return b.count - a.count;
+    }
+    return a.name.localeCompare(b.name);
+  });
+}
+
+// Helper function to get posts by category
+export function getPostsByCategory(categorySlug: string): BlogPost[] {
+  const posts = getSortedPostsData();
+
+  return posts.filter((post) => {
+    const postCategorySlug = normalizeCategorySlug(post.category);
+    return postCategorySlug === categorySlug;
+  });
+}
+
+// Helper function to get posts by tag
+export function getPostsByTag(tag: string): BlogPost[] {
+  const posts = getSortedPostsData();
+
+  return posts.filter((post) =>
+    post.tags.some((postTag) => postTag.toLowerCase() === tag.toLowerCase())
+  );
+}
+
+// Helper function to search posts
+export function searchPosts(query: string): BlogPost[] {
+  const posts = getSortedPostsData();
+  const searchTerm = query.toLowerCase();
+
+  return posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(searchTerm) ||
+      post.excerpt.toLowerCase().includes(searchTerm) ||
+      post.content.toLowerCase().includes(searchTerm) ||
+      post.tags.some((tag) => tag.toLowerCase().includes(searchTerm)) ||
+      post.category.toLowerCase().includes(searchTerm)
+  );
+}
+
+// Helper function to get featured posts
+export function getFeaturedPosts(): BlogPost[] {
+  return getSortedPostsData().filter((post) => post.featured);
+}
+
+// Helper function to get recent posts
+export function getRecentPosts(limit: number = 5): BlogPost[] {
+  return getSortedPostsData().slice(0, limit);
 }

@@ -1,13 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { Search, Tag, TrendingUp, BookOpen } from 'lucide-react';
-import { useState } from 'react';
 import type { BlogCategory } from '@/lib/blog';
 
 interface BlogSidebarProps {
   categories: BlogCategory[];
+  popularTags: string[];
+  searchTerm: string;
+  onSearchChange: (term: string) => void;
+  onCategoryFilter: (category: string) => void;
+  onTagFilter: (tag: string) => void;
 }
 
 const sidebarVariants = {
@@ -35,19 +38,29 @@ const itemVariants = {
   },
 };
 
-export const BlogSidebar: React.FC<BlogSidebarProps> = ({ categories }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+export const BlogSidebar: React.FC<BlogSidebarProps> = ({
+  categories,
+  popularTags,
+  searchTerm,
+  onSearchChange,
+  onCategoryFilter,
+  onTagFilter,
+}) => {
+  const handleCategoryClick = (categorySlug: string) => {
+    onCategoryFilter(categorySlug);
+  };
 
-  const popularTags = [
-    'TypeScript',
-    'React',
-    'Next.js',
-    'Web Development',
-    'Performance',
-    'SEO',
-    'UI/UX',
-    'Mobile Development',
-  ];
+  const handleTagClick = (tag: string) => {
+    onTagFilter(tag);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchChange(e.target.value);
+  };
+
+  const clearSearch = () => {
+    onSearchChange('');
+  };
 
   return (
     <motion.aside
@@ -67,11 +80,26 @@ export const BlogSidebar: React.FC<BlogSidebarProps> = ({ categories }) => {
             type="text"
             placeholder="Search posts..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl bg-card/40 backdrop-blur-xl border border-border/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
+            onChange={handleSearchChange}
+            className="w-full px-4 py-3 pr-10 rounded-xl bg-card/40 backdrop-blur-xl border border-border/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
           />
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          {searchTerm ? (
+            <button
+              onClick={clearSearch}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground hover:text-foreground transition-colors duration-300"
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+          ) : (
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          )}
         </div>
+        {searchTerm && (
+          <p className="text-xs text-muted-foreground">
+            Searching for: "{searchTerm}"
+          </p>
+        )}
       </motion.div>
 
       {/* Categories */}
@@ -82,10 +110,10 @@ export const BlogSidebar: React.FC<BlogSidebarProps> = ({ categories }) => {
         </h3>
         <div className="space-y-2">
           {categories.map((category) => (
-            <Link
+            <button
               key={category.id}
-              href={`/blog/category/${category.slug}`}
-              className="flex items-center justify-between p-3 rounded-xl bg-card/20 backdrop-blur-xl border border-border/30 hover:bg-card/40 hover:border-border/50 transition-all duration-300 group"
+              onClick={() => handleCategoryClick(category.slug)}
+              className="w-full flex items-center justify-between p-3 rounded-xl bg-card/20 backdrop-blur-xl border border-border/30 hover:bg-card/40 hover:border-border/50 transition-all duration-300 group text-left"
             >
               <span className="text-body-base text-foreground group-hover:text-primary transition-colors duration-300">
                 {category.name}
@@ -93,7 +121,7 @@ export const BlogSidebar: React.FC<BlogSidebarProps> = ({ categories }) => {
               <span className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
                 {category.count}
               </span>
-            </Link>
+            </button>
           ))}
         </div>
       </motion.div>
@@ -106,13 +134,13 @@ export const BlogSidebar: React.FC<BlogSidebarProps> = ({ categories }) => {
         </h3>
         <div className="flex flex-wrap gap-2">
           {popularTags.map((tag) => (
-            <Link
+            <button
               key={tag}
-              href={`/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+              onClick={() => handleTagClick(tag)}
               className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-card/30 backdrop-blur-xl border border-border/30 text-foreground hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300"
             >
               {tag}
-            </Link>
+            </button>
           ))}
         </div>
       </motion.div>
@@ -129,7 +157,13 @@ export const BlogSidebar: React.FC<BlogSidebarProps> = ({ categories }) => {
           <p className="text-body-sm text-muted-foreground mb-4">
             Get the latest insights and updates delivered to your inbox.
           </p>
-          <button className="w-full px-4 py-2 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors duration-300">
+          <button
+            className="w-full px-4 py-2 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors duration-300"
+            onClick={() => {
+              // TODO: Implement newsletter signup
+              console.log('Newsletter signup clicked');
+            }}
+          >
             Subscribe
           </button>
         </div>
