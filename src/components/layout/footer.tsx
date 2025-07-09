@@ -68,9 +68,8 @@ export default function Footer() {
                   'leading-relaxed max-w-sm'
                 )}
               >
-                Expert web development services. 
-                Lightning-fast, SEO-optimized websites with cutting-edge
-                technologies.
+                Expert web development services. Lightning-fast, SEO-optimized
+                websites with cutting-edge technologies.
               </p>
             </div>
 
@@ -99,43 +98,108 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Footer Links Sections */}
-          {footerSections.map((section) => (
-            <div key={section.title} className="space-y-4">
-              <h4
-                className={cn(
-                  'font-rubik font-semibold text-white',
-                  'text-subheading-sm', // 16px-18px responsive
-                  'tracking-wide'
-                )}
-              >
-                {section.title}
-              </h4>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className={cn(
-                        'font-rubik text-white/70 hover:text-white',
-                        'text-body-base', // 14px-16px responsive
-                        'transition-all duration-200 ease-out',
-                        'hover:translate-x-1 hover:text-primary/80',
-                        'inline-flex items-center gap-1'
-                      )}
-                      {...(link.external && {
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                      })}
-                    >
-                      {link.name}
-                      {link.external && <span className="text-xs">↗</span>}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          {/* Services Section */}
+          <div className="space-y-4">
+            <h4
+              className={cn(
+                'font-rubik font-semibold text-white',
+                'text-subheading-sm', // 16px-18px responsive
+                'tracking-wide'
+              )}
+            >
+              {footerSections[0].title}
+            </h4>
+            <ul className="space-y-3">
+              {footerSections[0].links.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      'font-rubik text-white/70 hover:text-white',
+                      'text-body-base', // 14px-16px responsive
+                      'transition-all duration-200 ease-out',
+                      'hover:translate-x-1 hover:text-primary/80',
+                      'inline-flex items-center gap-1'
+                    )}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company & Connect Container - Side by side on mobile */}
+          <div className="md:col-span-2 lg:col-span-2">
+            <div className="grid grid-cols-2 gap-6 lg:gap-12">
+              {/* Company Section */}
+              <div className="space-y-4">
+                <h4
+                  className={cn(
+                    'font-rubik font-semibold text-white',
+                    'text-subheading-sm', // 16px-18px responsive
+                    'tracking-wide'
+                  )}
+                >
+                  {footerSections[1].title}
+                </h4>
+                <ul className="space-y-3">
+                  {footerSections[1].links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          'font-rubik text-white/70 hover:text-white',
+                          'text-body-base', // 14px-16px responsive
+                          'transition-all duration-200 ease-out',
+                          'hover:translate-x-1 hover:text-primary/80',
+                          'inline-flex items-center gap-1'
+                        )}
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Connect Section */}
+              <div className="space-y-4">
+                <h4
+                  className={cn(
+                    'font-rubik font-semibold text-white',
+                    'text-subheading-sm', // 16px-18px responsive
+                    'tracking-wide'
+                  )}
+                >
+                  {footerSections[2].title}
+                </h4>
+                <ul className="space-y-3">
+                  {footerSections[2].links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          'font-rubik text-white/70 hover:text-white',
+                          'text-body-base', // 14px-16px responsive
+                          'transition-all duration-200 ease-out',
+                          'hover:translate-x-1 hover:text-primary/80',
+                          'inline-flex items-center gap-1'
+                        )}
+                        {...(link.external && {
+                          target: '_blank',
+                          rel: 'noopener noreferrer',
+                        })}
+                      >
+                        {link.name}
+                        {link.external && <span className="text-xs">↗</span>}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
 
         {/* Newsletter Section */}
@@ -233,7 +297,6 @@ export default function Footer() {
             >
               Terms
             </Link>
-            
           </div>
         </div>
       </div>
