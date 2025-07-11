@@ -1,3 +1,4 @@
+// src/components/layout/navigation/desktop-nav.tsx (Option 2)
 'use client';
 
 import React from 'react';
@@ -26,11 +27,11 @@ export const DesktopNav: React.FC = () => {
     <Link
       href={href}
       className={cn(
-        'text-body-base font-medium transition-all duration-300 relative group',
+        'group relative text-body-base font-medium transition-all duration-300',
         'font-body',
         isActive(href) ? 'text-primary' : 'text-white/80 hover:text-white',
-        'hover:scale-105 relative after:absolute after:bottom-0 after:left-0',
-        'after:w-0 after:h-0.5 after:bg-primary',
+        'relative after:absolute after:bottom-0 after:left-0 hover:scale-105',
+        'after:h-0.5 after:w-0 after:bg-primary',
         'after:transition-all after:duration-300',
         'hover:after:w-full',
         'drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]'
@@ -40,7 +41,7 @@ export const DesktopNav: React.FC = () => {
       {isActive(href) && (
         <motion.div
           layoutId="activeTab"
-          className="absolute inset-0 bg-primary/10 rounded-lg -z-10"
+          className="absolute inset-0 -z-10 rounded-lg bg-primary/10"
           initial={false}
           transition={{ duration: 0.3, ease: [0.25, 0.25, 0, 1] }}
         />
@@ -49,7 +50,7 @@ export const DesktopNav: React.FC = () => {
   );
 
   return (
-    <div className="hidden lg:flex items-center space-x-8">
+    <div className="hidden items-center space-x-8 lg:flex">
       {/* Home */}
       <NavLink href="/">Home</NavLink>
 
@@ -59,15 +60,20 @@ export const DesktopNav: React.FC = () => {
       {/* Services Dropdown */}
       <ServicesDropdown />
 
-      {/* Remaining navigation items */}
-      {navItems.slice(2).map((item) => (
+      {/* Remaining navigation items (excluding contact) */}
+      {navItems.slice(2).map(item => (
         <NavLink key={item.id} href={item.href}>
           {item.label}
         </NavLink>
       ))}
 
-      {/* CTA Button */}
-      <GetInTouchButtonPill href="/contact" size="md" className="px-8 py-3">
+      {/* Smart CTA Button with active state */}
+      <GetInTouchButtonPill
+        href="/contact"
+        size="md"
+        className="px-8 py-3"
+        showActiveState={true} // This will show active state when on /contact
+      >
         Get In Touch
       </GetInTouchButtonPill>
     </div>
