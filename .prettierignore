@@ -1,7 +1,46 @@
-.next
-node_modules
-*.lock
-*.log
 .vercel
+
+# Dependencies
+node_modules
+.next
+out
 dist
 build
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.tsbuildinfo
+next-env.d.ts
+
+# Lock files (formatted differently)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Public assets (may have specific formatting)
+public/fonts/*
+public/images/*
+
+# Documentation that should maintain specific formatting
+CHANGELOG.md
+LICENSE
