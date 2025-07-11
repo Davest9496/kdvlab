@@ -1,3 +1,4 @@
+// src/components/ui/country-selector.tsx - Fixed single line layout
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -143,7 +144,7 @@ export default function CountrySelector({
 
   return (
     <div className={cn('relative', className)} ref={dropdownRef}>
-      {/* Selected Country Display */}
+      {/* Selected Country Display - Single Line Layout */}
       <button
         type="button"
         onClick={toggleDropdown}
@@ -159,20 +160,21 @@ export default function CountrySelector({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
-        <div className="flex items-center gap-3">
-          <span className="text-lg">{selectedCountry.flag}</span>
-          <div className="text-left">
-            <div className="text-body-sm font-medium text-foreground">
+        {/* Single line content with flex-nowrap to prevent wrapping */}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <span className="text-lg flex-shrink-0">{selectedCountry.flag}</span>
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <span className="text-body-sm font-medium text-foreground truncate">
               {selectedCountry.name}
-            </div>
-            <div className="text-body-sm text-muted-foreground">
+            </span>
+            <span className="text-body-sm text-muted-foreground flex-shrink-0">
               {selectedCountry.dialCode}
-            </div>
+            </span>
           </div>
         </div>
         <ChevronDown
           className={cn(
-            'w-4 h-4 text-muted-foreground transition-transform duration-200',
+            'w-4 h-4 text-muted-foreground transition-transform duration-200 flex-shrink-0',
             isOpen && 'rotate-180'
           )}
         />
@@ -220,17 +222,20 @@ export default function CountrySelector({
                     role="option"
                     aria-selected={selectedCountry.code === country.code}
                   >
-                    <span className="text-lg">{country.flag}</span>
-                    <div className="flex-1">
-                      <div className="text-body-sm font-medium text-foreground">
+                    {/* Single line layout for dropdown items too */}
+                    <span className="text-lg flex-shrink-0">
+                      {country.flag}
+                    </span>
+                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                      <span className="text-body-sm font-medium text-foreground truncate">
                         {country.name}
-                      </div>
-                      <div className="text-body-sm text-muted-foreground">
+                      </span>
+                      <span className="text-body-sm text-muted-foreground flex-shrink-0">
                         {country.dialCode}
-                      </div>
+                      </span>
                     </div>
                     {selectedCountry.code === country.code && (
-                      <Check className="w-4 h-4 text-primary" />
+                      <Check className="w-4 h-4 text-primary flex-shrink-0" />
                     )}
                   </button>
                 ))

@@ -1,12 +1,14 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { jobPositions, companies } from '@/data/jobs';
 import JobApplicationForm from '@/components/forms/job-application-form';
-import { PageHero } from '@/components/ui/page-hero';
 
-interface JobApplicationPageProps {
+interface ApplyPageProps {
   params: {
     jobId: string;
+  };
+  searchParams: {
+    confirmed?: string;
   };
 }
 
@@ -17,16 +19,16 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate metadata for each job application page
+// Generate metadata for each application page
 export async function generateMetadata({
   params,
-}: JobApplicationPageProps): Promise<Metadata> {
+}: ApplyPageProps): Promise<Metadata> {
   const job = jobPositions.find((j) => j.id === params.jobId);
 
   if (!job) {
     return {
-      title: 'Job Application Not Found',
-      description: 'The requested job application could not be found.',
+      title: 'Job Application',
+      description: 'Apply for a position at KDVLab.',
     };
   }
 
@@ -34,10 +36,19 @@ export async function generateMetadata({
 
   return {
     title: `Apply for ${job.title} at ${company.name} - KDVLab`,
-    description: `Submit your application for the ${job.title} position at ${company.name}. Join our team in ${job.location}.`,
+    description: `Submit your application for the ${job.title} position at ${company.name}. Join our team and work with cutting-edge technologies.`,
+    keywords: [
+      'Apply',
+      'Job Application',
+      job.title,
+      company.name,
+      job.location,
+      job.type,
+      'Career Application',
+    ],
     robots: {
-      index: false, // Prevent indexing of application forms
-      follow: true,
+      index: false, // Don't index application forms
+      follow: false,
     },
     alternates: {
       canonical: `https://kdvlab.com/careers/${job.id}/apply`,
@@ -47,25 +58,56 @@ export async function generateMetadata({
 
 export default function JobApplicationPage({
   params,
-}: JobApplicationPageProps) {
+  searchParams,
+}: ApplyPageProps) {
   const job = jobPositions.find((j) => j.id === params.jobId);
 
   if (!job) {
     notFound();
   }
 
+  // If this is a confirmed submission, redirect to confirmation page
+  if (searchParams.confirmed === 'true') {
+    redirect(`/careers/${job.id}/apply/confirmation`);
+  }
+
   const company = companies[job.company];
+
+  // Structured data for job application
+  const jobApplicationLD = {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: job.title,
+    description: job.description.overview,
+    identifier: {
+      '@type': 'PropertyValue',
+      name: company.name,
+      value: job.id,
+    },
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: company.name,
+      sameAs: 'https://kdvlab.com',
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: job.location,
+      },
+    },
+    applicationDeadline: job.applicationDeadline || '2024-12-31',
+    employmentType: 'FULL_TIME',
+  };
 
   return (
     <>
-      {/* Page Hero */}
-      <PageHero
-        title="Upload Resume"
-        breadcrumbs={[
-          { label: 'Home', href: '/' },
-          { label: 'Careers', href: '/careers' },
-        ]}
-        variant="compact"
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jobApplicationLD),
+        }}
       />
 
       {/* Application Form */}

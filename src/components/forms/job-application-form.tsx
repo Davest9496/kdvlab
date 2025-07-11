@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Upload, FileText, Check } from 'lucide-react';
+import { ArrowLeft, FileText } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { companies } from '@/data/jobs';
 import type { JobPosition } from '@/types/jobs';
 import type { Country } from '@/data/countries';
@@ -52,6 +53,8 @@ const itemVariants = {
 };
 
 export default function JobApplicationForm({ job }: JobApplicationFormProps) {
+  const router = useRouter();
+
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -67,9 +70,7 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'error'>('idle');
 
   const company = companies[job.company];
 
@@ -127,11 +128,17 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
       // Here you would typically send the form data to your backend
       console.log('Form submitted:', formData);
 
-      setSubmitStatus('success');
+      // Generate application ID and submission timestamp
+      const applicationId = `APP-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+      const submittedAt = new Date().toISOString();
+
+      // Redirect to confirmation page with application details
+      router.push(
+        `/careers/${job.id}/apply/confirmation?applicationId=${applicationId}&submittedAt=${submittedAt}`
+      );
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitStatus('error');
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -144,7 +151,8 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
     formData.resume &&
     formData.agreeToPrivacy;
 
-  if (submitStatus === 'success') {
+  // Show error state if submission failed
+  if (submitStatus === 'error') {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <motion.div
@@ -152,22 +160,42 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center max-w-md mx-auto p-8"
         >
-          <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Check className="w-8 h-8 text-green-500" />
+          <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg
+              className="w-8 h-8 text-red-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </div>
           <h2 className="text-heading-lg font-gilroy-bold text-foreground mb-4">
-            Application Submitted!
+            Submission Failed
           </h2>
           <p className="text-body-base text-muted-foreground mb-8">
-            Thank you for your interest in the {job.title} position. We will
-            review your application and get back to you soon.
+            We encountered an error while submitting your application. Please
+            try again.
           </p>
-          <Link
-            href="/careers"
-            className="btn-primary px-6 py-3 rounded-lg text-body-base font-medium"
-          >
-            Back to Careers
-          </Link>
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={() => setSubmitStatus('idle')}
+              className="btn-primary px-6 py-3 rounded-lg text-body-base font-medium"
+            >
+              Try Again
+            </button>
+            <Link
+              href="/careers"
+              className="btn-secondary px-6 py-3 rounded-lg text-body-base font-medium"
+            >
+              Back to Careers
+            </Link>
+          </div>
         </motion.div>
       </div>
     );
@@ -177,13 +205,13 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
     <div className="min-h-screen bg-background">
       {/* Back Button */}
       <div className="container pt-8">
-        <a
-          href="/careers"
+        <Link
+          href={`/careers/${job.id}`}
           className="inline-flex items-center gap-2 text-body-base text-muted-foreground hover:text-foreground transition-colors duration-200"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Careers
-        </a>
+          Back to Job Details
+        </Link>
       </div>
 
       {/* Form Container */}
@@ -208,10 +236,10 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
               </div>
               <div>
                 <h1 className="text-heading-lg font-gilroy-bold text-foreground">
-                  {job.title}
+                  Apply for {job.title}
                 </h1>
                 <p className="text-body-base text-muted-foreground">
-                  {job.location}
+                  {company.name} • {job.location}
                 </p>
               </div>
             </div>
@@ -231,43 +259,46 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
                 Personal Information
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* First Name */}
-                <div>
-                  <label className="block text-body-sm font-medium text-foreground mb-2">
-                    Name*
-                  </label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    placeholder="John"
-                    required
-                    className="w-full px-4 py-3 bg-muted border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-                  />
-                </div>
+              <div className="space-y-6">
+                {/* Name Fields */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* First Name */}
+                  <div>
+                    <label className="block text-body-sm font-medium text-foreground mb-2">
+                      First Name*
+                    </label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      placeholder="John"
+                      required
+                      className="w-full px-4 py-3 bg-muted border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                    />
+                  </div>
 
-                {/* Last Name */}
-                <div>
-                  <label className="block text-body-sm font-medium text-foreground mb-2">
-                    Last Name*
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    placeholder="Doe"
-                    required
-                    className="w-full px-4 py-3 bg-muted border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-                  />
+                  {/* Last Name */}
+                  <div>
+                    <label className="block text-body-sm font-medium text-foreground mb-2">
+                      Last Name*
+                    </label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      placeholder="Doe"
+                      required
+                      className="w-full px-4 py-3 bg-muted border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                    />
+                  </div>
                 </div>
 
                 {/* Email */}
                 <div>
                   <label className="block text-body-sm font-medium text-foreground mb-2">
-                    Email*
+                    Email Address*
                   </label>
                   <input
                     type="email"
@@ -280,7 +311,7 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
                   />
                 </div>
 
-                {/* Phone Number with Dynamic Country Selection */}
+                {/* Phone Number - Side by Side on Large Screens */}
                 <div>
                   <PhoneInput
                     value={formData.phone}
@@ -296,10 +327,14 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
 
             {/* File Uploads */}
             <div className="space-y-6">
+              <h2 className="text-heading-md font-gilroy-bold text-foreground">
+                Documents
+              </h2>
+
               {/* Resume Upload */}
               <div>
                 <label className="block text-body-sm font-medium text-foreground mb-2">
-                  Upload CV*
+                  Upload Resume/CV*
                 </label>
                 <div className="relative">
                   <input
@@ -313,20 +348,22 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
                     <div className="text-center">
                       <FileText className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                       <p className="text-body-base text-foreground font-medium">
-                        {formData.resume ? formData.resume.name : 'Resume.Pdf'}
+                        {formData.resume
+                          ? formData.resume.name
+                          : 'Choose your resume'}
                       </p>
                       <p className="text-body-sm text-muted-foreground">
-                        Click to upload or drag and drop
+                        PDF, DOC, or DOCX (max 10MB)
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Portfolio Upload */}
+              {/* Portfolio Upload (Optional) */}
               <div>
                 <label className="block text-body-sm font-medium text-foreground mb-2">
-                  Additional File*
+                  Portfolio or Additional Documents
                 </label>
                 <div className="relative">
                   <input
@@ -341,10 +378,10 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
                       <p className="text-body-base text-foreground font-medium">
                         {formData.portfolio
                           ? formData.portfolio.name
-                          : 'Portfolio.Pdf'}
+                          : 'Choose additional files (optional)'}
                       </p>
                       <p className="text-body-sm text-muted-foreground">
-                        Click to upload or drag and drop
+                        Portfolio, work samples, or other relevant documents
                       </p>
                     </div>
                   </div>
@@ -354,50 +391,65 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
 
             {/* Cover Letter */}
             <div>
-              <label className="block text-body-sm font-medium text-foreground mb-2">
+              <h2 className="text-heading-md font-gilroy-bold text-foreground mb-4">
                 Cover Letter
+              </h2>
+              <label className="block text-body-sm font-medium text-foreground mb-2">
+                Tell us why you're interested in this position (optional)
               </label>
               <textarea
                 name="coverLetter"
                 value={formData.coverLetter}
                 onChange={handleInputChange}
-                placeholder="Write a letter"
+                placeholder="Share your motivation, relevant experience, and what excites you about this opportunity..."
                 rows={6}
                 className="w-full px-4 py-3 bg-muted border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none"
               />
             </div>
 
-            {/* Checkboxes */}
+            {/* Legal Agreements */}
             <div className="space-y-4">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="agreeToPrivacy"
-                  checked={formData.agreeToPrivacy}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 w-4 h-4 text-primary bg-muted border-border rounded focus:ring-primary focus:ring-2"
-                />
-                <span className="text-body-sm text-muted-foreground">
-                  By submitting this application, I agree that I have read the
-                  Privacy Policy and confirm that KDVLAB will store my personal
-                  details for this role to process my job application.
-                </span>
-              </label>
+              <h2 className="text-heading-md font-gilroy-bold text-foreground">
+                Privacy & Consent
+              </h2>
 
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="agreeToContact"
-                  checked={formData.agreeToContact}
-                  onChange={handleInputChange}
-                  className="mt-1 w-4 h-4 text-primary bg-muted border-border rounded focus:ring-primary focus:ring-2"
-                />
-                <span className="text-body-sm text-muted-foreground">
-                  Yes, KDVLAB can contact me directly about specific future job
-                  opportunities.
-                </span>
-              </label>
+              <div className="space-y-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="agreeToPrivacy"
+                    checked={formData.agreeToPrivacy}
+                    onChange={handleInputChange}
+                    required
+                    className="mt-1 w-4 h-4 text-primary bg-muted border-border rounded focus:ring-primary focus:ring-2"
+                  />
+                  <span className="text-body-sm text-muted-foreground">
+                    I agree to the{' '}
+                    <a
+                      href="/privacy-policy"
+                      className="text-primary hover:underline"
+                    >
+                      Privacy Policy
+                    </a>{' '}
+                    and confirm that KDVLAB may store my personal information to
+                    process this job application.*
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="agreeToContact"
+                    checked={formData.agreeToContact}
+                    onChange={handleInputChange}
+                    className="mt-1 w-4 h-4 text-primary bg-muted border-border rounded focus:ring-primary focus:ring-2"
+                  />
+                  <span className="text-body-sm text-muted-foreground">
+                    I consent to KDVLAB contacting me about future job
+                    opportunities that may be relevant to my profile.
+                  </span>
+                </label>
+              </div>
             </div>
 
             {/* Submit Button */}
@@ -421,6 +473,12 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
                   'Submit Application'
                 )}
               </button>
+
+              {!isFormValid && (
+                <p className="text-body-sm text-muted-foreground text-center mt-3">
+                  Please fill in all required fields to submit your application.
+                </p>
+              )}
             </div>
           </motion.form>
         </motion.div>
