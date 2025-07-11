@@ -395,7 +395,7 @@ export default function JobApplicationForm({ job }: JobApplicationFormProps) {
                 Cover Letter
               </h2>
               <label className="block text-body-sm font-medium text-foreground mb-2">
-                Tell us why you're interested in this position (optional)
+                Tell us why you&aps;re interested in this position (optional)
               </label>
               <textarea
                 name="coverLetter"

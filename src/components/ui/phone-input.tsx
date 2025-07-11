@@ -45,7 +45,7 @@ export default function PhoneInput({
   const lastProcessedValue = useRef('');
 
   // Memoize the onChange callback to prevent infinite re-renders
-  const memoizedOnChange = useCallback(onChange, []);
+  const memoizedOnChange = useCallback(onChange, [onChange]);
 
   // Initialize phone number from value prop only once or when value changes externally
   useEffect(() => {
