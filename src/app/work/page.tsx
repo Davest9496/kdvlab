@@ -13,7 +13,7 @@ import {
   Home,
   Truck,
 } from 'lucide-react';
-import CTASection from '@/components/features/cta';
+import CTASection from '@/components/features/unified-cta';
 
 // TypeScript interfaces for type safety and better developer experience
 interface ProjectApproachStep {
@@ -115,15 +115,15 @@ const ProjectApproachCard: React.FC<{
   return (
     <div className="relative">
       {/* Card Background - All cards use the same styling */}
-      <div className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-2xl p-8 h-full">
+      <div className="h-full rounded-2xl border border-border/50 bg-card/40 p-8 backdrop-blur-xl">
         {/* Icon Container */}
-        <div className="w-16 h-16 mb-6 rounded-2xl flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20">
-          <IconComponent className="w-8 h-8 text-primary" />
+        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/20 to-primary/10">
+          <IconComponent className="h-8 w-8 text-primary" />
         </div>
 
         {/* Content */}
         <div className="space-y-4">
-          <h3 className="text-heading-sm font-gilroy-bold text-foreground">
+          <h3 className="font-gilroy-bold text-heading-sm text-foreground">
             {step.title}
           </h3>
 
@@ -143,19 +143,19 @@ const IndustryCard: React.FC<{ industry: Industry }> = ({ industry }) => {
   return (
     <article className="relative">
       {/* Card Background with Glassmorphism Effect - Same as Our Values */}
-      <div className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-2xl p-8 h-full">
+      <div className="h-full rounded-2xl border border-border/50 bg-card/40 p-8 backdrop-blur-xl">
         {/* Icon Container */}
-        <div className="w-16 h-16 mb-6 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
-          <IconComponent className="w-8 h-8 text-primary" />
+        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/20 to-primary/10">
+          <IconComponent className="h-8 w-8 text-primary" />
         </div>
 
         {/* Content */}
         <div className="space-y-4">
-          <h3 className="text-heading-sm font-gilroy-bold text-foreground">
+          <h3 className="font-gilroy-bold text-heading-sm text-foreground">
             {industry.title}
           </h3>
 
-          <p className="text-body-base text-muted-foreground leading-relaxed">
+          <p className="text-body-base leading-relaxed text-muted-foreground">
             {industry.description}
           </p>
         </div>
@@ -180,14 +180,14 @@ export default function OurWorkPage() {
       {/* Portfolio Growing Section - Matches your image exactly */}
       <section className="bg-background py-16 md:py-24 lg:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
+          <div className="mx-auto max-w-4xl text-center">
             {/* Main Heading */}
-            <h2 className="text-hero-lg font-gilroy-bold text-foreground mb-8 leading-tight">
+            <h2 className="mb-8 font-gilroy-bold text-hero-lg leading-tight text-foreground">
               OUR PORTFOLIO IS GROWING
             </h2>
 
             {/* Description */}
-            <p className="text-body-lg text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
+            <p className="mx-auto mb-12 max-w-3xl text-body-lg leading-relaxed text-muted-foreground">
               While we&apos;re building our online portfolio, we&apos;d be happy
               to share examples of our work directly with you. Please contact us
               to see case studies relevant to your industry and needs.
@@ -205,18 +205,18 @@ export default function OurWorkPage() {
       <section className="bg-muted/30 py-16 md:py-24 lg:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-heading-xl font-gilroy-bold text-foreground mb-4">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 font-gilroy-bold text-heading-xl text-foreground">
               How We Approach Projects
             </h2>
-            <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-body-lg text-muted-foreground">
               Every project we undertake follows a structured approach designed
               to deliver exceptional results.
             </p>
           </div>
 
           {/* Project Approach Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-3">
             {projectApproachSteps.map((step, index) => (
               <ProjectApproachCard key={step.id} step={step} index={index} />
             ))}
@@ -228,11 +228,11 @@ export default function OurWorkPage() {
       <section className="bg-background py-16 md:py-24 lg:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-heading-xl font-gilroy-bold text-foreground mb-4">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 font-gilroy-bold text-heading-xl text-foreground">
               Industries We Serve
             </h2>
-            <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-body-lg text-muted-foreground">
               We&apos;ve successfully delivered projects across various
               industries, bringing our technical expertise and innovative
               approach to each unique challenge.
@@ -240,8 +240,8 @@ export default function OurWorkPage() {
           </div>
 
           {/* Industries Grid - Same layout as Our Values */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {industriesData.map((industry) => (
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2">
+            {industriesData.map(industry => (
               <IndustryCard key={industry.id} industry={industry} />
             ))}
           </div>

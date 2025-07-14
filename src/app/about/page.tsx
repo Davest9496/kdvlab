@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { PageHero } from '@/components/ui/page-hero';
 import { pageConfigs } from '@/lib/page-configs';
-import CTASection from '@/components/features/cta';
+import UnifiedCTA from '@/components/features/unified-cta';
 import { AnimatedStatsSection } from '@/components/ui/animated-stats';
 import MissionVisionTabs from '@/components/ui/mission-vision-tab';
 import OurValues from '@/components/ui/our-values';
@@ -86,19 +86,19 @@ export default function AboutPage() {
         />
 
         {/* Story Section */}
-        <section className="py-16 lg:py-24 bg-background relative overflow-hidden">
+        <section className="relative overflow-hidden bg-background py-16 lg:py-24">
           {/* Background decoration */}
           <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+            <div className="absolute left-1/4 top-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+            <div className="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
           </div>
 
           <div className="container relative">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-3 lg:gap-16">
               {/* Content (2 columns) */}
-              <div className="lg:col-span-2 space-y-8">
+              <div className="space-y-8 lg:col-span-2">
                 <div className="space-y-4">
-                  <p className="text-primary text-gradient font-gilroy-light text-sm uppercase tracking-wider">
+                  <p className="text-gradient font-gilroy-light text-sm uppercase tracking-wider text-primary">
                     OUR STORY
                   </p>
                   <h2 className="text-heading-lg">
@@ -109,10 +109,10 @@ export default function AboutPage() {
 
                 <div className="relative">
                   {/* Controlled border height - you can adjust this value */}
-                  <div className="absolute left-0 top-0 w-1 bg-primary h-[120px]"></div>
+                  <div className="absolute left-0 top-0 h-[120px] w-1 bg-primary"></div>
 
                   {/* Content with proper spacing from the border */}
-                  <div className="space-y-6 text-muted-foreground pl-8">
+                  <div className="space-y-6 pl-8 text-muted-foreground">
                     <p className="text-body-lg leading-relaxed">
                       KDVLAB was founded by a team of passionate software
                       engineers and designers who shared a common vision: to
@@ -145,8 +145,8 @@ export default function AboutPage() {
               </div>
 
               {/* Image (1 column) */}
-              <div className="relative w-full flex justify-center items-center">
-                <div className="relative w-[350px] h-[440px]">
+              <div className="relative flex w-full items-center justify-center">
+                <div className="relative h-[440px] w-[350px]">
                   <Image
                     src="/images/about-1.png"
                     alt="KDVLAB innovation workspace with modern development setup"
@@ -162,16 +162,16 @@ export default function AboutPage() {
 
         {/* Mission & Values Section */}
 
-        <section className="py-16 lg:py-24 bg-muted/30 container max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="container mx-auto max-w-5xl bg-muted/30 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           {/* Our Mission */}
           <MissionVisionTabs />
 
           {/* Values */}
-          <OurValues/>
+          <OurValues />
         </section>
 
         {/* Contact CTA Section */}
-        <CTASection />
+        <UnifiedCTA context="about" />
       </main>
     </>
   );

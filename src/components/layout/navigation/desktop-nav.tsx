@@ -1,4 +1,3 @@
-// src/components/layout/navigation/desktop-nav.tsx (Option 2)
 'use client';
 
 import React from 'react';

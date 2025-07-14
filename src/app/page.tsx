@@ -3,7 +3,7 @@ import { HeroSection } from '@/components/features/hero-section';
 import ServicesSection from '@/components/features/service-section';
 import TestimonialsSection from '@/components/features/testimonials-section';
 import BlogNewsSection from '@/components/features/blog-news-section';
-import CTASection from '@/components/features/cta';
+import UnifiedCTA from '@/components/features/unified-cta';
 
 export const metadata: Metadata = {
   title: 'KDVLab - Modern Web Development by Dave Ejezie',
@@ -15,13 +15,13 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section - Outside main tag since it's full-screen */}
-    <HeroSection />
+      <HeroSection />
 
       {/* Page Content */}
       <ServicesSection />
       <TestimonialsSection />
       <BlogNewsSection />
-      <CTASection />
+      <UnifiedCTA context="home" />
       {/* Footer is handled in the layout, so no need to include it here */}
     </>
   );

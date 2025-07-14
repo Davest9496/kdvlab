@@ -6,7 +6,7 @@ import { pageConfigs } from '@/lib/page-configs';
 import { BlogPostCard } from '@/components/blog/blog-post-card';
 import { BlogSidebar } from '@/components/blog/blog-sidebar';
 import { BlogFilters } from '@/components/blog/blog-filters';
-import CTASection from '@/components/features/cta';
+import CTASection from '@/components/features/unified-cta';
 import type { BlogPost } from '@/lib/blog';
 
 interface BlogPageClientProps {
@@ -50,7 +50,7 @@ export default function BlogPageClient({
 
     // Apply category filter - FIXED the matching logic
     if (activeFilter !== 'all') {
-      filtered = filtered.filter((post) => {
+      filtered = filtered.filter(post => {
         const postCategorySlug = normalizeCategoryForFilter(post.category);
         return postCategorySlug === activeFilter;
       });
@@ -60,10 +60,10 @@ export default function BlogPageClient({
     if (searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase();
       filtered = filtered.filter(
-        (post) =>
+        post =>
           post.title.toLowerCase().includes(searchLower) ||
           post.excerpt.toLowerCase().includes(searchLower) ||
-          post.tags.some((tag) => tag.toLowerCase().includes(searchLower)) ||
+          post.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
           post.category.toLowerCase().includes(searchLower)
       );
     }
@@ -75,8 +75,8 @@ export default function BlogPageClient({
   const popularTags = useMemo(() => {
     const tagCount = new Map<string, number>();
 
-    initialPosts.forEach((post) => {
-      post.tags.forEach((tag) => {
+    initialPosts.forEach(post => {
+      post.tags.forEach(tag => {
         tagCount.set(tag, (tagCount.get(tag) || 0) + 1);
       });
     });
@@ -102,7 +102,7 @@ export default function BlogPageClient({
       '@type': 'WebPage',
       '@id': 'https://kdvlab.com/blog',
     },
-    blogPost: initialPosts.slice(0, 10).map((post) => ({
+    blogPost: initialPosts.slice(0, 10).map(post => ({
       '@type': 'BlogPosting',
       headline: post.title,
       description: post.excerpt,
@@ -140,24 +140,24 @@ export default function BlogPageClient({
           showSubtitle={false}
         />
 
-        <section className="py-16 md:py-24 lg:py-32 bg-background">
+        <section className="bg-background py-16 md:py-24 lg:py-32">
           <div className="container">
             {initialPosts.length > 0 ? (
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+              <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
                 {/* Sidebar - Hidden on small screens, visible on desktop */}
-                <div className="hidden lg:block lg:col-span-1">
+                <div className="hidden lg:col-span-1 lg:block">
                   <BlogSidebar
                     categories={categories}
                     popularTags={popularTags}
                     searchTerm={searchTerm}
                     onSearchChange={setSearchTerm}
                     onCategoryFilter={setActiveFilter}
-                    onTagFilter={(tag) => setSearchTerm(tag)}
+                    onTagFilter={tag => setSearchTerm(tag)}
                   />
                 </div>
 
                 {/* Main Content - Full width on mobile, 3/4 width on desktop */}
-                <div className="lg:col-span-3 space-y-8">
+                <div className="space-y-8 lg:col-span-3">
                   <BlogFilters
                     categories={categories}
                     activeFilter={activeFilter}
@@ -174,7 +174,7 @@ export default function BlogPageClient({
                         : `Showing ${filteredPosts.length} of ${initialPosts.length} posts`}
                       {searchTerm && ` for "${searchTerm}"`}
                       {activeFilter !== 'all' &&
-                        ` in ${categories.find((c) => c.slug === activeFilter)?.name}`}
+                        ` in ${categories.find(c => c.slug === activeFilter)?.name}`}
                     </p>
                   </div>
 
@@ -182,7 +182,7 @@ export default function BlogPageClient({
                     <div
                       className={
                         viewMode === 'grid'
-                          ? 'grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8'
+                          ? 'grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8'
                           : 'grid grid-cols-1 gap-6'
                       }
                     >
@@ -196,21 +196,21 @@ export default function BlogPageClient({
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-12">
-                      <h3 className="text-heading-sm font-gilroy-bold text-foreground mb-4">
+                    <div className="py-12 text-center">
+                      <h3 className="mb-4 font-gilroy-bold text-heading-sm text-foreground">
                         No posts found
                       </h3>
-                      <p className="text-body-base text-muted-foreground mb-6">
+                      <p className="mb-6 text-body-base text-muted-foreground">
                         {searchTerm
                           ? `No posts match your search for "${searchTerm}"`
-                          : `No posts found in ${categories.find((c) => c.slug === activeFilter)?.name} category`}
+                          : `No posts found in ${categories.find(c => c.slug === activeFilter)?.name} category`}
                       </p>
                       <button
                         onClick={() => {
                           setActiveFilter('all');
                           setSearchTerm('');
                         }}
-                        className="btn-primary px-6 py-3 rounded-lg"
+                        className="btn-primary rounded-lg px-6 py-3"
                       >
                         Clear filters
                       </button>
@@ -229,8 +229,8 @@ export default function BlogPageClient({
               </div>
             ) : (
               // Fallback Coming Soon Content
-              <div className="text-center max-w-4xl mx-auto space-y-8">
-                <h1 className="text-hero-lg md:text-hero-xl font-gilroy-bold text-foreground">
+              <div className="mx-auto max-w-4xl space-y-8 text-center">
+                <h1 className="font-gilroy-bold text-hero-lg text-foreground md:text-hero-xl">
                   COMING SOON
                 </h1>
                 <p className="text-body-lg text-muted-foreground">

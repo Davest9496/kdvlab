@@ -1,6 +1,8 @@
+// src/app/services/page.tsx
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/ui/page-hero';
 import { ServicesOverview } from '@/components/sections/services-overview';
+import { UnifiedCTA } from '@/components/features/unified-cta';
 import { pageConfigs } from '@/lib/page-configs';
 
 export const metadata: Metadata = {
@@ -112,6 +114,8 @@ export default function ServicesPage() {
         breadcrumbs={[...servicesConfig.breadcrumbs]}
       />
       <ServicesOverview />
+      {/* Add UnifiedCTA with services context */}
+      <UnifiedCTA context="services" />
     </div>
   );
 }

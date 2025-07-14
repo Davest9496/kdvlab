@@ -91,17 +91,17 @@ export default function ContactPage() {
       {/* Main Content */}
       <section className="py-16 lg:py-24">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left Column - Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-heading-lg font-gilroy-bold text-white mb-4">
+                <h2 className="mb-4 font-gilroy-bold text-heading-lg text-white">
                   Have a <span className="text-gradient">Project?</span>
                 </h2>
-                <h3 className="text-subheading-lg text-muted-foreground mb-6">
+                <h3 className="mb-6 text-subheading-lg text-muted-foreground">
                   Contact Us
                 </h3>
-                <p className="text-body-base text-muted-foreground leading-relaxed">
+                <p className="text-body-base leading-relaxed text-muted-foreground">
                   Whether you have a question about our services, want to
                   discuss a potential project, or are interested in joining our
                   team, we&apos;d love to hear from you. Fill out the form, and
@@ -113,17 +113,17 @@ export default function ContactPage() {
               <div className="space-y-6">
                 {/* Email */}
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-primary" />
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <Mail className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-subheading-sm font-medium text-white mb-1">
+                    <h4 className="mb-1 text-subheading-sm font-medium text-white">
                       Email
                     </h4>
                     <p className="text-body-base text-muted-foreground">
                       <a
                         href="mailto:info@kdvlab.com"
-                        className="hover:text-primary transition-colors"
+                        className="transition-colors hover:text-primary"
                       >
                         info@kdvlab.com
                       </a>
@@ -133,11 +133,11 @@ export default function ContactPage() {
 
                 {/* Location */}
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-primary" />
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <MapPin className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-subheading-sm font-medium text-white mb-1">
+                    <h4 className="mb-1 text-subheading-sm font-medium text-white">
                       Location
                     </h4>
                     <p className="text-body-base text-muted-foreground">
@@ -148,11 +148,11 @@ export default function ContactPage() {
 
                 {/* Response Time */}
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-primary" />
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <Clock className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-subheading-sm font-medium text-white mb-1">
+                    <h4 className="mb-1 text-subheading-sm font-medium text-white">
                       Response Time
                     </h4>
                     <p className="text-body-base text-muted-foreground">
@@ -163,17 +163,17 @@ export default function ContactPage() {
               </div>
 
               {/* Additional CTA */}
-              <div className="p-6 bg-muted/20 border border-border rounded-xl">
-                <h4 className="text-subheading-md font-medium text-white mb-2">
+              <div className="rounded-xl border border-border bg-muted/20 p-6">
+                <h4 className="mb-2 text-subheading-md font-medium text-white">
                   Prefer to schedule a call?
                 </h4>
-                <p className="text-body-sm text-muted-foreground mb-4">
+                <p className="mb-4 text-body-sm text-muted-foreground">
                   Book a free 30-minute consultation to discuss your project in
                   detail.
                 </p>
-                <button className="inline-flex items-center text-primary hover:text-primary/80 transition-colors text-sm font-medium">
+                <button className="inline-flex items-center text-sm font-medium text-primary transition-colors hover:text-primary/80">
                   Schedule a Call
-                  <ArrowRight className="w-4 h-4 ml-1" />
+                  <ArrowRight className="ml-1 h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -187,22 +187,22 @@ export default function ContactPage() {
       </section>
 
       {/* Additional Content - FAQ or Services Preview */}
-      <section className="py-16 bg-muted/10">
+      <section className="bg-muted/10 py-16">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-heading-md font-gilroy-bold text-white mb-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="mb-4 font-gilroy-bold text-heading-md text-white">
               What Happens Next?
             </h2>
-            <p className="text-body-base text-muted-foreground mb-12">
+            <p className="mb-12 text-body-base text-muted-foreground">
               Here&apos;s what you can expect after reaching out to us.
             </p>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid gap-8 md:grid-cols-3">
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                   <span className="text-2xl font-bold text-primary">1</span>
                 </div>
-                <h3 className="text-subheading-sm font-medium text-white mb-2">
+                <h3 className="mb-2 text-subheading-sm font-medium text-white">
                   Initial Response
                 </h3>
                 <p className="text-body-sm text-muted-foreground">
@@ -212,10 +212,10 @@ export default function ContactPage() {
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                   <span className="text-2xl font-bold text-primary">2</span>
                 </div>
-                <h3 className="text-subheading-sm font-medium text-white mb-2">
+                <h3 className="mb-2 text-subheading-sm font-medium text-white">
                   Discovery Call
                 </h3>
                 <p className="text-body-sm text-muted-foreground">
@@ -225,10 +225,10 @@ export default function ContactPage() {
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                   <span className="text-2xl font-bold text-primary">3</span>
                 </div>
-                <h3 className="text-subheading-sm font-medium text-white mb-2">
+                <h3 className="mb-2 text-subheading-sm font-medium text-white">
                   Proposal & Timeline
                 </h3>
                 <p className="text-body-sm text-muted-foreground">
