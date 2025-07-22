@@ -100,19 +100,6 @@ export default function Footer() {
               </p>
 
               <div className="flex flex-col gap-2">
-                {/* Contact Form Link */}
-                <Link
-                  href="/contact"
-                  className={cn(
-                    'inline-flex items-center font-rubik',
-                    'text-body-base text-primary hover:text-primary/80',
-                    'transition-colors duration-200',
-                    'font-semibold'
-                  )}
-                >
-                  Send us a message →
-                </Link>
-
                 {/* SIMPLE Calendly Button - GUARANTEED to work */}
                 <ScheduleCallButton
                   variant="outline"
