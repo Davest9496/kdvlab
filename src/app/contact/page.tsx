@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import { ContactForm } from '@/components/forms/contact-form';
 import { PageHero } from '@/components/ui/page-hero';
 import { getPageConfig } from '@/lib/page-configs';
-import { CalendlyPopup } from '@/components/scheduling/calendly-integration';
-import { UnifiedCTA } from '@/components/features/unified-cta';
-import { Mail, MapPin, Clock, ArrowRight, Calendar } from 'lucide-react';
+import { ScheduleCallButton } from '@/components/ui/calendly-buttons';
+import { Mail, MapPin, Clock, Calendar } from 'lucide-react';
 
 // SEO Metadata with structured data
 export const metadata: Metadata = {
@@ -127,7 +126,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Enhanced CTA with Working Calendly Integration */}
+              {/* Enhanced CTA with Simple Calendly Integration */}
               <div className="rounded-xl border border-border bg-muted/20 p-6 backdrop-blur-sm">
                 <h4 className="mb-2 text-subheading-md font-medium text-white">
                   Prefer to schedule a call?
@@ -137,24 +136,16 @@ export default function ContactPage() {
                   detail.
                 </p>
 
-                {/* Enhanced Calendly Integration */}
-                <CalendlyPopup
-                  url={
-                    process.env.NEXT_PUBLIC_CALENDLY_URL ||
-                    'https://calendly.com/kdvlab/30min'
-                  }
-                  utm={{
-                    source: 'kdvlab_website',
-                    medium: 'contact_page',
-                    campaign: 'schedule_call',
-                  }}
+                {/* Simple, Reliable Calendly Button */}
+                <ScheduleCallButton
+                  variant="outline"
+                  size="default"
+                  utmPreset="contact"
+                  className="border-primary/20 bg-primary/5 text-primary hover:border-primary/30 hover:bg-primary/10"
                 >
-                  <button className="group inline-flex items-center rounded-lg bg-primary/10 px-4 py-3 text-sm font-medium text-primary transition-all duration-200 hover:bg-primary/20 hover:text-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Schedule a Call
-                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-                </CalendlyPopup>
+                  <Calendar className="h-4 w-4" />
+                  Schedule a Call
+                </ScheduleCallButton>
               </div>
             </div>
 
@@ -220,9 +211,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-
-      {/* Unified CTA Section */}
-      <UnifiedCTA context="contact" />
 
       {/* Structured Data for SEO */}
       <script

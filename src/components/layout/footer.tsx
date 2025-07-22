@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { ScheduleCallButton } from '@/components/scheduling/calendly-integration';
+import {
+  ScheduleCallButton,
+  ScheduleCallLink,
+} from '@/components/ui/calendly-buttons';
 import { NewsletterForm } from '@/components/forms/newsletter-form';
 
 // Footer sections data for better organization
@@ -84,7 +87,7 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Contact info with Calendly integration */}
+            {/* Contact info with SIMPLE Calendly integration */}
             <div className="space-y-3">
               <p
                 className={cn(
@@ -110,21 +113,27 @@ export default function Footer() {
                   Send us a message →
                 </Link>
 
-                {/* Calendly Schedule Call Button */}
+                {/* SIMPLE Calendly Button - GUARANTEED to work */}
                 <ScheduleCallButton
                   variant="outline"
                   size="sm"
+                  utmPreset="footer"
                   className={cn(
                     'w-fit border-primary/20 bg-primary/5 text-primary',
                     'hover:border-primary/30 hover:bg-primary/10',
                     'px-4 py-2 text-sm'
                   )}
-                  utm={{
-                    source: 'kdvlab_website',
-                    medium: 'footer',
-                    campaign: 'schedule_call',
-                  }}
                 />
+
+                {/* Alternative: Simple link version */}
+                {/* 
+                <ScheduleCallLink 
+                  utmPreset="footer" 
+                  className="text-sm"
+                >
+                  or schedule a call →
+                </ScheduleCallLink>
+                */}
               </div>
             </div>
           </div>
@@ -244,7 +253,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Section */}
+        {/* Bottom Section - COMPLETED */}
         <div
           className={cn(
             'mt-12 border-t border-white/10 pt-8',

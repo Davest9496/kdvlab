@@ -9,9 +9,10 @@ import {
   Zap,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { CalendlyPopup } from '@/components/scheduling/calendly-integration';
+import { CalendlyTrigger } from '@/components/ui/calendly-buttons';
+import { openCalendly, UTM_PRESETS } from '@/lib/calendly';
 
-// Context-aware CTA configurations (updated with Calendly integration)
+// Context-aware CTA configurations (SIMPLIFIED - no more complex Calendly integration)
 export interface CTAContext {
   id: string;
   title: string;
@@ -40,7 +41,7 @@ const getCalendlyUrl = () => {
   );
 };
 
-// Updated pre-configured contexts with proper Calendly integration
+// Updated pre-configured contexts with SIMPLE Calendly integration
 const ctaContexts: Record<string, CTAContext> = {
   // Home page
   home: {
@@ -158,7 +159,7 @@ const ctaContexts: Record<string, CTAContext> = {
   },
 };
 
-// Animation variants
+// Animation variants (keeping the same animations)
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -197,17 +198,19 @@ const buttonHoverVariants = {
   tap: { scale: 0.98 },
 };
 
-// Enhanced Button Components with Calendly integration
+// SIMPLIFIED Button Components - No more complex Calendly widget logic
 interface ActionButtonProps {
   action: CTAContext['primaryAction'] | CTAContext['secondaryAction'];
   variant: 'primary' | 'secondary';
   className?: string;
+  context: string;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   action,
   variant,
   className,
+  context,
 }) => {
   if (!action) return null;
 
@@ -266,35 +269,29 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     </>
   );
 
-  if (isCalendly) {
-    return (
-      <CalendlyPopup
-        url={action.href}
-        utm={{
-          source: 'kdvlab_website',
-          medium: 'cta_button',
-          campaign: 'unified_cta',
-        }}
-      >
-        <motion.div
-          variants={buttonHoverVariants}
-          initial="rest"
-          whileHover="hover"
-          whileTap="tap"
-          className={buttonClasses}
-          role="button"
-          tabIndex={0}
-          aria-label={`${action.text} - Opens Calendly scheduling`}
-        >
-          <ButtonContent />
-        </motion.div>
-      </CalendlyPopup>
-    );
-  }
+  // SIMPLE approach - just use appropriate click handler
+  const handleClick = () => {
+    if (isCalendly) {
+      // Use the simple openCalendly function
+      openCalendly({
+        utm: UTM_PRESETS.cta,
+      });
+    } else {
+      // Regular navigation
+      if (action.href.startsWith('#')) {
+        // Scroll to element
+        const element = document.querySelector(action.href);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Navigate to URL
+        window.location.href = action.href;
+      }
+    }
+  };
 
   return (
-    <motion.a
-      href={action.href}
+    <motion.button
+      onClick={handleClick}
       variants={buttonHoverVariants}
       initial="rest"
       whileHover="hover"
@@ -303,11 +300,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       aria-label={action.text}
     >
       <ButtonContent />
-    </motion.a>
+    </motion.button>
   );
 };
 
-// Dashboard Illustration Component
+// Dashboard Illustration Component (unchanged)
 const DashboardIllustration: React.FC = () => {
   return (
     <div className="relative h-full min-h-[300px] w-full md:min-h-[400px]">
@@ -447,12 +444,13 @@ const DashboardIllustration: React.FC = () => {
   );
 };
 
-// Layout Components
+// Layout Components (updated to pass context)
 interface LayoutProps {
   context: CTAContext;
+  contextName: string;
 }
 
-const SplitLayout: React.FC<LayoutProps> = ({ context }) => {
+const SplitLayout: React.FC<LayoutProps> = ({ context, contextName }) => {
   return (
     <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
       {/* Content Side */}
@@ -494,8 +492,16 @@ const SplitLayout: React.FC<LayoutProps> = ({ context }) => {
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-4 sm:flex-row">
-          <ActionButton action={context.primaryAction} variant="primary" />
-          <ActionButton action={context.secondaryAction} variant="secondary" />
+          <ActionButton
+            action={context.primaryAction}
+            variant="primary"
+            context={contextName}
+          />
+          <ActionButton
+            action={context.secondaryAction}
+            variant="secondary"
+            context={contextName}
+          />
         </div>
       </motion.div>
 
@@ -512,7 +518,7 @@ const SplitLayout: React.FC<LayoutProps> = ({ context }) => {
   );
 };
 
-const CenteredLayout: React.FC<LayoutProps> = ({ context }) => {
+const CenteredLayout: React.FC<LayoutProps> = ({ context, contextName }) => {
   return (
     <div className="mx-auto max-w-4xl space-y-8 text-center">
       {/* Subtitle */}
@@ -561,14 +567,19 @@ const CenteredLayout: React.FC<LayoutProps> = ({ context }) => {
           action={context.primaryAction}
           variant="primary"
           className="px-12 py-5 text-lg"
+          context={contextName}
         />
-        <ActionButton action={context.secondaryAction} variant="secondary" />
+        <ActionButton
+          action={context.secondaryAction}
+          variant="secondary"
+          context={contextName}
+        />
       </motion.div>
     </div>
   );
 };
 
-const MinimalLayout: React.FC<LayoutProps> = ({ context }) => {
+const MinimalLayout: React.FC<LayoutProps> = ({ context, contextName }) => {
   return (
     <div className="mx-auto max-w-2xl space-y-6 text-center">
       <motion.h2
@@ -595,14 +606,22 @@ const MinimalLayout: React.FC<LayoutProps> = ({ context }) => {
         variants={contentVariants}
         className="flex justify-center gap-4"
       >
-        <ActionButton action={context.primaryAction} variant="primary" />
-        <ActionButton action={context.secondaryAction} variant="secondary" />
+        <ActionButton
+          action={context.primaryAction}
+          variant="primary"
+          context={contextName}
+        />
+        <ActionButton
+          action={context.secondaryAction}
+          variant="secondary"
+          context={contextName}
+        />
       </motion.div>
     </div>
   );
 };
 
-// Main Unified CTA Component
+// Main Unified CTA Component (SIMPLIFIED)
 interface UnifiedCTAProps {
   context?: string;
   customContext?: Partial<CTAContext>;
@@ -626,13 +645,13 @@ export const UnifiedCTA: React.FC<UnifiedCTAProps> = ({
   const renderLayout = () => {
     switch (finalContext.layout) {
       case 'split':
-        return <SplitLayout context={finalContext} />;
+        return <SplitLayout context={finalContext} contextName={context} />;
       case 'centered':
-        return <CenteredLayout context={finalContext} />;
+        return <CenteredLayout context={finalContext} contextName={context} />;
       case 'minimal':
-        return <MinimalLayout context={finalContext} />;
+        return <MinimalLayout context={finalContext} contextName={context} />;
       default:
-        return <SplitLayout context={finalContext} />;
+        return <SplitLayout context={finalContext} contextName={context} />;
     }
   };
 
