@@ -14,26 +14,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'sonner';
+import { useToast } from '@/components/ui/toast';
 import {
   Mail,
   ArrowRight,
   Check,
   Send,
-  User,
   MessageSquare,
+  Loader2,
 } from 'lucide-react';
-
-// Newsletter Schema
-const newsletterSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  firstName: z.string().min(1, 'First name is required').max(50),
-  interests: z.array(z.string()).optional(),
-  source: z.string().optional(),
-});
-
-type NewsletterData = z.infer<typeof newsletterSchema>;
+import { cn } from '@/lib/utils';
 
 // Contact Form Schema
 const contactSchema = z.object({
@@ -53,14 +43,6 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
-const interestOptions = [
-  { id: 'web-development', label: 'Web Development Tips' },
-  { id: 'design-trends', label: 'Design Trends' },
-  { id: 'performance-tips', label: 'Performance Optimization' },
-  { id: 'case-studies', label: 'Project Case Studies' },
-  { id: 'business-growth', label: 'Business Growth' },
-];
-
 const projectTypes = [
   { value: 'web-development', label: 'Web Development' },
   { value: 'mobile-app', label: 'Mobile App Development' },
@@ -79,24 +61,20 @@ const timelineOptions = [
   { value: 'flexible', label: 'Flexible Timeline' },
 ];
 
-interface NewsletterFormProps {
-  source?: string;
-  variant?: 'inline' | 'popup' | 'footer';
-  className?: string;
-}
-
 interface ContactFormProps {
   className?: string;
   variant?: 'default' | 'compact';
 }
 
-// Contact Form Component
+// Contact Form Component with Toast Integration
 export function ContactForm({
   className = '',
   variant = 'default',
 }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [loadingToastId, setLoadingToastId] = useState<string | null>(null);
+  const { success, error, info, removeToast } = useToast();
 
   const {
     register,
@@ -112,6 +90,17 @@ export function ContactForm({
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
 
+    // Show loading toast
+    const loadingMessage =
+      data.timeline === 'urgent'
+        ? 'Sending urgent inquiry...'
+        : 'Sending your message...';
+
+    info(loadingMessage, {
+      duration: 0,
+      title: 'Please wait',
+    });
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -125,62 +114,120 @@ export function ContactForm({
         throw new Error(result.error || 'Failed to send message');
       }
 
-      toast.success("Message sent successfully! We'll get back to you soon.");
+      // Show success message
+      success(
+        result.message ||
+          "Message sent successfully! We'll get back to you soon.",
+        {
+          title: 'Success!',
+          duration: 6000,
+          action: {
+            label: 'Schedule Call',
+            onClick: () => {
+              // This could open Calendly or navigate to scheduling page
+              window.open('https://calendly.com/kdvlab/consultation', '_blank');
+            },
+          },
+        }
+      );
+
       setIsSuccess(true);
       reset();
-    } catch (error) {
-      console.error('Contact form error:', error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : 'Failed to send message. Please try again.'
-      );
+
+      // Track successful submission for analytics
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'form_submit', {
+          event_category: 'engagement',
+          event_label: 'contact_form',
+          value: 1,
+        });
+      }
+    } catch (submitError) {
+      console.error('Contact form error:', submitError);
+
+      const errorMessage =
+        submitError instanceof Error
+          ? submitError.message
+          : 'Failed to send message. Please try again or email us directly at info@kdvlab.com';
+
+      error(errorMessage, {
+        title: 'Sending Failed',
+        duration: 8000,
+        action: {
+          label: 'Email Directly',
+          onClick: () => {
+            window.location.href = `mailto:info@kdvlab.com?subject=Project Inquiry: ${data.projectType}&body=Hi, I'd like to discuss: ${data.message}`;
+          },
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Success state
+  // Success state with enhanced UX
   if (isSuccess) {
     return (
-      <div className={`space-y-6 text-center ${className}`}>
-        <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-          <Check className="h-10 w-10 text-green-600" />
+      <div className={cn('space-y-8 text-center', className)}>
+        <div className="inline-flex h-20 w-20 items-center justify-center rounded-full border border-green-500/20 bg-green-500/10">
+          <Check className="h-10 w-10 text-green-500" />
         </div>
-        <div>
-          <h3 className="mb-2 font-gilroy-bold text-heading-md text-green-600">
-            Message Sent!
+
+        <div className="space-y-4">
+          <h3 className="font-gilroy-bold text-heading-md text-green-500">
+            Message Sent Successfully!
           </h3>
-          <p className="text-muted-foreground">
+          <p className="mx-auto max-w-md text-muted-foreground">
             Thank you for reaching out. We&apos;ve received your message and
             will get back to you within 24 hours.
           </p>
         </div>
-        <Button
-          onClick={() => setIsSuccess(false)}
-          variant="outline"
-          className="mx-auto"
-        >
-          Send Another Message
-        </Button>
+
+        <div className="flex flex-col justify-center gap-4 sm:flex-row">
+          <Button
+            onClick={() => setIsSuccess(false)}
+            variant="outline"
+            className="inline-flex items-center gap-2"
+          >
+            <Mail className="h-4 w-4" />
+            Send Another Message
+          </Button>
+
+          <Button
+            onClick={() =>
+              window.open(
+                process.env.NEXT_PUBLIC_CALENDLY_URL ||
+                  'https://calendly.com/kdvlab/30min',
+                '_blank'
+              )
+            }
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90"
+          >
+            <MessageSquare className="h-4 w-4" />
+            Schedule a Call
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div className={cn('space-y-6', className)}>
       {variant === 'default' && (
-        <div className="text-center">
-          <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+        <div className="space-y-4 text-center">
+          <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
             <MessageSquare className="h-8 w-8 text-primary" />
           </div>
-          <h3 className="mb-2 font-gilroy-bold text-heading-md">
-            Let&apos;s Work Together
-          </h3>
-          <p className="text-muted-foreground">
-            Tell us about your project and we&apos;ll get back to you with a
-            custom proposal.
-          </p>
+          <div>
+            <h3 className="mb-2 font-gilroy-bold text-heading-md">
+              Let&apos;s Work Together
+            </h3>
+            <p className="text-muted-foreground">
+              Tell us about your project and we&apos;ll get back to you with a
+              custom proposal.
+            </p>
+          </div>
         </div>
       )}
 
@@ -192,6 +239,7 @@ export function ContactForm({
               {...register('fullName')}
               placeholder="Full Name *"
               className="border-white/10 bg-background/50"
+              disabled={isSubmitting}
             />
             {errors.fullName && (
               <p className="mt-1 text-sm text-red-400">
@@ -206,6 +254,7 @@ export function ContactForm({
               type="email"
               placeholder="Email Address *"
               className="border-white/10 bg-background/50"
+              disabled={isSubmitting}
             />
             {errors.email && (
               <p className="mt-1 text-sm text-red-400">
@@ -222,13 +271,17 @@ export function ContactForm({
             type="tel"
             placeholder="Phone Number (Optional)"
             className="border-white/10 bg-background/50"
+            disabled={isSubmitting}
           />
         </div>
 
         {/* Project Details */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <Select onValueChange={value => setValue('projectType', value)}>
+            <Select
+              onValueChange={value => setValue('projectType', value)}
+              disabled={isSubmitting}
+            >
               <SelectTrigger className="border-white/10 bg-background/50">
                 <SelectValue placeholder="Project Type *" />
               </SelectTrigger>
@@ -248,7 +301,10 @@ export function ContactForm({
           </div>
 
           <div>
-            <Select onValueChange={value => setValue('timeline', value)}>
+            <Select
+              onValueChange={value => setValue('timeline', value)}
+              disabled={isSubmitting}
+            >
               <SelectTrigger className="border-white/10 bg-background/50">
                 <SelectValue placeholder="Project Timeline (Optional)" />
               </SelectTrigger>
@@ -269,365 +325,94 @@ export function ContactForm({
             {...register('message')}
             placeholder="Tell us about your project, goals, and any specific requirements... *"
             rows={6}
-            className="border-white/10 bg-background/50"
+            className="resize-none border-white/10 bg-background/50"
+            disabled={isSubmitting}
           />
           {errors.message && (
             <p className="mt-1 text-sm text-red-400">
               {errors.message.message}
             </p>
           )}
+          <p className="mt-1 text-xs text-muted-foreground">
+            {watch('message')?.length || 0}/2000 characters
+          </p>
         </div>
 
         {/* Submit Button */}
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="btn-primary w-full"
+          className={cn(
+            'relative w-full overflow-hidden',
+            'bg-primary hover:bg-primary/90 focus:bg-primary',
+            'transition-all duration-300',
+            isSubmitting && 'cursor-not-allowed opacity-90'
+          )}
         >
           {isSubmitting ? (
             <>
-              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
-              Sending Message...
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {watch('timeline') === 'urgent'
+                ? 'Sending Urgent Inquiry...'
+                : 'Sending Message...'}
             </>
           ) : (
             <>
               Send Message
-              <Send className="ml-2 h-4 w-4" />
+              <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </>
           )}
         </Button>
 
-        {/* Privacy Notice */}
-        <div className="text-center">
-          <p className="text-xs text-muted-foreground">
-            By submitting this form, you agree to our{' '}
-            <a href="/privacy" className="text-primary hover:underline">
-              Privacy Policy
-            </a>
-            . We&apos;ll never share your information.
-          </p>
-        </div>
-      </form>
-    </div>
-  );
-}
-
-// Newsletter Form Component
-export function NewsletterForm({
-  source = 'website',
-  variant = 'inline',
-  className = '',
-}: NewsletterFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<NewsletterData>({
-    resolver: zodResolver(newsletterSchema),
-  });
-
-  const onSubmit = async (data: NewsletterData) => {
-    setIsSubmitting(true);
-
-    try {
-      const payload = {
-        ...data,
-        interests: selectedInterests,
-        source,
-      };
-
-      const response = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Subscription failed');
-      }
-
-      toast.success(
-        result.message || 'Please check your email to confirm subscription!'
-      );
-      setIsSuccess(true);
-      reset();
-      setSelectedInterests([]);
-    } catch (error) {
-      console.error('Newsletter subscription error:', error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : 'Subscription failed. Please try again.'
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleInterestChange = (interestId: string, checked: boolean) => {
-    setSelectedInterests(prev =>
-      checked ? [...prev, interestId] : prev.filter(id => id !== interestId)
-    );
-  };
-
-  // Footer variant - compact version
-  if (variant === 'footer') {
-    return (
-      <div className={`space-y-4 ${className}`}>
-        <div className="mb-2 flex items-center gap-2">
-          <Mail className="h-5 w-5 text-primary" />
-          <h3 className="text-lg font-semibold">Stay Updated</h3>
-        </div>
-
-        {isSuccess ? (
-          <div className="flex items-center gap-2 text-green-400">
-            <Check className="h-4 w-4" />
-            <span className="text-sm">Check your email to confirm!</span>
+        {/* Privacy Notice & Help Text */}
+        <div className="space-y-3">
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground">
+              By submitting this form, you agree to our{' '}
+              <a href="/privacy" className="text-primary hover:underline">
+                Privacy Policy
+              </a>
+              . We&apos;ll never share your information.
+            </p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-            <Input
-              {...register('firstName')}
-              type="text"
-              placeholder="First name"
-              className="border-white/10 bg-background/50"
-            />
-            <div className="flex gap-2">
-              <Input
-                {...register('email')}
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 border-white/10 bg-background/50"
-              />
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                size="sm"
-                className="px-6"
-              >
-                {isSubmitting ? '...' : 'Join'}
-              </Button>
+
+          {/* Urgent project notice */}
+          {watch('timeline') === 'urgent' && (
+            <div className="rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-3">
+              <p className="text-center text-sm text-yellow-400">
+                🚨 <strong>Urgent Project:</strong> We&apos;ll prioritize your
+                inquiry and respond within 2 hours during business hours.
+              </p>
             </div>
-            {(errors.email || errors.firstName) && (
-              <p className="text-xs text-red-400">
-                {errors.email?.message || errors.firstName?.message}
-              </p>
-            )}
-          </form>
-        )}
-      </div>
-    );
-  }
-
-  // Success state for full forms
-  if (isSuccess && (variant === 'inline' || variant === 'popup')) {
-    return (
-      <div className={`space-y-6 text-center ${className}`}>
-        <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-          <Check className="h-10 w-10 text-green-600" />
-        </div>
-        <div>
-          <h3 className="mb-2 font-gilroy-bold text-heading-md text-green-600">
-            Almost There!
-          </h3>
-          <p className="text-muted-foreground">
-            We&apos;ve sent a confirmation email to your inbox. Click the link
-            to complete your subscription.
-          </p>
-        </div>
-        <div className="rounded-lg bg-muted/50 p-4">
-          <p className="text-sm text-muted-foreground">
-            <strong>Didn&apos;t receive the email?</strong> Check your spam
-            folder or{' '}
-            <button
-              onClick={() => setIsSuccess(false)}
-              className="text-primary hover:underline"
-            >
-              try again
-            </button>
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Full newsletter form
-  return (
-    <div className={`space-y-6 ${className}`}>
-      <div className="text-center">
-        <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-          <Mail className="h-8 w-8 text-primary" />
-        </div>
-        <h3 className="mb-2 font-gilroy-bold text-heading-md">
-          Join Our Newsletter
-        </h3>
-        <p className="text-muted-foreground">
-          Get monthly insights, case studies, and web development tips delivered
-          to your inbox.
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <Input
-              {...register('firstName')}
-              placeholder="First Name *"
-              className="border-white/10 bg-background/50"
-            />
-            {errors.firstName && (
-              <p className="mt-1 text-sm text-red-400">
-                {errors.firstName.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <Input
-              {...register('email')}
-              type="email"
-              placeholder="your@email.com *"
-              className="border-white/10 bg-background/50"
-            />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-400">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div>
-          <label className="mb-3 block text-sm font-medium">
-            What interests you? (Optional)
-          </label>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {interestOptions.map(interest => (
-              <div key={interest.id} className="flex items-center space-x-2">
-                <Checkbox
-                  id={interest.id}
-                  checked={selectedInterests.includes(interest.id)}
-                  onCheckedChange={checked =>
-                    handleInterestChange(interest.id, checked as boolean)
-                  }
-                />
-                <label
-                  htmlFor={interest.id}
-                  className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {interest.label}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="btn-primary w-full"
-        >
-          {isSubmitting ? (
-            <>
-              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
-              Subscribing...
-            </>
-          ) : (
-            <>
-              Subscribe to Newsletter
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </>
           )}
-        </Button>
 
-        <div className="space-y-2 text-center">
-          <p className="text-xs text-muted-foreground">
-            We respect your privacy. Unsubscribe at any time.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            <a href="/privacy" className="text-primary hover:underline">
-              Privacy Policy
-            </a>
-            {' • '}
-            <a
-              href="/newsletter/manage"
-              className="text-primary hover:underline"
-            >
-              Manage Preferences
-            </a>
-          </p>
+          {/* Help text */}
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground">
+              Need immediate help? Email us directly at{' '}
+              <a
+                href="mailto:info@kdvlab.com"
+                className="text-primary hover:underline"
+              >
+                info@kdvlab.com
+              </a>{' '}
+              or{' '}
+              <button
+                type="button"
+                onClick={() =>
+                  window.open(
+                    process.env.NEXT_PUBLIC_CALENDLY_URL ||
+                      'https://calendly.com/kdvlab/30min',
+                    '_blank'
+                  )
+                }
+                className="cursor-pointer text-primary hover:underline"
+              >
+                schedule a call
+              </button>
+            </p>
+          </div>
         </div>
-      </form>
-    </div>
-  );
-}
-
-// Newsletter Management Component
-export function NewsletterManagement() {
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleUnsubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('/api/newsletter/unsubscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        toast.success('Unsubscribe link sent to your email');
-        setEmail('');
-      } else {
-        throw new Error(result.error);
-      }
-    } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : 'Failed to send unsubscribe link'
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <div className="mx-auto max-w-md p-6">
-      <div className="mb-6 text-center">
-        <h2 className="mb-2 font-gilroy-bold text-heading-md">
-          Manage Newsletter
-        </h2>
-        <p className="text-muted-foreground">
-          Enter your email to update preferences or unsubscribe
-        </p>
-      </div>
-
-      <form onSubmit={handleUnsubscribe} className="space-y-4">
-        <Input
-          type="email"
-          placeholder="your@email.com"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-          className="border-white/10 bg-background/50"
-        />
-
-        <Button type="submit" disabled={isLoading} className="w-full">
-          {isLoading ? 'Sending...' : 'Send Management Link'}
-        </Button>
       </form>
     </div>
   );

@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
-import { EMAIL_CONFIG } from '@/lib/email-config';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+const EMAIL_CONFIG = {
+  business: {
+    info: 'info@kdvlab.com',
+    accounts: 'accounts@kdvlab.com',
+    newsletter: 'newsletter@kdvlab.com',
+  },
+} as const;
 
 const newsletterSchema = z.object({
   email: z.string().email(),
@@ -26,7 +33,7 @@ export async function POST(request: NextRequest) {
   try {
     const data = newsletterSchema.parse(await request.json());
 
-    // Add to Mailchimp or your preferred service
+    // Add to newsletter service (Mailchimp, ConvertKit, etc.)
     await addToNewsletterService(data);
 
     // Send welcome email
@@ -41,8 +48,23 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Newsletter subscription error:', error);
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Please check your information and try again.',
+          details: error.errors,
+        },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { error: 'Subscription failed. Please try again.' },
+      {
+        success: false,
+        error: 'Subscription failed. Please try again.',
+      },
       { status: 500 }
     );
   }
@@ -51,35 +73,41 @@ export async function POST(request: NextRequest) {
 async function addToNewsletterService(data: any) {
   // Option 1: Mailchimp integration
   if (process.env.MAILCHIMP_API_KEY) {
-    const response = await fetch(
-      `https://${process.env.MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_AUDIENCE_ID}/members`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`,
-        },
-        body: JSON.stringify({
-          email_address: data.email,
-          status: 'pending', // Double opt-in
-          merge_fields: {
-            FNAME: data.firstName || '',
-            INTERESTS: data.interests?.join(',') || '',
-            SOURCE: data.source || 'website',
+    try {
+      const response = await fetch(
+        `https://${process.env.MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_AUDIENCE_ID}/members`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`,
           },
-        }),
-      }
-    );
+          body: JSON.stringify({
+            email_address: data.email,
+            status: 'pending', // Double opt-in
+            merge_fields: {
+              FNAME: data.firstName || '',
+              INTERESTS: data.interests?.join(',') || '',
+              SOURCE: data.source || 'website',
+            },
+          }),
+        }
+      );
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('Mailchimp error:', error);
-      throw new Error('Failed to add to newsletter');
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('Mailchimp error:', error);
+        // Don't throw here - continue with email confirmation
+      }
+    } catch (error) {
+      console.error('Mailchimp integration error:', error);
+      // Continue with email confirmation
     }
   }
 
   // Option 2: Store in database for manual management
-  // This would require a database setup
+  // This would require a database setup - for now, just email confirmation
+  console.log('Newsletter subscription:', data);
 }
 
 async function sendWelcomeEmail(data: any) {

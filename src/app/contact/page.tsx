@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { ContactForm } from '@/components/forms/contact-form';
 import { PageHero } from '@/components/ui/page-hero';
 import { getPageConfig } from '@/lib/page-configs';
-import { Mail, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { CalendlyPopup } from '@/components/scheduling/calendly-integration';
+import { UnifiedCTA } from '@/components/features/unified-cta';
+import { Mail, MapPin, Clock, ArrowRight, Calendar } from 'lucide-react';
 
 // SEO Metadata with structured data
 export const metadata: Metadata = {
@@ -33,43 +35,6 @@ export const metadata: Metadata = {
     canonical: 'https://kdvlab.com/contact',
   },
 };
-
-// Server Action for form submission
-async function submitContactForm(formData: FormData) {
-  'use server';
-
-  try {
-    // Extract form data
-    const contactData = {
-      fullName: formData.get('fullName') as string,
-      email: formData.get('email') as string,
-      phone: formData.get('phone') as string,
-      message: formData.get('message') as string,
-    };
-
-    // Basic validation
-    if (!contactData.fullName || !contactData.email || !contactData.message) {
-      throw new Error('Missing required fields');
-    }
-
-    // In production, integrate with your email service:
-    // - Send email via Resend, SendGrid, or similar
-    // - Save to database
-    // - Send confirmation email to user
-
-    console.log('Contact form submitted:', contactData);
-
-    // For now, just log the data
-    // await sendContactEmail(contactData);
-    // await saveContactToDatabase(contactData);
-
-    // Redirect to success page or show success message
-    // redirect('/contact/success');
-  } catch (error) {
-    console.error('Contact form submission error:', error);
-    throw error;
-  }
-}
 
 export default function ContactPage() {
   const pageConfig = getPageConfig('contact');
@@ -162,8 +127,8 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Additional CTA */}
-              <div className="rounded-xl border border-border bg-muted/20 p-6">
+              {/* Enhanced CTA with Working Calendly Integration */}
+              <div className="rounded-xl border border-border bg-muted/20 p-6 backdrop-blur-sm">
                 <h4 className="mb-2 text-subheading-md font-medium text-white">
                   Prefer to schedule a call?
                 </h4>
@@ -171,22 +136,37 @@ export default function ContactPage() {
                   Book a free 30-minute consultation to discuss your project in
                   detail.
                 </p>
-                <button className="inline-flex items-center text-sm font-medium text-primary transition-colors hover:text-primary/80">
-                  Schedule a Call
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </button>
+
+                {/* Enhanced Calendly Integration */}
+                <CalendlyPopup
+                  url={
+                    process.env.NEXT_PUBLIC_CALENDLY_URL ||
+                    'https://calendly.com/kdvlab/30min'
+                  }
+                  utm={{
+                    source: 'kdvlab_website',
+                    medium: 'contact_page',
+                    campaign: 'schedule_call',
+                  }}
+                >
+                  <button className="group inline-flex items-center rounded-lg bg-primary/10 px-4 py-3 text-sm font-medium text-primary transition-all duration-200 hover:bg-primary/20 hover:text-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    Schedule a Call
+                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </CalendlyPopup>
               </div>
             </div>
 
             {/* Right Column - Contact Form */}
-            <div className="lg:pl-8">
+            <div className="lg:pl-8" id="contact-form">
               <ContactForm />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Additional Content - FAQ or Services Preview */}
+      {/* Process Steps Section */}
       <section className="bg-muted/10 py-16">
         <div className="container">
           <div className="mx-auto max-w-3xl text-center">
@@ -240,6 +220,9 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* Unified CTA Section */}
+      <UnifiedCTA context="contact" />
 
       {/* Structured Data for SEO */}
       <script

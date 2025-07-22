@@ -13,7 +13,7 @@ const EMAIL_CONFIG = {
   },
 } as const;
 
-// Updated schema without budget option
+// Contact form schema
 const contactSchema = z.object({
   fullName: z.string().min(2).max(100),
   email: z.string().email(),
@@ -69,6 +69,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         {
+          success: false,
           error: 'Please check your form data and try again.',
           details: error.errors,
         },
@@ -78,6 +79,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
+        success: false,
         error:
           'Failed to send message. Please try again or email us directly at info@kdvlab.com',
       },
@@ -358,7 +360,7 @@ async function sendClientConfirmation(data: ContactFormData) {
 
           <!-- CTA Buttons -->
           <div style="text-align: center; margin: 30px 0;">
-            <a href="https://calendly.com/kdvlab/consultation" 
+            <a href="${process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/kdvlab/30min'}" 
                style="display: inline-block; background: #12A4ED; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px; margin-right: 10px;">
               Schedule a Call
             </a>

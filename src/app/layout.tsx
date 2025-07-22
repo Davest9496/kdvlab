@@ -4,6 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/layout/footer';
 import './globals.css';
 import { Navigation } from '@/components/layout/navigation';
+import { ToastProvider } from '@/components/ui/toast';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kdvlab.com'),
@@ -75,7 +76,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      // Prioritize the most visible sizes first
       { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
@@ -168,6 +168,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://vitals.vercel-analytics.com" />
         <link rel="preconnect" href="https://va.vercel-scripts.com" />
 
+        {/* Preconnect to Calendly for scheduling */}
+        <link rel="preconnect" href="https://assets.calendly.com" />
+        <link rel="preconnect" href="https://calendly.com" />
+
         {/* Enhanced structured data */}
         <script
           type="application/ld+json"
@@ -201,16 +205,19 @@ export default function RootLayout({
           Skip to main content
         </a>
 
-        {/* Global Header */}
-        <Navigation />
+        {/* Toast Provider for notifications */}
+        <ToastProvider>
+          {/* Global Header */}
+          <Navigation />
 
-        {/* Main Content Area */}
-        <main id="main-content" className="mt-12 flex-1 md:mt-16 lg:mt-20">
-          {children}
-        </main>
+          {/* Main Content Area */}
+          <main id="main-content" className="mt-12 flex-1 md:mt-16 lg:mt-20">
+            {children}
+          </main>
 
-        {/* Global Footer */}
-        <Footer />
+          {/* Global Footer */}
+          <Footer />
+        </ToastProvider>
 
         {/* Vercel Analytics */}
         <Analytics />

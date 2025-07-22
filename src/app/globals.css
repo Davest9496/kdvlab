@@ -9,7 +9,10 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
 }
 
 @font-face {
@@ -18,7 +21,10 @@
   font-weight: 800;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
 }
 
 @font-face {
@@ -27,7 +33,10 @@
   font-weight: 300 900;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
 }
 
 @layer base {
@@ -37,14 +46,20 @@
     /* Enhanced responsive font sizing */
     font-size: clamp(14px, 2.5vw, 16px);
   }
-  
+
   /* Enhanced CSS variables for your dark theme design system */
   :root {
     /* Font family variables */
-    --font-gilroy-light: 'Gilroy-Light', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-gilroy-bold: 'Gilroy-ExtraBold', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-rubik: 'Rubik', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    
+    --font-gilroy-light:
+      'Gilroy-Light', ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, sans-serif;
+    --font-gilroy-bold:
+      'Gilroy-ExtraBold', ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, sans-serif;
+    --font-rubik:
+      'Rubik', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      sans-serif;
+
     /* Your custom brand colors */
     --background: 20 14.3% 4.1%; /* #141414 */
     --foreground: 0 0% 100%; /* #FFFFFF */
@@ -98,7 +113,10 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-rubik);
     font-weight: 400;
-    font-feature-settings: "rlig" 1, "calt" 1, "kern" 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1,
+      'kern' 1;
     color-scheme: dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -106,7 +124,7 @@
   }
 
   /* ORIGINAL: Your existing typography hierarchy */
-  
+
   /* Hero text: Use ExtraBold family for maximum impact */
   .hero-text,
   .text-hero {
@@ -116,7 +134,7 @@
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   /* Main headings: Use ExtraBold family */
   h1 {
     font-size: clamp(1.75rem, 6vw, 2.5rem); /* 28px min, 40px max */
@@ -125,16 +143,17 @@
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   /* Sub-headings: Use ExtraBold family */
-  h2, h3 {
+  h2,
+  h3 {
     font-size: clamp(1.125rem, 3vw, 1.25rem); /* 18px min, 20px max */
     line-height: 1.3;
     letter-spacing: -0.01em;
     font-weight: 400;
     font-family: var(--font-gilroy-light);
   }
-  
+
   /* Smaller headings: Use Rubik for readability */
   h4 {
     font-size: clamp(1rem, 2.5vw, 1.125rem); /* 16px min, 18px max */
@@ -143,17 +162,23 @@
     font-weight: 400;
     font-family: var(--font-rubik);
   }
-  
-  h5, h6 {
+
+  h5,
+  h6 {
     font-size: clamp(0.875rem, 2vw, 1rem); /* 14px min, 16px max */
     line-height: 1.4;
     letter-spacing: 0em;
     font-weight: 400;
     font-family: var(--font-rubik);
   }
-  
+
   /* Body text: Use Rubik for all content */
-  p, span, div, li, td, th {
+  p,
+  span,
+  div,
+  li,
+  td,
+  th {
     font-size: clamp(0.875rem, 2vw, 1rem); /* 14px min, 16px max */
     line-height: 1.6;
     letter-spacing: 0em;
@@ -179,7 +204,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/40 rounded-md;
+    @apply rounded-md bg-muted-foreground/40;
     transition: background-color 0.2s ease;
   }
 
@@ -199,13 +224,13 @@
 
 @layer components {
   .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
   /* ORIGINAL: Your gradient text utilities */
   .text-gradient {
     @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
-    
+
     /* Enhanced font rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -217,14 +242,14 @@
   /* Updated gradient text utility - inherits parent font */
   .text-gradient {
     @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
-    
+
     /* Keep only the gradient-specific properties */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline;
-    
+
     /* Inherit font properties from parent */
     font-family: inherit;
     font-size: inherit;
@@ -232,47 +257,47 @@
     line-height: inherit;
     letter-spacing: inherit;
   }
-  
+
   /* Alternative: Create specific gradient classes if you need different fonts */
   .text-gradient-gilroy {
     @apply text-gradient;
     font-family: var(--font-gilroy-bold);
     font-weight: 800;
   }
-  
+
   .text-gradient-rubik {
     @apply text-gradient;
     font-family: var(--font-rubik);
     font-weight: 600;
   }
-  
+
   /* Gradient text for headings */
   .text-gradient-heading {
     @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
-    
+
     font-size: clamp(1.75rem, 6vw, 2.5rem);
     line-height: 1.2;
     letter-spacing: -0.02em;
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
-    
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
   }
-  
+
   /* Gradient text for sub-headings */
   .text-gradient-subheading {
     @apply bg-gradient-to-r from-primary/90 via-blue-400/90 to-primary/90 bg-clip-text text-transparent;
-    
+
     font-size: clamp(1.125rem, 3vw, 1.25rem);
     line-height: 1.3;
     letter-spacing: -0.01em;
     font-weight: 400;
     font-family: var(--font-gilroy-light);
-    
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-background-clip: text;
@@ -282,8 +307,8 @@
 
   /* Enhanced glassmorphism effect */
   .glass-effect {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08];
-    box-shadow: 
+    @apply border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl;
+    box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
       0 8px 32px rgba(0, 0, 0, 0.12);
   }
@@ -296,7 +321,7 @@
 
   .card-hover:hover {
     transform: translate3d(0, -4px, 0) scale(1.02);
-    box-shadow: 
+    box-shadow:
       0 20px 40px rgba(18, 164, 237, 0.15),
       0 8px 32px rgba(0, 0, 0, 0.2);
   }
@@ -314,39 +339,31 @@
 
   /* ORIGINAL: Button variants with proper fonts */
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 
-           transition-all duration-200 will-change-transform
-           shadow-md hover:shadow-lg active:scale-95;
-    
+    @apply bg-primary text-primary-foreground shadow-md transition-all duration-200 will-change-transform hover:bg-primary/90 hover:shadow-lg active:scale-95;
+
     font-family: var(--font-rubik);
     font-weight: 500;
-    font-feature-settings: "kern" 1;
+    font-feature-settings: 'kern' 1;
   }
 
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 
-           transition-all duration-200 will-change-transform
-           border border-white/10 hover:border-white/20;
-    
+    @apply border border-white/10 bg-secondary text-secondary-foreground transition-all duration-200 will-change-transform hover:border-white/20 hover:bg-secondary/80;
+
     font-family: var(--font-rubik);
     font-weight: 500;
   }
 
   .btn-ghost {
-    @apply bg-transparent text-foreground hover:bg-muted 
-           transition-all duration-200 will-change-transform;
-    
+    @apply bg-transparent text-foreground transition-all duration-200 will-change-transform hover:bg-muted;
+
     font-family: var(--font-rubik);
     font-weight: 500;
   }
 
   /* CTA button using Gilroy ExtraBold family for impact */
   .btn-cta {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90
-           transition-all duration-200 will-change-transform
-           shadow-lg hover:shadow-xl active:scale-95
-           px-6 py-3 rounded-lg;
-    
+    @apply rounded-lg bg-primary px-6 py-3 text-primary-foreground shadow-lg transition-all duration-200 will-change-transform hover:bg-primary/90 hover:shadow-xl active:scale-95;
+
     font-family: var(--font-gilroy-bold);
     font-weight: 800;
     letter-spacing: -0.01em;
@@ -375,50 +392,50 @@
     /* Enhanced heading counters for better organization */
     counter-reset: blog-section;
   }
-  
+
   .prose-blog h2 {
     counter-increment: blog-section;
     position: relative;
   }
-  
+
   .prose-blog h2::before {
-    content: counter(blog-section, decimal) ".";
+    content: counter(blog-section, decimal) '.';
     color: hsl(var(--primary));
     font-weight: 800;
     margin-right: 0.75rem;
     font-size: 0.9em;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   /* Enhanced list styling for blog content */
   .prose-blog ul li {
     position: relative;
     padding-left: 0.5rem;
   }
-  
+
   .prose-blog ul li::marker {
-    content: "▸";
+    content: '▸';
     color: hsl(var(--primary));
     font-weight: bold;
     font-size: 1.2em;
   }
-  
+
   .prose-blog ol li {
     position: relative;
     padding-left: 0.5rem;
   }
-  
+
   .prose-blog ol li::marker {
     color: hsl(var(--primary));
     font-weight: bold;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   /* Enhanced paragraph spacing for blog content */
   .prose-blog p + p {
     margin-top: 2rem;
   }
-  
+
   /* Special styling for introduction paragraphs */
   .prose-blog h1 + p,
   .prose-blog h2 + p {
@@ -430,18 +447,22 @@
     margin-bottom: 2rem;
     font-family: var(--font-rubik);
   }
-  
+
   /* Enhanced blockquote styling for blog */
   .prose-blog blockquote {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, hsl(var(--primary) / 0.05) 0%, hsl(var(--primary) / 0.02) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.05) 0%,
+      hsl(var(--primary) / 0.02) 100%
+    );
     border-left: 4px solid hsl(var(--primary) / 0.6);
     border-radius: 0 0.75rem 0.75rem 0;
   }
-  
+
   .prose-blog blockquote::before {
-    content: "\201C";
+    content: '\201C';
     position: absolute;
     top: -0.5rem;
     left: 1rem;
@@ -450,25 +471,33 @@
     font-family: Georgia, serif;
     line-height: 1;
   }
-  
+
   /* Enhanced code block styling for blog */
   .prose-blog pre {
     position: relative;
-    background: linear-gradient(135deg, hsl(var(--muted) / 0.8) 0%, hsl(var(--muted) / 0.9) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--muted) / 0.8) 0%,
+      hsl(var(--muted) / 0.9) 100%
+    );
     border-radius: 0.75rem;
     overflow: hidden;
   }
-  
+
   .prose-blog pre::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.3));
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)),
+      hsl(var(--primary) / 0.3)
+    );
   }
-  
+
   /* Enhanced table styling for blog */
   .prose-blog table {
     border-collapse: separate;
@@ -478,11 +507,11 @@
     overflow: hidden;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
-  
+
   .prose-blog table th:first-child {
     border-top-left-radius: 0.75rem;
   }
-  
+
   .prose-blog table th:last-child {
     border-top-right-radius: 0.75rem;
   }
@@ -496,7 +525,7 @@
 
 @layer utilities {
   /* ORIGINAL: Your responsive text utilities */
-  
+
   /* Hero text variants */
   .text-hero-xl {
     font-size: clamp(2.5rem, 10vw, 4rem);
@@ -505,7 +534,7 @@
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   .text-hero-lg {
     font-size: clamp(2rem, 8vw, 3rem);
     line-height: 1.1;
@@ -513,7 +542,7 @@
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   .text-hero-md {
     font-size: clamp(1.5rem, 6vw, 2.25rem);
     line-height: 1.15;
@@ -521,7 +550,7 @@
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   /* Heading variants */
   .text-heading-xl {
     font-size: clamp(2rem, 7vw, 2.75rem);
@@ -530,7 +559,7 @@
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   .text-heading-lg {
     font-size: clamp(1.75rem, 6vw, 2.5rem);
     line-height: 1.2;
@@ -538,7 +567,7 @@
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   .text-heading-md {
     font-size: clamp(1.5rem, 5vw, 2rem);
     line-height: 1.25;
@@ -554,7 +583,7 @@
     font-weight: 400;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   /* Sub-heading variants using Rubik for readability */
   .text-subheading-lg {
     font-size: clamp(1.25rem, 3.5vw, 1.5rem);
@@ -563,7 +592,7 @@
     font-weight: 600;
     font-family: var(--font-rubik);
   }
-  
+
   .text-subheading-md {
     font-size: clamp(1.125rem, 3vw, 1.25rem);
     line-height: 1.3;
@@ -571,7 +600,7 @@
     font-weight: 600;
     font-family: var(--font-rubik);
   }
-  
+
   .text-subheading-sm {
     font-size: clamp(1rem, 2.5vw, 1.125rem);
     line-height: 1.4;
@@ -579,7 +608,7 @@
     font-weight: 400;
     font-family: var(--font-rubik);
   }
-  
+
   /* Body text variants */
   .text-body-lg {
     font-size: clamp(1rem, 2.5vw, 1.125rem);
@@ -588,7 +617,7 @@
     font-weight: 400;
     font-family: var(--font-rubik);
   }
-  
+
   .text-body-base {
     font-size: clamp(0.875rem, 2vw, 1rem);
     line-height: 1.6;
@@ -596,7 +625,7 @@
     font-weight: 400;
     font-family: var(--font-rubik);
   }
-  
+
   .text-body-sm {
     font-size: clamp(0.75rem, 1.5vw, 0.875rem);
     line-height: 1.5;
@@ -704,19 +733,19 @@
   }
 
   /* Blog-specific typography utilities */
-  
+
   /* Enhanced blog heading utilities with automatic numbering */
   .blog-heading-numbered {
     counter-increment: section;
   }
-  
+
   .blog-heading-numbered::before {
-    content: counter(section) ". ";
+    content: counter(section) '. ';
     color: hsl(var(--primary));
     font-weight: 800;
     font-family: var(--font-gilroy-bold);
   }
-  
+
   /* Blog content emphasis utilities */
   .blog-intro-text {
     font-size: 1.375rem;
@@ -725,20 +754,20 @@
     font-weight: 500;
     font-family: var(--font-rubik);
   }
-  
+
   /* Blog list enhancement utilities */
   .blog-list-primary li::marker {
     color: hsl(var(--primary));
     font-weight: bold;
   }
-  
+
   .blog-list-custom li {
     position: relative;
     padding-left: 1.5rem;
   }
-  
+
   .blog-list-custom li::before {
-    content: "\2192";
+    content: '\2192';
     position: absolute;
     left: 0;
     color: hsl(var(--primary));
@@ -768,9 +797,9 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   /* Enhanced smooth scrolling for blog navigation */
-  .prose a[href^="#"] {
+  .prose a[href^='#'] {
     scroll-behavior: smooth;
   }
 }
@@ -793,28 +822,197 @@
     color: #000 !important;
     break-after: avoid;
   }
-  
+
   .prose p,
   .prose li {
     color: #333 !important;
     orphans: 3;
     widows: 3;
   }
-  
+
   .prose blockquote {
     border-left: 4px solid #666 !important;
     background: #f5f5f5 !important;
   }
-  
+
   .prose pre {
     background: #f8f8f8 !important;
     border: 1px solid #ddd !important;
   }
-  
+
   /* Hide non-essential elements when printing */
   .blog-share-buttons,
   .related-posts,
   .cta-section {
     display: none !important;
+  }
+
+  /* Add this to the end of src/app/globals.css */
+
+  /* Toast Animation Keyframes */
+  @keyframes shrink {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
+  }
+
+  .animate-in {
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+  }
+
+  .animate-out {
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+  }
+
+  .slide-in-from-right-full {
+    animation-name: slideInFromRight;
+  }
+
+  .slide-out-to-right-full {
+    animation-name: slideOutToRight;
+  }
+
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutToRight {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  /* Enhanced button loading states */
+  .btn-loading {
+    position: relative;
+    color: transparent !important;
+  }
+
+  .btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Smooth focus ring for better accessibility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    transition: box-shadow 0.2s ease-in-out;
+  }
+
+  /* Enhanced form validation styles */
+  .form-field-error {
+    @apply border-red-400/50 bg-red-400/5;
+  }
+
+  .form-field-error:focus {
+    @apply border-red-400 ring-red-400/50;
+  }
+
+  .form-field-success {
+    @apply border-green-400/50 bg-green-400/5;
+  }
+
+  .form-field-success:focus {
+    @apply border-green-400 ring-green-400/50;
+  }
+
+  /* Calendly embed responsive adjustments */
+  .calendly-inline-widget {
+    min-width: 320px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .calendly-inline-widget {
+      height: 600px !important;
+    }
+  }
+
+  /* Loading spinner for Calendly */
+  .calendly-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .calendly-loading::before {
+    content: '';
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(18, 164, 237, 0.3);
+    border-top-color: #12a4ed;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Toast container positioning improvements */
+  .toast-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    padding: 1rem;
+    gap: 0.5rem;
+    z-index: 100;
+  }
+
+  @media (min-width: 640px) {
+    .toast-container {
+      padding: 1.5rem;
+    }
+  }
+
+  /* Ensure toasts are above modals and other overlays */
+  .toast-item {
+    pointer-events: auto;
+    position: relative;
+    z-index: 101;
   }
 }

@@ -9,8 +9,9 @@ import {
   Zap,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CalendlyPopup } from '@/components/scheduling/calendly-integration';
 
-// Context-aware CTA configurations
+// Context-aware CTA configurations (updated with Calendly integration)
 export interface CTAContext {
   id: string;
   title: string;
@@ -20,17 +21,26 @@ export interface CTAContext {
     text: string;
     href: string;
     icon?: React.ElementType;
+    type?: 'link' | 'calendly';
   };
   secondaryAction?: {
     text: string;
     href: string;
     icon?: React.ElementType;
+    type?: 'link' | 'calendly';
   };
   layout?: 'split' | 'centered' | 'minimal';
   showIllustration?: boolean;
 }
 
-// Pre-configured contexts for different pages
+// Get Calendly URL with fallback
+const getCalendlyUrl = () => {
+  return (
+    process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/kdvlab/30min'
+  );
+};
+
+// Updated pre-configured contexts with proper Calendly integration
 const ctaContexts: Record<string, CTAContext> = {
   // Home page
   home: {
@@ -43,11 +53,13 @@ const ctaContexts: Record<string, CTAContext> = {
       text: 'Start a Conversation',
       href: '/contact',
       icon: MessageCircle,
+      type: 'link',
     },
     secondaryAction: {
       text: 'Schedule a Call',
-      href: '/contact',
+      href: getCalendlyUrl(),
       icon: Calendar,
+      type: 'calendly',
     },
     layout: 'split',
     showIllustration: true,
@@ -64,11 +76,13 @@ const ctaContexts: Record<string, CTAContext> = {
       text: 'Start Your Project',
       href: '/contact',
       icon: Sparkles,
+      type: 'link',
     },
     secondaryAction: {
-      text: 'View Our Services',
-      href: '/services',
-      icon: ArrowRight,
+      text: 'Schedule Consultation',
+      href: getCalendlyUrl(),
+      icon: Calendar,
+      type: 'calendly',
     },
     layout: 'centered',
     showIllustration: false,
@@ -83,13 +97,15 @@ const ctaContexts: Record<string, CTAContext> = {
       "Choose from our comprehensive range of development services. Let's discuss which solution best fits your business needs.",
     primaryAction: {
       text: 'Get Free Consultation',
-      href: '/contact',
-      icon: MessageCircle,
+      href: getCalendlyUrl(),
+      icon: Calendar,
+      type: 'calendly',
     },
     secondaryAction: {
-      text: 'Schedule Meeting',
+      text: 'Send Message',
       href: '/contact',
-      icon: Calendar,
+      icon: MessageCircle,
+      type: 'link',
     },
     layout: 'split',
     showIllustration: true,
@@ -106,127 +122,13 @@ const ctaContexts: Record<string, CTAContext> = {
       text: 'Send Message',
       href: '#contact-form',
       icon: MessageCircle,
-    },
-    layout: 'minimal',
-    showIllustration: false,
-  },
-
-  // Individual service pages
-  'custom-software': {
-    id: 'custom-software',
-    title: 'Ready to Build Your Custom Solution?',
-    subtitle: 'Tailored Development',
-    description:
-      "Let's discuss your unique requirements and create software that transforms your business operations and drives efficiency.",
-    primaryAction: {
-      text: 'Discuss Your Project',
-      href: '/contact',
-      icon: MessageCircle,
+      type: 'link',
     },
     secondaryAction: {
-      text: 'View Portfolio',
-      href: '/work',
-      icon: ArrowRight,
-    },
-    layout: 'split',
-    showIllustration: true,
-  },
-
-  'web-applications': {
-    id: 'web-applications',
-    title: 'Ready to Launch Your Web App?',
-    subtitle: 'Lightning-Fast Development',
-    description:
-      'Transform your web presence with high-performance applications that engage users and drive conversions.',
-    primaryAction: {
-      text: 'Start Your Web App',
-      href: '/contact',
-      icon: Zap,
-    },
-    secondaryAction: {
-      text: 'See Examples',
-      href: '/work',
-      icon: ArrowRight,
-    },
-    layout: 'split',
-    showIllustration: true,
-  },
-
-  'mobile-apps': {
-    id: 'mobile-apps',
-    title: 'Ready to Launch Your Mobile App?',
-    subtitle: 'iOS & Android Excellence',
-    description:
-      'Reach millions of users with mobile apps that deliver exceptional experiences and drive user engagement.',
-    primaryAction: {
-      text: 'Start Mobile Development',
-      href: '/contact',
-      icon: MessageCircle,
-    },
-    secondaryAction: {
-      text: 'View App Portfolio',
-      href: '/work',
-      icon: ArrowRight,
-    },
-    layout: 'split',
-    showIllustration: true,
-  },
-
-  'cloud-services': {
-    id: 'cloud-services',
-    title: 'Ready to Move to the Cloud?',
-    subtitle: 'Scalable Infrastructure',
-    description:
-      'Transform your infrastructure with scalable, secure cloud solutions that reduce costs and improve performance.',
-    primaryAction: {
-      text: 'Plan Your Migration',
-      href: '/contact',
-      icon: MessageCircle,
-    },
-    secondaryAction: {
-      text: 'Learn More',
-      href: '/services',
-      icon: ArrowRight,
-    },
-    layout: 'split',
-    showIllustration: true,
-  },
-
-  'ui-ux-design': {
-    id: 'ui-ux-design',
-    title: 'Ready to Transform Your User Experience?',
-    subtitle: 'Design That Converts',
-    description:
-      'Create stunning interfaces that not only look beautiful but also drive conversions and user satisfaction.',
-    primaryAction: {
-      text: 'Start Design Project',
-      href: '/contact',
-      icon: Sparkles,
-    },
-    secondaryAction: {
-      text: 'View Design Work',
-      href: '/work',
-      icon: ArrowRight,
-    },
-    layout: 'split',
-    showIllustration: true,
-  },
-
-  consultancy: {
-    id: 'consultancy',
-    title: 'Ready for Strategic Tech Guidance?',
-    subtitle: 'Expert Consultancy',
-    description:
-      'Get expert advice to navigate complex technology decisions and accelerate your digital transformation journey.',
-    primaryAction: {
-      text: 'Book Consultation',
-      href: '/contact',
-      icon: MessageCircle,
-    },
-    secondaryAction: {
-      text: 'Learn About Process',
-      href: '/services/consultancy',
-      icon: ArrowRight,
+      text: 'Book Call Instead',
+      href: getCalendlyUrl(),
+      icon: Calendar,
+      type: 'calendly',
     },
     layout: 'centered',
     showIllustration: false,
@@ -243,18 +145,20 @@ const ctaContexts: Record<string, CTAContext> = {
       text: 'Get Started',
       href: '/contact',
       icon: Sparkles,
+      type: 'link',
     },
     secondaryAction: {
-      text: 'View Services',
-      href: '/services',
-      icon: ArrowRight,
+      text: 'Schedule Call',
+      href: getCalendlyUrl(),
+      icon: Calendar,
+      type: 'calendly',
     },
     layout: 'split',
     showIllustration: true,
   },
 };
 
-// Animation variants (keeping your existing optimized animations)
+// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -280,19 +184,6 @@ const contentVariants = {
   },
 };
 
-const illustrationVariants = {
-  hidden: { opacity: 0, x: 50, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-    transition: {
-      duration: 1,
-      ease: [0.25, 0.25, 0, 1],
-    },
-  },
-};
-
 const buttonHoverVariants = {
   rest: { scale: 1, y: 0 },
   hover: {
@@ -306,13 +197,125 @@ const buttonHoverVariants = {
   tap: { scale: 0.98 },
 };
 
-// Dashboard Illustration Component (keeping your existing design)
+// Enhanced Button Components with Calendly integration
+interface ActionButtonProps {
+  action: CTAContext['primaryAction'] | CTAContext['secondaryAction'];
+  variant: 'primary' | 'secondary';
+  className?: string;
+}
+
+const ActionButton: React.FC<ActionButtonProps> = ({
+  action,
+  variant,
+  className,
+}) => {
+  if (!action) return null;
+
+  const Icon = action.icon;
+  const isCalendly = action.type === 'calendly';
+
+  const buttonClasses = cn(
+    'group relative inline-flex items-center justify-center',
+    'rounded-2xl px-8 py-4 font-semibold text-white',
+    'transition-all duration-300 ease-out',
+    'focus:outline-none focus:ring-2 focus:ring-offset-2',
+    'active:scale-95',
+    variant === 'primary'
+      ? [
+          'bg-primary hover:bg-primary/90',
+          'shadow-[0_8px_24px_rgba(18,164,237,0.3)]',
+          'hover:shadow-[0_12px_32px_rgba(18,164,237,0.4)]',
+          'border border-primary/20 hover:border-primary/30',
+          'focus:ring-primary/50',
+        ]
+      : [
+          'bg-white/[0.05] hover:bg-white/[0.1]',
+          'border border-white/[0.1] backdrop-blur-sm hover:border-white/[0.2]',
+          'shadow-[0_4px_16px_rgba(0,0,0,0.1)]',
+          'hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]',
+          'focus:ring-white/20',
+        ],
+    className
+  );
+
+  const ButtonContent = () => (
+    <>
+      {variant === 'primary' && (
+        <div
+          className={cn(
+            'absolute inset-0 rounded-2xl',
+            'bg-gradient-to-r from-primary via-primary to-primary',
+            'opacity-0 group-hover:opacity-20',
+            'transition-opacity duration-300',
+            'blur-sm'
+          )}
+        />
+      )}
+
+      <span className="relative z-10 flex items-center space-x-2">
+        <span>{action.text}</span>
+        {Icon && (
+          <Icon
+            className={cn(
+              'h-5 w-5 transition-transform duration-300',
+              'group-hover:translate-x-1'
+            )}
+          />
+        )}
+      </span>
+    </>
+  );
+
+  if (isCalendly) {
+    return (
+      <CalendlyPopup
+        url={action.href}
+        utm={{
+          source: 'kdvlab_website',
+          medium: 'cta_button',
+          campaign: 'unified_cta',
+        }}
+      >
+        <motion.div
+          variants={buttonHoverVariants}
+          initial="rest"
+          whileHover="hover"
+          whileTap="tap"
+          className={buttonClasses}
+          role="button"
+          tabIndex={0}
+          aria-label={`${action.text} - Opens Calendly scheduling`}
+        >
+          <ButtonContent />
+        </motion.div>
+      </CalendlyPopup>
+    );
+  }
+
+  return (
+    <motion.a
+      href={action.href}
+      variants={buttonHoverVariants}
+      initial="rest"
+      whileHover="hover"
+      whileTap="tap"
+      className={buttonClasses}
+      aria-label={action.text}
+    >
+      <ButtonContent />
+    </motion.a>
+  );
+};
+
+// Dashboard Illustration Component
 const DashboardIllustration: React.FC = () => {
   return (
     <div className="relative h-full min-h-[300px] w-full md:min-h-[400px]">
       {/* Main Monitor */}
       <motion.div
-        variants={illustrationVariants}
+        initial={{ opacity: 0, x: 50, scale: 0.9 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ duration: 1, ease: [0.25, 0.25, 0, 1] }}
         className={cn(
           'absolute right-0 top-1/2 -translate-y-1/2',
           'h-48 w-64 md:h-60 md:w-80',
@@ -444,107 +447,6 @@ const DashboardIllustration: React.FC = () => {
   );
 };
 
-// Button Components (keeping your existing styling)
-interface PrimaryButtonProps {
-  action: CTAContext['primaryAction'];
-  className?: string;
-}
-
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ action, className }) => {
-  const Icon = action.icon;
-
-  return (
-    <motion.a
-      href={action.href}
-      variants={buttonHoverVariants}
-      initial="rest"
-      whileHover="hover"
-      whileTap="tap"
-      className={cn(
-        'group relative inline-flex items-center justify-center',
-        'rounded-2xl px-8 py-4 font-semibold text-white',
-        'bg-primary hover:bg-primary/90',
-        'shadow-[0_8px_24px_rgba(18,164,237,0.3)]',
-        'hover:shadow-[0_12px_32px_rgba(18,164,237,0.4)]',
-        'border border-primary/20 hover:border-primary/30',
-        'transition-all duration-300 ease-out',
-        'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2',
-        'active:scale-95',
-        className
-      )}
-    >
-      <div
-        className={cn(
-          'absolute inset-0 rounded-2xl',
-          'bg-gradient-to-r from-primary via-primary to-primary',
-          'opacity-0 group-hover:opacity-20',
-          'transition-opacity duration-300',
-          'blur-sm'
-        )}
-      />
-
-      <span className="relative z-10 flex items-center space-x-2">
-        <span>{action.text}</span>
-        {Icon && (
-          <Icon
-            className={cn(
-              'h-5 w-5 transition-transform duration-300',
-              'group-hover:translate-x-1'
-            )}
-          />
-        )}
-      </span>
-    </motion.a>
-  );
-};
-
-interface SecondaryButtonProps {
-  action?: CTAContext['secondaryAction'];
-  className?: string;
-}
-
-const SecondaryButton: React.FC<SecondaryButtonProps> = ({
-  action,
-  className,
-}) => {
-  if (!action) return null;
-
-  const Icon = action.icon;
-
-  return (
-    <motion.a
-      href={action.href}
-      variants={buttonHoverVariants}
-      initial="rest"
-      whileHover="hover"
-      whileTap="tap"
-      className={cn(
-        'group relative inline-flex items-center justify-center',
-        'rounded-2xl px-8 py-4 font-semibold text-white',
-        'bg-white/[0.05] hover:bg-white/[0.1]',
-        'border border-white/[0.1] backdrop-blur-sm hover:border-white/[0.2]',
-        'shadow-[0_4px_16px_rgba(0,0,0,0.1)]',
-        'hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]',
-        'transition-all duration-300 ease-out',
-        'focus:outline-none focus:ring-2 focus:ring-white/20 focus:ring-offset-2',
-        className
-      )}
-    >
-      <span className="relative z-10 flex items-center space-x-2">
-        <span>{action.text}</span>
-        {Icon && (
-          <Icon
-            className={cn(
-              'h-5 w-5 transition-transform duration-300',
-              'group-hover:translate-x-1'
-            )}
-          />
-        )}
-      </span>
-    </motion.a>
-  );
-};
-
 // Layout Components
 interface LayoutProps {
   context: CTAContext;
@@ -592,15 +494,15 @@ const SplitLayout: React.FC<LayoutProps> = ({ context }) => {
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-4 sm:flex-row">
-          <PrimaryButton action={context.primaryAction} />
-          <SecondaryButton action={context.secondaryAction} />
+          <ActionButton action={context.primaryAction} variant="primary" />
+          <ActionButton action={context.secondaryAction} variant="secondary" />
         </div>
       </motion.div>
 
       {/* Illustration Side */}
       {context.showIllustration && (
         <motion.div
-          variants={illustrationVariants}
+          variants={contentVariants}
           className="relative lg:h-[400px]"
         >
           <DashboardIllustration />
@@ -655,11 +557,12 @@ const CenteredLayout: React.FC<LayoutProps> = ({ context }) => {
         variants={contentVariants}
         className="flex flex-col items-center justify-center gap-4 sm:flex-row"
       >
-        <PrimaryButton
+        <ActionButton
           action={context.primaryAction}
+          variant="primary"
           className="px-12 py-5 text-lg"
         />
-        <SecondaryButton action={context.secondaryAction} />
+        <ActionButton action={context.secondaryAction} variant="secondary" />
       </motion.div>
     </div>
   );
@@ -688,8 +591,12 @@ const MinimalLayout: React.FC<LayoutProps> = ({ context }) => {
         {context.description}
       </motion.p>
 
-      <motion.div variants={contentVariants}>
-        <PrimaryButton action={context.primaryAction} />
+      <motion.div
+        variants={contentVariants}
+        className="flex justify-center gap-4"
+      >
+        <ActionButton action={context.primaryAction} variant="primary" />
+        <ActionButton action={context.secondaryAction} variant="secondary" />
       </motion.div>
     </div>
   );
@@ -737,7 +644,7 @@ export const UnifiedCTA: React.FC<UnifiedCTAProps> = ({
       )}
       aria-label="Call to Action"
     >
-      {/* Enhanced Neo-Tech Background (keeping your existing design) */}
+      {/* Enhanced Neo-Tech Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/[0.08] via-transparent to-transparent" />

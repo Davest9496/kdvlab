@@ -1,16 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { ScheduleCallButton } from '@/components/scheduling/calendly-integration';
+import { NewsletterForm } from '@/components/forms/newsletter-form';
 
 // Footer sections data for better organization
 const footerSections = [
   {
     title: 'Services',
     links: [
-      { name: 'Web Development', href: '/services#web-development' },
-      { name: 'Mobile Apps', href: '/services#mobile-apps' },
-      { name: 'UI/UX Design', href: '/services#design' },
-      { name: 'Consulting', href: '/services#consulting' },
+      { name: 'Web Development', href: '/services/web-applications' },
+      { name: 'Mobile Apps', href: '/services/mobile-apps' },
+      { name: 'UI/UX Design', href: '/services/ui-ux-design' },
+      { name: 'Consulting', href: '/services/consultancy' },
+      { name: 'Cloud Services', href: '/services/cloud-services' },
     ],
   },
   {
@@ -18,14 +21,14 @@ const footerSections = [
     links: [
       { name: 'About', href: '/about' },
       { name: 'Portfolio', href: '/work' },
-      { name: 'Careers', href: '/careers' },
       { name: 'Blog', href: '/blog' },
+      { name: 'Contact', href: '/contact' },
     ],
   },
   {
     title: 'Connect',
     links: [
-      { name: 'Contact', href: '/contact' },
+      { name: 'Contact Us', href: '/contact' },
       {
         name: 'LinkedIn',
         href: 'https://linkedin.com/company/kdvlab',
@@ -72,7 +75,7 @@ export default function Footer() {
               <p
                 className={cn(
                   'font-rubik text-white/70',
-                  'text-body-base', // 14px-16px responsive
+                  'text-body-base',
                   'max-w-sm leading-relaxed'
                 )}
               >
@@ -81,28 +84,48 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Contact info */}
-            <div className="space-y-2">
+            {/* Contact info with Calendly integration */}
+            <div className="space-y-3">
               <p
                 className={cn(
                   'font-rubik text-white/60',
-                  'text-body-sm', // 12px-14px responsive
+                  'text-body-sm',
                   'font-medium'
                 )}
               >
                 Ready to build something amazing?
               </p>
-              <Link
-                href="/contact"
-                className={cn(
-                  'inline-flex items-center font-rubik',
-                  'text-body-base text-primary hover:text-primary/80',
-                  'transition-colors duration-200',
-                  'font-semibold'
-                )}
-              >
-                Let&apos;s talk →
-              </Link>
+
+              <div className="flex flex-col gap-2">
+                {/* Contact Form Link */}
+                <Link
+                  href="/contact"
+                  className={cn(
+                    'inline-flex items-center font-rubik',
+                    'text-body-base text-primary hover:text-primary/80',
+                    'transition-colors duration-200',
+                    'font-semibold'
+                  )}
+                >
+                  Send us a message →
+                </Link>
+
+                {/* Calendly Schedule Call Button */}
+                <ScheduleCallButton
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    'w-fit border-primary/20 bg-primary/5 text-primary',
+                    'hover:border-primary/30 hover:bg-primary/10',
+                    'px-4 py-2 text-sm'
+                  )}
+                  utm={{
+                    source: 'kdvlab_website',
+                    medium: 'footer',
+                    campaign: 'schedule_call',
+                  }}
+                />
+              </div>
             </div>
           </div>
 
@@ -111,7 +134,7 @@ export default function Footer() {
             <h4
               className={cn(
                 'font-rubik font-semibold text-white',
-                'text-subheading-sm', // 16px-18px responsive
+                'text-subheading-sm',
                 'tracking-wide'
               )}
             >
@@ -124,7 +147,7 @@ export default function Footer() {
                     href={link.href}
                     className={cn(
                       'font-rubik text-white/70 hover:text-white',
-                      'text-body-base', // 14px-16px responsive
+                      'text-body-base',
                       'transition-all duration-200 ease-out',
                       'hover:translate-x-1 hover:text-primary/80',
                       'inline-flex items-center gap-1'
@@ -145,7 +168,7 @@ export default function Footer() {
                 <h4
                   className={cn(
                     'font-rubik font-semibold text-white',
-                    'text-subheading-sm', // 16px-18px responsive
+                    'text-subheading-sm',
                     'tracking-wide'
                   )}
                 >
@@ -158,7 +181,7 @@ export default function Footer() {
                         href={link.href}
                         className={cn(
                           'font-rubik text-white/70 hover:text-white',
-                          'text-body-base', // 14px-16px responsive
+                          'text-body-base',
                           'transition-all duration-200 ease-out',
                           'hover:translate-x-1 hover:text-primary/80',
                           'inline-flex items-center gap-1'
@@ -176,7 +199,7 @@ export default function Footer() {
                 <h4
                   className={cn(
                     'font-rubik font-semibold text-white',
-                    'text-subheading-sm', // 16px-18px responsive
+                    'text-subheading-sm',
                     'tracking-wide'
                   )}
                 >
@@ -189,7 +212,7 @@ export default function Footer() {
                         href={link.href}
                         className={cn(
                           'font-rubik text-white/70 hover:text-white',
-                          'text-body-base', // 14px-16px responsive
+                          'text-body-base',
                           'transition-all duration-200 ease-out',
                           'hover:translate-x-1 hover:text-primary/80',
                           'inline-flex items-center gap-1'
@@ -211,59 +234,13 @@ export default function Footer() {
         </div>
 
         {/* Newsletter Section */}
-        <div
-          className={cn(
-            'mt-12 border-t border-white/10 pt-8',
-            'grid grid-cols-1 items-center gap-8 lg:grid-cols-2'
-          )}
-        >
-          <div className="space-y-3">
-            <h4
-              className={cn(
-                'font-rubik font-semibold text-white',
-                'text-subheading-md' // 18px-20px responsive
-              )}
-            >
-              Stay Updated
-            </h4>
-            <p
-              className={cn(
-                'font-rubik text-white/60',
-                'text-body-base', // 14px-16px responsive
-                'max-w-md'
-              )}
-            >
-              Get the latest insights on web development, design trends, and
-              tech innovations.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className={cn(
-                'flex-1 rounded-lg px-4 py-3',
-                'border border-white/10 bg-white/5',
-                'text-white placeholder:text-white/40',
-                'font-rubik text-body-base', // 14px-16px responsive
-                'focus:outline-none focus:ring-2 focus:ring-primary',
-                'transition-all duration-200'
-              )}
+        <div className={cn('mt-12 border-t border-white/10 pt-8')}>
+          <div className="mx-auto max-w-md">
+            <NewsletterForm
+              variant="footer"
+              source="footer"
+              className="space-y-4"
             />
-            <button
-              className={cn(
-                'btn-cta',
-                'text-body-sm', // 12px-14px responsive
-                'rounded-lg px-6 py-3',
-                'bg-primary text-primary-foreground',
-                'hover:scale-105 hover:bg-primary/90',
-                'transition-all duration-200',
-                'shadow-lg hover:shadow-xl'
-              )}
-            >
-              Subscribe
-            </button>
           </div>
         </div>
 
@@ -277,7 +254,7 @@ export default function Footer() {
           <p
             className={cn(
               'font-rubik text-white/60',
-              'text-body-sm', // 12px-14px responsive
+              'text-body-sm',
               'text-center sm:text-left'
             )}
           >
@@ -289,7 +266,7 @@ export default function Footer() {
               href="/privacy"
               className={cn(
                 'font-rubik text-white/60 hover:text-white',
-                'text-body-sm', // 12px-14px responsive
+                'text-body-sm',
                 'transition-colors duration-200'
               )}
             >
@@ -299,11 +276,21 @@ export default function Footer() {
               href="/terms"
               className={cn(
                 'font-rubik text-white/60 hover:text-white',
-                'text-body-sm', // 12px-14px responsive
+                'text-body-sm',
                 'transition-colors duration-200'
               )}
             >
               Terms
+            </Link>
+            <Link
+              href="/newsletter/manage"
+              className={cn(
+                'font-rubik text-white/60 hover:text-white',
+                'text-body-sm',
+                'transition-colors duration-200'
+              )}
+            >
+              Newsletter
             </Link>
           </div>
         </div>

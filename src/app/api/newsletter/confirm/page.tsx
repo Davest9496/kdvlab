@@ -1,77 +1,123 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Check, X, Loader } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Check, X, Loader2 } from 'lucide-react';
 
-export default function NewsletterConfirmPage() {
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
-    'loading'
-  );
-  const [message, setMessage] = useState('');
+function NewsletterConfirmContent() {
   const searchParams = useSearchParams();
+  const [status, setStatus] = useState<
+    'loading' | 'success' | 'error' | 'invalid'
+  >('loading');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const token = searchParams.get('token');
+    const email = searchParams.get('email');
 
-    if (!token) {
-      setStatus('error');
-      setMessage('Invalid confirmation link');
+    if (!token || !email) {
+      setStatus('invalid');
+      setMessage(
+        'Invalid confirmation link. Please check your email for the correct link.'
+      );
       return;
     }
 
-    // The GET request will handle the confirmation
-    // This page is just for display after redirect
-    setStatus('success');
-    setMessage('Your subscription has been confirmed!');
+    // Confirm the subscription
+    const confirmSubscription = async () => {
+      try {
+        const response = await fetch('/api/newsletter/confirm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, email }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setStatus('success');
+          setMessage(
+            result.message || 'Your newsletter subscription has been confirmed!'
+          );
+        } else {
+          setStatus('error');
+          setMessage(result.error || 'Failed to confirm subscription.');
+        }
+      } catch (error) {
+        setStatus('error');
+        setMessage('An error occurred while confirming your subscription.');
+      }
+    };
+
+    confirmSubscription();
   }, [searchParams]);
 
+  if (status === 'loading') {
+    return (
+      <div className="flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <span className="ml-2 text-lg">Confirming your subscription...</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="mx-auto max-w-md p-8 text-center">
-        {status === 'loading' && (
-          <>
-            <Loader className="mx-auto mb-4 h-16 w-16 animate-spin text-primary" />
-            <h1 className="mb-2 font-gilroy-bold text-heading-md">
-              Confirming...
-            </h1>
-            <p className="text-muted-foreground">
-              Please wait while we confirm your subscription.
-            </p>
-          </>
+    <div className="text-center">
+      <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full">
+        {status === 'success' ? (
+          <div className="bg-green-100">
+            <Check className="h-10 w-10 text-green-600" />
+          </div>
+        ) : (
+          <div className="bg-red-100">
+            <X className="h-10 w-10 text-red-600" />
+          </div>
         )}
+      </div>
 
-        {status === 'success' && (
-          <>
-            <Check className="mx-auto mb-4 h-16 w-16 text-green-600" />
-            <h1 className="mb-2 font-gilroy-bold text-heading-md text-green-600">
-              Welcome!
-            </h1>
-            <p className="mb-6 text-muted-foreground">{message}</p>
-            <a
-              href="/"
-              className="btn-primary inline-block rounded-lg px-6 py-2"
-            >
-              Back to Home
-            </a>
-          </>
-        )}
+      <h1 className="mb-4 font-gilroy-bold text-heading-lg">
+        {status === 'success'
+          ? 'Subscription Confirmed!'
+          : 'Confirmation Failed'}
+      </h1>
 
-        {status === 'error' && (
-          <>
-            <X className="mx-auto mb-4 h-16 w-16 text-red-600" />
-            <h1 className="mb-2 font-gilroy-bold text-heading-md text-red-600">
-              Error
-            </h1>
-            <p className="mb-6 text-muted-foreground">{message}</p>
-            <a
-              href="/newsletter"
-              className="btn-primary inline-block rounded-lg px-6 py-2"
-            >
-              Try Again
-            </a>
-          </>
+      <p className="mx-auto mb-8 max-w-md text-muted-foreground">{message}</p>
+
+      <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <Button onClick={() => (window.location.href = '/')} variant="outline">
+          Return Home
+        </Button>
+
+        {status !== 'success' && (
+          <Button
+            onClick={() => (window.location.href = '/newsletter')}
+            className="bg-primary hover:bg-primary/90"
+          >
+            Try Again
+          </Button>
         )}
+      </div>
+    </div>
+  );
+}
+
+export default function NewsletterConfirmPage() {
+  return (
+    <div className="min-h-screen py-20">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto max-w-md">
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <span className="ml-2 text-lg">Loading...</span>
+              </div>
+            }
+          >
+            <NewsletterConfirmContent />
+          </Suspense>
+        </div>
       </div>
     </div>
   );
