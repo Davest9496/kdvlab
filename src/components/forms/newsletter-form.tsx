@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight, Check } from 'lucide-react';
 
 const newsletterSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -39,6 +39,7 @@ export function NewsletterForm({
   className = '',
 }: NewsletterFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
   const {
@@ -72,7 +73,10 @@ export function NewsletterForm({
         throw new Error(result.error || 'Subscription failed');
       }
 
-      toast.success(result.message || 'Successfully subscribed!');
+      toast.success(
+        result.message || 'Please check your email to confirm subscription!'
+      );
+      setIsSuccess(true);
       reset();
       setSelectedInterests([]);
     } catch (error) {
@@ -93,6 +97,7 @@ export function NewsletterForm({
     );
   };
 
+  // Footer variant - compact version
   if (variant === 'footer') {
     return (
       <div className={`space-y-4 ${className}`}>
@@ -101,31 +106,79 @@ export function NewsletterForm({
           <h3 className="text-lg font-semibold">Stay Updated</h3>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-          <div className="flex gap-2">
-            <Input
-              {...register('email')}
-              type="email"
-              placeholder="your@email.com"
-              className="flex-1 border-white/10 bg-background/50"
-            />
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              size="sm"
-              className="px-6"
-            >
-              {isSubmitting ? '...' : 'Join'}
-            </Button>
+        {isSuccess ? (
+          <div className="flex items-center gap-2 text-green-400">
+            <Check className="h-4 w-4" />
+            <span className="text-sm">Check your email to confirm!</span>
           </div>
-          {errors.email && (
-            <p className="text-xs text-red-400">{errors.email.message}</p>
-          )}
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+            <Input
+              {...register('firstName')}
+              type="text"
+              placeholder="First name"
+              className="border-white/10 bg-background/50"
+            />
+            <div className="flex gap-2">
+              <Input
+                {...register('email')}
+                type="email"
+                placeholder="your@email.com"
+                className="flex-1 border-white/10 bg-background/50"
+              />
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                size="sm"
+                className="px-6"
+              >
+                {isSubmitting ? '...' : 'Join'}
+              </Button>
+            </div>
+            {(errors.email || errors.firstName) && (
+              <p className="text-xs text-red-400">
+                {errors.email?.message || errors.firstName?.message}
+              </p>
+            )}
+          </form>
+        )}
       </div>
     );
   }
 
+  // Success state for full forms
+  if (isSuccess && variant !== ('footer' as NewsletterFormProps['variant'])) {
+    return (
+      <div className={`space-y-6 text-center ${className}`}>
+        <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
+          <Check className="h-10 w-10 text-green-600" />
+        </div>
+        <div>
+          <h3 className="mb-2 font-gilroy-bold text-heading-md text-green-600">
+            Almost There!
+          </h3>
+          <p className="text-muted-foreground">
+            We&apos;ve sent a confirmation email to your inbox. Click the link
+            to complete your subscription.
+          </p>
+        </div>
+        <div className="rounded-lg bg-muted/50 p-4">
+          <p className="text-sm text-muted-foreground">
+            <strong>Didn&apos;t receive the email?</strong> Check your spam
+            folder or{' '}
+            <button
+              onClick={() => setIsSuccess(false)}
+              className="text-primary hover:underline"
+            >
+              try again
+            </button>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Full newsletter form
   return (
     <div className={`space-y-6 ${className}`}>
       <div className="text-center">
@@ -146,7 +199,7 @@ export function NewsletterForm({
           <div>
             <Input
               {...register('firstName')}
-              placeholder="First Name"
+              placeholder="First Name *"
               className="border-white/10 bg-background/50"
             />
             {errors.firstName && (
@@ -160,7 +213,7 @@ export function NewsletterForm({
             <Input
               {...register('email')}
               type="email"
-              placeholder="your@email.com"
+              placeholder="your@email.com *"
               className="border-white/10 bg-background/50"
             />
             {errors.email && (
@@ -187,7 +240,7 @@ export function NewsletterForm({
                 />
                 <label
                   htmlFor={interest.id}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {interest.label}
                 </label>
@@ -214,14 +267,86 @@ export function NewsletterForm({
           )}
         </Button>
 
-        <p className="text-center text-xs text-muted-foreground">
-          We respect your privacy. Unsubscribe at any time.
-          <br />
-          <a href="/privacy" className="text-primary hover:underline">
-            Privacy Policy
-          </a>
-        </p>
+        <div className="space-y-2 text-center">
+          <p className="text-xs text-muted-foreground">
+            We respect your privacy. Unsubscribe at any time.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            <a href="/privacy" className="text-primary hover:underline">
+              Privacy Policy
+            </a>
+            {' • '}
+            <a
+              href="/newsletter/manage"
+              className="text-primary hover:underline"
+            >
+              Manage Preferences
+            </a>
+          </p>
+        </div>
       </form>
+    </div>
+  );
+}
+
+// Newsletter Management Component - ADD THIS
+export function NewsletterManagement() {
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUnsubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/newsletter/unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success('Unsubscribe link sent to your email');
+        setEmail('');
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Failed to send unsubscribe link'
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <form onSubmit={handleUnsubscribe} className="space-y-4">
+        <Input
+          type="email"
+          placeholder="your@email.com"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+          className="border-white/10 bg-background/50"
+        />
+
+        <Button type="submit" disabled={isLoading} className="w-full">
+          {isLoading ? 'Sending...' : 'Send Management Link'}
+        </Button>
+      </form>
+
+      <div className="rounded-lg bg-muted/50 p-4">
+        <p className="text-sm text-muted-foreground">
+          We&apos;ll send you a secure link to manage your newsletter
+          preferences or unsubscribe completely.
+        </p>
+      </div>
     </div>
   );
 }

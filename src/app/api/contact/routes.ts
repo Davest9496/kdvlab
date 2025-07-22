@@ -4,38 +4,31 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Email configuration matching your Zoho setup
+// Email configuration matching your actual Zoho setup
 const EMAIL_CONFIG = {
   business: {
-    info: 'info@kdvlab.com',
-    accounts: 'accounts@kdvlab.com',
-    newsletter: 'newsletter@kdvlab.com',
-  },
-  transactional: {
-    noreply: 'noreply@kdvlab.com',
-    updates: 'updates@kdvlab.com',
+    info: 'info@kdvlab.com', // Primary business email
+    accounts: 'accounts@kdvlab.com', // Billing and financial
+    newsletter: 'newsletter@kdvlab.com', // Marketing and newsletter
   },
 } as const;
 
-// Match your existing form schema exactly
+// Updated schema without budget option
 const contactSchema = z.object({
-  name: z.string().min(2).max(100),
+  fullName: z.string().min(2).max(100),
   email: z.string().email(),
-  company: z.string().optional(),
+  phone: z.string().optional(),
   projectType: z.enum([
-    'website-development',
-    'website-redesign',
-    'ecommerce',
-    'web-application',
-    'optimization',
-    'consultation',
+    'web-development',
+    'mobile-app',
+    'e-commerce',
+    'web-design',
+    'consulting',
+    'maintenance',
     'other',
   ]),
-  budget: z
-    .enum(['under-10k', '10k-25k', '25k-50k', '50k-plus', 'discuss'])
-    .optional(),
   timeline: z
-    .enum(['urgent', 'within-month', 'flexible', 'planning'])
+    .enum(['urgent', '1-month', '2-3-months', '3-6-months', 'flexible'])
     .optional(),
   message: z.string().min(10).max(2000),
 });
@@ -58,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     // Log successful submission for monitoring
     console.log('Contact form submission successful:', {
-      name: data.name,
+      fullName: data.fullName,
       email: data.email,
       projectType: data.projectType,
       timeline: data.timeline,
@@ -98,7 +91,7 @@ function determineRecipient(data: ContactFormData): string {
 
   // Route billing/payment inquiries to accounts@kdvlab.com
   if (
-    data.projectType === 'consultation' ||
+    data.projectType === 'consulting' ||
     messageContent.includes('invoice') ||
     messageContent.includes('payment') ||
     messageContent.includes('billing') ||
@@ -127,28 +120,21 @@ async function sendBusinessNotification(
   recipient: string
 ) {
   const projectTypeLabels: Record<string, string> = {
-    'website-development': 'New Website Development',
-    'website-redesign': 'Website Redesign',
-    ecommerce: 'E-commerce Platform',
-    'web-application': 'Web Application',
-    optimization: 'Performance Optimization',
-    consultation: 'Consultation',
+    'web-development': 'Web Development',
+    'mobile-app': 'Mobile App Development',
+    'e-commerce': 'E-commerce Solutions',
+    'web-design': 'Web Design & UI/UX',
+    consulting: 'Technical Consulting',
+    maintenance: 'Website Maintenance',
     other: 'Other',
-  };
-
-  const budgetLabels: Record<string, string> = {
-    'under-10k': 'Under $10,000',
-    '10k-25k': '$10,000 - $25,000',
-    '25k-50k': '$25,000 - $50,000',
-    '50k-plus': '$50,000+',
-    discuss: 'Prefer to discuss',
   };
 
   const timelineLabels: Record<string, string> = {
     urgent: 'URGENT (ASAP)',
-    'within-month': 'Within 1 month',
-    flexible: 'Flexible timeline',
-    planning: 'Future planning',
+    '1-month': 'Within 1 Month',
+    '2-3-months': '2-3 Months',
+    '3-6-months': '3-6 Months',
+    flexible: 'Flexible Timeline',
   };
 
   // Create priority indicator
@@ -159,10 +145,10 @@ async function sendBusinessNotification(
       : undefined;
 
   await resend.emails.send({
-    from: EMAIL_CONFIG.transactional.noreply,
+    from: EMAIL_CONFIG.business.newsletter, // Using newsletter@ as sender
     to: recipient,
     cc: ccEmail,
-    subject: `${priorityFlag}New Project Inquiry: ${projectTypeLabels[data.projectType]} - ${data.name}`,
+    subject: `${priorityFlag}New Project Inquiry: ${projectTypeLabels[data.projectType]} - ${data.fullName}`,
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
         <!-- Header -->
@@ -191,7 +177,7 @@ async function sendBusinessNotification(
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="padding: 8px 0; color: #64748b; font-weight: 600; width: 120px;">Name:</td>
-                <td style="padding: 8px 0; color: #1e293b; font-weight: 500;">${data.name}</td>
+                <td style="padding: 8px 0; color: #1e293b; font-weight: 500;">${data.fullName}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; color: #64748b; font-weight: 600;">Email:</td>
@@ -200,11 +186,11 @@ async function sendBusinessNotification(
                 </td>
               </tr>
               ${
-                data.company
+                data.phone
                   ? `
                 <tr>
-                  <td style="padding: 8px 0; color: #64748b; font-weight: 600;">Company:</td>
-                  <td style="padding: 8px 0; color: #1e293b; font-weight: 500;">${data.company}</td>
+                  <td style="padding: 8px 0; color: #64748b; font-weight: 600;">Phone:</td>
+                  <td style="padding: 8px 0; color: #1e293b; font-weight: 500;">${data.phone}</td>
                 </tr>
               `
                   : ''
@@ -220,16 +206,6 @@ async function sendBusinessNotification(
                 <td style="padding: 8px 0; color: #0369a1; font-weight: 600; width: 120px;">Type:</td>
                 <td style="padding: 8px 0; color: #1e293b; font-weight: 500;">${projectTypeLabels[data.projectType]}</td>
               </tr>
-              ${
-                data.budget
-                  ? `
-                <tr>
-                  <td style="padding: 8px 0; color: #0369a1; font-weight: 600;">Budget:</td>
-                  <td style="padding: 8px 0; color: #1e293b; font-weight: 500;">${budgetLabels[data.budget]}</td>
-                </tr>
-              `
-                  : ''
-              }
               ${
                 data.timeline
                   ? `
@@ -257,7 +233,7 @@ async function sendBusinessNotification(
             <ul style="color: #065f46; margin: 0; padding-left: 20px; line-height: 1.6;">
               <li style="margin-bottom: 8px;"><strong>Response:</strong> ${data.timeline === 'urgent' ? 'Reply within 2 hours (urgent)' : 'Respond within 24 hours'}</li>
               <li style="margin-bottom: 8px;"><strong>Review:</strong> Analyze project requirements and ask clarifying questions</li>
-              <li style="margin-bottom: 8px;"><strong>Action:</strong> ${data.projectType === 'consultation' ? 'Schedule a consultation call' : 'Prepare initial proposal or quote'}</li>
+              <li style="margin-bottom: 8px;"><strong>Action:</strong> ${data.projectType === 'consulting' ? 'Schedule a consultation call' : 'Prepare initial proposal or quote'}</li>
               <li><strong>Follow-up:</strong> Add to CRM and set up project tracking</li>
             </ul>
           </div>
@@ -294,7 +270,7 @@ async function sendClientConfirmation(data: ContactFormData) {
     .replace(/\b\w/g, l => l.toUpperCase());
 
   await resend.emails.send({
-    from: EMAIL_CONFIG.transactional.updates,
+    from: EMAIL_CONFIG.business.newsletter, // Using newsletter@ for client communications
     to: data.email,
     subject: "Thank you for contacting KDVLab - We'll be in touch soon",
     html: `
@@ -306,7 +282,7 @@ async function sendClientConfirmation(data: ContactFormData) {
         </div>
 
         <div style="padding: 30px 20px; background: #ffffff;">
-          <p style="color: #1e293b; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">Hi ${data.name},</p>
+          <p style="color: #1e293b; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">Hi ${data.fullName},</p>
           
           <p style="color: #1e293b; font-size: 16px; line-height: 1.6; margin-bottom: 25px;">
             Thank you for reaching out to KDVLab! We're excited about the possibility of working on your 
@@ -317,7 +293,6 @@ async function sendClientConfirmation(data: ContactFormData) {
           <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #12A4ED;">
             <h4 style="margin: 0 0 10px 0; color: #1e293b; font-size: 16px;">Your Project Summary:</h4>
             <p style="margin: 5px 0; color: #64748b;"><strong>Type:</strong> ${projectTypeDisplay}</p>
-            ${data.budget ? `<p style="margin: 5px 0; color: #64748b;"><strong>Budget:</strong> ${data.budget.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>` : ''}
             ${data.timeline ? `<p style="margin: 5px 0; color: #64748b;"><strong>Timeline:</strong> ${data.timeline.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>` : ''}
           </div>
           

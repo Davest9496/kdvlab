@@ -130,7 +130,7 @@ async function sendWelcomeEmail(data: any) {
 
 async function notifyNewsletterTeam(data: any) {
   await resend.emails.send({
-    from: EMAIL_CONFIG.transactional.noreply,
+    from: EMAIL_CONFIG.business.newsletter,
     to: EMAIL_CONFIG.business.newsletter,
     subject: `📧 New Newsletter Subscription: ${data.email}`,
     html: `
