@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://kdvlab.com'),
   title: {
     template: '%s | KDVLab',
-    default: 'KDVLab - Modern Web Development by Dave Ejezie',
+    default: 'KDVLab - Modern Web Development for Businesses',
   },
   description:
-    'Expert web development services by Dave Ejezie. Creating lightning-fast, SEO-optimized websites with cutting-edge technologies including React, Next.js, and TypeScript.',
+    'Expert web development services for Businesses. Creating lightning-fast, SEO-optimized websites with cutting-edge technologies including React, Next.js, and TypeScript.',
   keywords: [
     'Web Development',
     'TypeScript',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://kdvlab.com',
     siteName: 'KDVLab',
-    title: 'KDVLab - Modern Web Development by Dave Ejezie',
+    title: 'KDVLab - Modern Web Development for Businesses',
     description:
       'Expert web development services creating lightning-fast, SEO-optimized websites with cutting-edge technologies.',
     images: [
@@ -47,14 +47,14 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'KDVLab - Modern Web Development by Dave Ejezie',
+        alt: 'KDVLab - Modern Web Development for Businesses',
         type: 'image/jpeg',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'KDVLab - Modern Web Development by Dave Ejezie',
+    title: 'KDVLab - Modern Web Development for Businesses',
     description:
       'Expert web development services creating lightning-fast, SEO-optimized websites with cutting-edge technologies.',
     images: ['/og-image.jpg'],
@@ -74,9 +74,35 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: [
+      // Prioritize the most visible sizes first
+      { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      {
+        url: '/favicon/favicon-144x144.png',
+        sizes: '144x144',
+        type: 'image/png',
+      },
+      {
+        url: '/favicon/android-chrome-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        url: '/favicon/android-chrome-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
+    apple: [
+      {
+        url: '/favicon/apple-touch-icon.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+    ],
+    shortcut: '/favicon/favicon.ico',
   },
   manifest: '/manifest.webmanifest',
   alternates: {
@@ -103,12 +129,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className="dark" // CSS fonts don't need variable classes
-      suppressHydrationWarning
-    >
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        {/* CRITICAL: Preload the 32x32 favicon for better visibility and Core Web Vitals */}
+        <link
+          rel="preload"
+          href="/favicon/favicon-32x32.png"
+          as="image"
+          type="image/png"
+          fetchPriority="high"
+        />
+
+        {/* Preload 16x16 as backup */}
+        <link
+          rel="preload"
+          href="/favicon/favicon-16x16.png"
+          as="image"
+          type="image/png"
+        />
+
         {/* Font preloading for Core Web Vitals optimization */}
         <link
           rel="preload"
@@ -153,11 +192,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-background font-body antialiased flex flex-col selection:bg-primary/20">
+      <body className="flex min-h-screen flex-col bg-background font-body antialiased selection:bg-primary/20">
         {/* Skip to main content for accessibility */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-primary text-primary-foreground px-4 py-2 rounded-md font-gilroy font-extrabold"
+          className="font-gilroy sr-only z-50 rounded-md bg-primary px-4 py-2 font-extrabold text-primary-foreground focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
         >
           Skip to main content
         </a>
@@ -166,8 +205,7 @@ export default function RootLayout({
         <Navigation />
 
         {/* Main Content Area */}
-        <main id="main-content" className="flex-1 mt-12 md:mt-16 lg:mt-20">
-          {/* Ensure main content is scrollable and has proper padding */}
+        <main id="main-content" className="mt-12 flex-1 md:mt-16 lg:mt-20">
           {children}
         </main>
 

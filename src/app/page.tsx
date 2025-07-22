@@ -6,9 +6,10 @@ import BlogNewsSection from '@/components/features/blog-news-section';
 import UnifiedCTA from '@/components/features/unified-cta';
 
 export const metadata: Metadata = {
-  title: 'KDVLab - Modern Web Development by Dave Ejezie',
+  title:
+    'KDVLab - Modern Web Development for Businesses. Creating lightning-fast, SEO-optimized websites with cutting-edge technologies.',
   description:
-    'Expert web development services by Dave Ejezie. Creating lightning-fast, SEO-optimized websites with cutting-edge technologies.',
+    'Expert web development services for Businesses. Creating lightning-fast, SEO-optimized websites with cutting-edge technologies.',
 };
 
 export default function HomePage() {

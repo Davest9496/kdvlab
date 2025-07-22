@@ -47,13 +47,38 @@ const nextConfig = {
           },
         ],
       },
-      // Add favicon caching
+      // OPTIMIZED: Aggressive caching for your professional static favicon files
       {
-        source: '/favicon(.*)',
+        source: '/favicon/(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400', // 1 day
+            value: 'public, max-age=31536000, immutable', // 1 year - these are static assets
+          },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding', // Enable compression variations
+          },
+        ],
+      },
+      // Cache manifest and other PWA files with shorter cache + revalidation
+      {
+        source: '/(manifest.webmanifest|sitemap.xml|robots.txt)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=3600', // 1 day, revalidate hourly
+          },
+        ],
+      },
+      // Add specific caching for OG images and other media
+      {
+        source:
+          '/(og-image|apple-touch-icon|android-chrome).(jpg|jpeg|png|webp)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, immutable', // 30 days for social media images
           },
         ],
       },
@@ -62,7 +87,6 @@ const nextConfig = {
 
   // ESLint configuration
   eslint: {
-    // Allow production builds to complete even if there are ESLint errors
     ignoreDuringBuilds: false,
   },
 };

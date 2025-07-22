@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 // Footer sections data for better organization
@@ -40,32 +41,39 @@ export default function Footer() {
   return (
     <footer
       className={cn(
-        'bg-background border-t border-white/10',
+        'border-t border-white/10 bg-background',
         'relative overflow-hidden'
       )}
     >
       {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/98 to-background opacity-90" />
+      <div className="via-background/98 absolute inset-0 bg-gradient-to-t from-background to-background opacity-90" />
 
-      <div className="px-8 relative py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="relative px-8 py-16">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Brand Section */}
           <div className="space-y-6 lg:col-span-1">
+            {/* Logo and Brand */}
             <div className="space-y-4">
-              <h3
-                className={cn(
-                  'font-gilroy-extrabold text-white',
-                  'text-heading-sm', // 20px-24px responsive
-                  'text-gradient' // Gradient effect for brand
-                )}
-              >
-                KDVLAB
-              </h3>
+              <Link href="/" className="inline-block">
+                <div className="flex items-center space-x-3">
+                  {/* Custom Footer Logo */}
+                  <div className="relative h-20 w-20 flex-shrink-0">
+                    <Image
+                      src="/images/Logo/Logo-vertical-cropped.png"
+                      alt="KDVLAB Logo"
+                      fill
+                      className="object-contain"
+                      sizes="48px"
+                    />
+                  </div>
+                </div>
+              </Link>
+
               <p
                 className={cn(
                   'font-rubik text-white/70',
                   'text-body-base', // 14px-16px responsive
-                  'leading-relaxed max-w-sm'
+                  'max-w-sm leading-relaxed'
                 )}
               >
                 Expert web development services. Lightning-fast, SEO-optimized
@@ -110,7 +118,7 @@ export default function Footer() {
               {footerSections[0].title}
             </h4>
             <ul className="space-y-3">
-              {footerSections[0].links.map((link) => (
+              {footerSections[0].links.map(link => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
@@ -144,7 +152,7 @@ export default function Footer() {
                   {footerSections[1].title}
                 </h4>
                 <ul className="space-y-3">
-                  {footerSections[1].links.map((link) => (
+                  {footerSections[1].links.map(link => (
                     <li key={link.name}>
                       <Link
                         href={link.href}
@@ -175,7 +183,7 @@ export default function Footer() {
                   {footerSections[2].title}
                 </h4>
                 <ul className="space-y-3">
-                  {footerSections[2].links.map((link) => (
+                  {footerSections[2].links.map(link => (
                     <li key={link.name}>
                       <Link
                         href={link.href}
@@ -205,8 +213,8 @@ export default function Footer() {
         {/* Newsletter Section */}
         <div
           className={cn(
-            'mt-12 pt-8 border-t border-white/10',
-            'grid grid-cols-1 lg:grid-cols-2 gap-8 items-center'
+            'mt-12 border-t border-white/10 pt-8',
+            'grid grid-cols-1 items-center gap-8 lg:grid-cols-2'
           )}
         >
           <div className="space-y-3">
@@ -230,13 +238,13 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <input
               type="email"
               placeholder="Enter your email"
               className={cn(
-                'flex-1 px-4 py-3 rounded-lg',
-                'bg-white/5 border border-white/10',
+                'flex-1 rounded-lg px-4 py-3',
+                'border border-white/10 bg-white/5',
                 'text-white placeholder:text-white/40',
                 'font-rubik text-body-base', // 14px-16px responsive
                 'focus:outline-none focus:ring-2 focus:ring-primary',
@@ -247,9 +255,9 @@ export default function Footer() {
               className={cn(
                 'btn-cta',
                 'text-body-sm', // 12px-14px responsive
-                'px-6 py-3 rounded-lg',
+                'rounded-lg px-6 py-3',
                 'bg-primary text-primary-foreground',
-                'hover:bg-primary/90 hover:scale-105',
+                'hover:scale-105 hover:bg-primary/90',
                 'transition-all duration-200',
                 'shadow-lg hover:shadow-xl'
               )}
@@ -262,8 +270,8 @@ export default function Footer() {
         {/* Bottom Section */}
         <div
           className={cn(
-            'border-t border-white/10 mt-12 pt-8',
-            'flex flex-col sm:flex-row justify-between items-center gap-4'
+            'mt-12 border-t border-white/10 pt-8',
+            'flex flex-col items-center justify-between gap-4 sm:flex-row'
           )}
         >
           <p
