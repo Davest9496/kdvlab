@@ -26,55 +26,47 @@ interface Testimonial {
   featured?: boolean;
 }
 
-// Client logos data - optimized for SEO and performance
+// Updated client logos data with your actual PNG files
 const clients: Client[] = [
   {
-    id: 'bogo',
-    name: 'BOGO',
-    logo: '/logos/bogo.svg',
-    logoAlt: 'BOGO company logo',
-    logoWidth: 120,
-    logoHeight: 40,
-  },
-  {
-    id: 'logoipsum-1',
-    name: 'LogoIpsum Tech',
-    logo: '/logos/logoipsum-1.svg',
-    logoAlt: 'LogoIpsum Tech company logo',
+    id: 'hootscope',
+    name: 'Hootscope',
+    logo: '/images/Logo/organisations/hootscope.png',
+    logoAlt: 'Hootscope company logo - social media management platform',
     logoWidth: 140,
-    logoHeight: 40,
+    logoHeight: 45,
   },
   {
-    id: 'logoipsum-2',
-    name: 'LogoIpsum Solutions',
-    logo: '/logos/logoipsum-2.svg',
-    logoAlt: 'LogoIpsum Solutions company logo',
-    logoWidth: 160,
-    logoHeight: 40,
-  },
-  {
-    id: 'logoipsum-3',
-    name: 'LogoIpsum Digital',
-    logo: '/logos/logoipsum-3.svg',
-    logoAlt: 'LogoIpsum Digital company logo',
+    id: 'kdvwears',
+    name: 'KDVwears',
+    logo: '/images/Logo/organisations/kdvwears.png',
+    logoAlt: 'KDVwears company logo - fashion and apparel brand',
     logoWidth: 130,
-    logoHeight: 40,
+    logoHeight: 45,
   },
   {
-    id: 'logoipsum-4',
-    name: 'LogoIpsum Enterprise',
-    logo: '/logos/logoipsum-4.svg',
-    logoAlt: 'LogoIpsum Enterprise company logo',
+    id: 'mophire',
+    name: 'MOPHIRE',
+    logo: '/images/Logo/organisations/mophire.png',
+    logoAlt: 'MOPHIRE company logo - cleaning services provider',
     logoWidth: 150,
-    logoHeight: 40,
+    logoHeight: 45,
   },
   {
-    id: 'logoipsum-5',
-    name: 'LogoIpsum Innovation',
-    logo: '/logos/logoipsum-5.svg',
-    logoAlt: 'LogoIpsum Innovation company logo',
-    logoWidth: 140,
-    logoHeight: 40,
+    id: 'shutrlink',
+    name: 'SHUTRLINK',
+    logo: '/images/Logo/organisations/shutrlink.png',
+    logoAlt: 'SHUTRLINK company logo - digital connectivity platform',
+    logoWidth: 145,
+    logoHeight: 45,
+  },
+  {
+    id: 'smartdesk',
+    name: 'Smartdesk',
+    logo: '/images/Logo/organisations/smartdesk247.png',
+    logoAlt: 'Smartdesk company logo - smart workspace solutions',
+    logoWidth: 135,
+    logoHeight: 45,
   },
 ];
 
@@ -177,62 +169,35 @@ const ClientLogo: React.FC<ClientLogoProps> = ({ client, index }) => {
   return (
     <motion.div
       variants={logoVariants}
-      className="group relative flex items-center justify-center"
+      className="group relative flex h-20 items-center justify-center rounded-2xl bg-white p-4 align-middle md:h-20 md:p-6 lg:h-20 lg:p-4"
     >
       {/* Neo-Tech glassmorphism container */}
-      <div
-        className={cn(
-          'relative overflow-hidden rounded-2xl p-6 md:p-8',
-          'flex min-h-[100px] min-w-[160px] items-center justify-center',
-          // Enhanced glassmorphism effect
-          'bg-white/[0.02] backdrop-blur-xl',
-          'border border-white/[0.06]',
-          // Multi-layered shadows for depth
-          'shadow-[0_8px_32px_rgba(0,0,0,0.08)]',
-          // Gradient overlays
-          'before:absolute before:inset-0 before:rounded-2xl',
-          'before:bg-gradient-to-br before:from-white/[0.03] before:via-transparent before:to-black/[0.02]',
-          // Enhanced hover effects
-          'hover:border-white/[0.1] hover:bg-white/[0.04]',
-          'hover:shadow-[0_12px_40px_rgba(18,164,237,0.08),0_8px_32px_rgba(0,0,0,0.12)]',
-          'hover:before:from-primary/[0.03] hover:before:to-primary/[0.01]',
-          // Smooth transitions
-          'transition-all duration-400 ease-out',
-          // Subtle scale on hover
-          'hover:scale-105'
-        )}
-      >
+      <div>
         {/* Logo container with optimization */}
         <div className="relative z-10 flex h-full w-full items-center justify-center">
-          {/* Placeholder for actual logo - replace with Next.js Image component */}
-          <div
-            className={cn(
-              'flex items-center justify-center',
-              'font-rubik text-sm tracking-wider text-white/60',
-              'group-hover:text-white/80',
-              'transition-colors duration-300'
-            )}
-          >
-            {client.name}
-          </div>
-
-          {/* Alternative: Actual logo implementation */}
-          {/* 
+          {/* Actual logo implementation with Next.js Image optimization */}
           <Image
             src={client.logo}
             alt={client.logoAlt}
             width={client.logoWidth || 140}
-            height={client.logoHeight || 40}
+            height={client.logoHeight || 45}
             className={cn(
-              "object-contain max-w-full h-auto",
-              "filter brightness-75 contrast-125",
-              "group-hover:brightness-100",
-              "transition-all duration-300"
+              'h-auto max-w-full object-contain',
+              // Enhanced styling for PNG logos with transparency
+              'contrast-110 saturate-110 brightness-90 filter',
+              'group-hover:saturate-125 group-hover:brightness-100 group-hover:contrast-125',
+              // Smooth transitions
+              'transition-all duration-300 ease-out',
+              // Ensure logos are properly sized
+              'max-h-[45px] w-auto'
             )}
-            priority={index < 4} // Prioritize above-fold logos
-            loading={index < 4 ? 'eager' : 'lazy'}
+            priority={index < 3} // Prioritize first 3 logos for performance
+            loading={index < 3 ? 'eager' : 'lazy'}
+            quality={90} // High quality for logos
+            // Add blur placeholder for better loading experience
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGBobHB0eH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/xAAhEQACAQIEBwAAAAAAAAAAAAABAgADITEEQVNhcYGx0eH/2gAMAwEAAhEDEQA/AO4s6lzunGJJnZFEeOcqjZOz1bwjMVdw+a+WZUKTKhRJmCE8UF3yx8kKjl1KdWSgJZLMRiuZCB+Cp+Y="
           />
-          */}
         </div>
 
         {/* Subtle corner highlights */}
@@ -479,7 +444,7 @@ export const TestimonialsSection: React.FC = () => {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  className="w-[200px] flex-shrink-0"
+                  className="w-[220px] flex-shrink-0"
                 >
                   <ClientLogo client={client} index={index} />
                 </motion.div>
