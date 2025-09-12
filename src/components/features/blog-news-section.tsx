@@ -41,7 +41,7 @@ const blogPosts: BlogPost[] = [
     title: 'Do you need a Custom Software Development Service?',
     excerpt:
       'Discover when custom software development is the right choice for your business and how it can drive innovation and efficiency.',
-    image: '/images/Custom-software-development.jpg',
+    image: '/images/custom_software_development.png',
     imageAlt:
       'Custom software development workspace with multiple screens showing code and cloud services',
     publishedAt: '2025-05-22',
@@ -60,7 +60,7 @@ const blogPosts: BlogPost[] = [
     title: 'Check out our completed website development project.',
     excerpt:
       'I have been passionate about website development for years and I cannot emphasize its importance enough. The endless possibilities.',
-    image: '/images/kindpng_1272110.png',
+    image: '/images/web_development.jpg',
     imageAlt:
       'Completed website development project showcase with design elements and mobile responsiveness',
     publishedAt: '2025-05-22',
@@ -156,10 +156,10 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index }) => {
     >
       <motion.div
         variants={cardHoverVariants}
-        className="relative h-full overflow-hidden rounded-2xl bg-white/[0.02] backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] before:absolute before:inset-0 before:rounded-2xl before:z-[1] before:bg-gradient-to-br before:from-white/[0.04] before:via-transparent before:to-black/[0.03] hover:bg-white/[0.04] hover:border-white/[0.12] hover:shadow-[0_20px_40px_rgba(18,164,237,0.15),0_8px_32px_rgba(0,0,0,0.2)] hover:before:from-primary/[0.06] hover:before:to-primary/[0.02] transition-all duration-500 ease-out"
+        className="relative h-full overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl transition-all duration-500 ease-out before:absolute before:inset-0 before:z-[1] before:rounded-2xl before:bg-gradient-to-br before:from-white/[0.04] before:via-transparent before:to-black/[0.03] hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-[0_20px_40px_rgba(18,164,237,0.15),0_8px_32px_rgba(0,0,0,0.2)] hover:before:from-primary/[0.06] hover:before:to-primary/[0.02]"
       >
         {/* Image Container with Optimization */}
-        <div className="relative h-48 md:h-52 overflow-hidden">
+        <div className="relative h-48 overflow-hidden md:h-52">
           <Image
             src={post.image}
             alt={post.imageAlt}
@@ -171,19 +171,19 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index }) => {
           />
 
           {/* Image overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
 
           {/* Category Badge */}
-          <div className="absolute top-4 left-4 z-10">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/90 text-white backdrop-blur-sm border border-primary/20 shadow-[0_4px_12px_rgba(18,164,237,0.4)]">
+          <div className="absolute left-4 top-4 z-10">
+            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/90 px-3 py-1 text-xs font-medium text-white shadow-[0_4px_12px_rgba(18,164,237,0.4)] backdrop-blur-sm">
               {post.category}
             </span>
           </div>
 
           {/* Featured Badge */}
           {post.featured && (
-            <div className="absolute top-4 right-4 z-10">
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/90 text-black backdrop-blur-sm border border-yellow-400/30 shadow-[0_4px_12px_rgba(234,179,8,0.4)]">
+            <div className="absolute right-4 top-4 z-10">
+              <span className="inline-flex items-center rounded-full border border-yellow-400/30 bg-yellow-500/90 px-2 py-1 text-xs font-medium text-black shadow-[0_4px_12px_rgba(234,179,8,0.4)] backdrop-blur-sm">
                 Featured
               </span>
             </div>
@@ -191,28 +191,28 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index }) => {
         </div>
 
         {/* Content Container */}
-        <div className="relative p-6 flex flex-col flex-grow z-[2]">
+        <div className="relative z-[2] flex flex-grow flex-col p-6">
           {/* Meta Information */}
-          <div className="flex items-center space-x-4 mb-4 text-sm text-white/60">
+          <div className="mb-4 flex items-center space-x-4 text-sm text-white/60">
             <div className="flex items-center space-x-1">
-              <Calendar className="w-4 h-4" />
+              <Calendar className="h-4 w-4" />
               <time dateTime={post.publishedAt} className="font-medium">
                 {formatDate(post.publishedAt)}
               </time>
             </div>
             <div className="flex items-center space-x-1">
-              <Clock className="w-4 h-4" />
+              <Clock className="h-4 w-4" />
               <span>{post.readTime} min read</span>
             </div>
           </div>
 
           {/* Title - FIXED to match services section pattern */}
-          <h3 className="text-subheading-md text-white mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] transition-colors duration-300 line-clamp-2">
+          <h3 className="mb-3 line-clamp-2 text-subheading-md text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] transition-colors duration-300">
             {post.title}
           </h3>
 
           {/* Excerpt - FIXED to match services section pattern */}
-          <p className="text-body-base font-rubik text-white/80 leading-relaxed mb-6 flex-grow drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] line-clamp-3">
+          <p className="mb-6 line-clamp-3 flex-grow font-rubik text-body-base leading-relaxed text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
             {post.excerpt}
           </p>
 
@@ -220,11 +220,11 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index }) => {
           <div className="flex items-center justify-between">
             {/* Author Info */}
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/30 to-primary/60 border border-white/10 flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
-                <span className="text-white text-xs font-semibold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-gradient-to-br from-primary/30 to-primary/60 shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+                <span className="text-xs font-semibold text-white">
                   {post.author.name
                     .split(' ')
-                    .map((n) => n[0])
+                    .map(n => n[0])
                     .join('')}
                 </span>
               </div>
@@ -243,22 +243,22 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index }) => {
             {/* Read More Link */}
             <Link
               href={`/blog/${post.slug}`}
-              className="inline-flex items-center space-x-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors duration-300 group/link cursor-pointer"
+              className="group/link inline-flex cursor-pointer items-center space-x-1 text-sm font-medium text-primary transition-colors duration-300 hover:text-primary/80"
               aria-label={`Read more about ${post.title}`}
             >
               <span>Read more</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
             </Link>
           </div>
         </div>
 
         {/* Enhanced border glow effect */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/[0.02] via-transparent to-primary/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/[0.02] via-transparent to-primary/[0.02] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         {/* Corner highlights */}
-        <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-white/[0.06] to-transparent rounded-2xl opacity-40 group-hover:opacity-70 transition-opacity duration-300" />
+        <div className="absolute left-0 top-0 h-20 w-20 rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-70" />
 
-        <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-primary/[0.04] to-transparent rounded-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
+        <div className="absolute bottom-0 right-0 h-16 w-16 rounded-2xl bg-gradient-to-tl from-primary/[0.04] to-transparent opacity-30 transition-opacity duration-300 group-hover:opacity-60" />
       </motion.div>
     </motion.article>
   );
@@ -268,7 +268,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index }) => {
 export const BlogNewsSection: React.FC = () => {
   return (
     <section
-      className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
+      className="relative overflow-hidden py-16 md:py-24 lg:py-32"
       aria-label="Latest Blog Posts and News"
     >
       {/* Enhanced Neo-Tech Background */}
@@ -287,9 +287,9 @@ export const BlogNewsSection: React.FC = () => {
         />
 
         {/* Animated gradient orbs */}
-        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-primary/[0.025] rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute left-1/3 top-1/4 h-96 w-96 animate-pulse-slow rounded-full bg-primary/[0.025] blur-3xl" />
         <div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-400/[0.02] rounded-full blur-3xl animate-pulse-slow"
+          className="absolute bottom-1/4 right-1/4 h-80 w-80 animate-pulse-slow rounded-full bg-blue-400/[0.02] blur-3xl"
           style={{ animationDelay: '1.5s' }}
         />
       </div>
@@ -303,23 +303,23 @@ export const BlogNewsSection: React.FC = () => {
           className="space-y-12 md:space-y-16"
         >
           {/* Section Header - MATCHES SERVICES SECTION EXACTLY */}
-          <div className="text-center space-y-6 max-w-4xl mx-auto relative">
+          <div className="relative mx-auto max-w-4xl space-y-6 text-center">
             <div className="relative z-10 py-8">
               {/* Breadcrumb */}
               <motion.div
                 variants={itemVariants}
-                className="flex items-center justify-center space-x-2 mb-6"
+                className="mb-6 flex items-center justify-center space-x-2"
               >
-                <span className="text-sm font-medium text-primary tracking-wider uppercase drop-shadow-[0_2px_4px_rgba(18,164,237,0.3)]">
+                <span className="text-sm font-medium uppercase tracking-wider text-primary drop-shadow-[0_2px_4px_rgba(18,164,237,0.3)]">
                   BLOG & NEWS
                 </span>
-                <ChevronRight className="w-4 h-4 text-primary/60" />
+                <ChevronRight className="h-4 w-4 text-primary/60" />
               </motion.div>
 
               {/* Main Heading - FIXED to match services section */}
               <motion.h2
                 variants={itemVariants}
-                className="text-heading-lg text-white capitalize mb-4 drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] leading-tight"
+                className="mb-4 text-heading-lg capitalize leading-tight text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
               >
                 Our Latest News & Blog Get <br className="hidden sm:block" />
                 Every Updates
@@ -327,7 +327,7 @@ export const BlogNewsSection: React.FC = () => {
 
               <motion.p
                 variants={itemVariants}
-                className="text-body-lg font-rubik text-white/80 leading-relaxed max-w-2xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
+                className="mx-auto max-w-2xl font-rubik text-body-lg leading-relaxed text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
               >
                 Stay updated with the latest trends in software development, our
                 project showcases, and industry insights.
@@ -338,7 +338,7 @@ export const BlogNewsSection: React.FC = () => {
           {/* Blog Posts Grid */}
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
           >
             {blogPosts.map((post, index) => (
               <BlogCard key={post.id} post={post} index={index} />
@@ -349,10 +349,10 @@ export const BlogNewsSection: React.FC = () => {
           <motion.div variants={itemVariants} className="text-center">
             <Link
               href="/blog"
-              className="inline-flex items-center space-x-2 px-8 py-4 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] text-white font-medium hover:bg-white/[0.08] hover:border-white/[0.12] hover:shadow-[0_8px_32px_rgba(18,164,237,0.2)] transition-all duration-400 ease-out group cursor-pointer"
+              className="group inline-flex cursor-pointer items-center space-x-2 rounded-2xl border border-white/[0.08] bg-white/[0.04] px-8 py-4 font-medium text-white backdrop-blur-xl transition-all duration-400 ease-out hover:border-white/[0.12] hover:bg-white/[0.08] hover:shadow-[0_8px_32px_rgba(18,164,237,0.2)]"
             >
               <span>View All Posts</span>
-              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </motion.div>
         </motion.div>
@@ -369,7 +369,7 @@ export const BlogNewsSection: React.FC = () => {
             description:
               'Latest news and insights about software development, web applications, and technology trends',
             url: 'https://kdvlab.com/blog',
-            blogPost: blogPosts.map((post) => ({
+            blogPost: blogPosts.map(post => ({
               '@type': 'BlogPosting',
               headline: post.title,
               description: post.excerpt,
