@@ -162,7 +162,7 @@ export default function AboutPage() {
 
         {/* Mission & Values Section */}
 
-        <section className="container mx-auto max-w-5xl bg-muted/30 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <section className="container mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           {/* Our Mission */}
           <MissionVisionTabs />
 

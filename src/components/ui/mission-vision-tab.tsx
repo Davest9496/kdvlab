@@ -117,7 +117,7 @@ const tabsData: TabContent[] = [
     title: 'Our Mission',
     description:
       'To empower businesses through innovative software solutions that drive growth, improve efficiency, and create exceptional user experiences.',
-    imagePath: '/images/word-our-mission-written-on-260nw-1993327142.webp',
+    imagePath: '/images/mission.png',
     imageAlt:
       'Our Mission - Empowering businesses through innovative software solutions',
     Icon: MissionIcon,
@@ -128,7 +128,7 @@ const tabsData: TabContent[] = [
     title: 'Our Vision',
     description:
       'To become the leading provider of cutting-edge technology solutions that transform how businesses operate and succeed in the digital age.',
-    imagePath: '/images/word-our-mission-written-on-260nw-1993327142.webp',
+    imagePath: '/images/vision.png',
     imageAlt:
       'Our Vision - Leading provider of cutting-edge technology solutions',
     Icon: VisionIcon,
@@ -139,7 +139,7 @@ const tabsData: TabContent[] = [
     title: 'Our Principles',
     description:
       'We believe in transparency, innovation, quality, and client-centric approaches that deliver measurable results and long-term partnerships.',
-    imagePath: '/images/word-our-mission-written-on-260nw-1993327142.webp',
+    imagePath: '/images/principles.png',
     imageAlt:
       'Our Principles - Transparency, innovation, and quality-driven approach',
     Icon: PrinciplesIcon,
@@ -231,7 +231,7 @@ export default function MissionVisionTabs({
 
   // Get current tab content with type safety
   const currentContent =
-    tabsData.find((tab) => tab.id === activeTab) || tabsData[0];
+    tabsData.find(tab => tab.id === activeTab) || tabsData[0];
 
   const handleTabChange = (tabId: string) => {
     if (tabId !== activeTab) {
@@ -242,7 +242,7 @@ export default function MissionVisionTabs({
   return (
     <section
       className={cn(
-        'relative bg-background text-foreground py-16 md:py-24 lg:py-32',
+        'bg-backlgroung relative py-16 text-foreground md:py-24 lg:py-32',
         className
       )}
       aria-labelledby="mission-vision-heading"
@@ -258,7 +258,7 @@ export default function MissionVisionTabs({
         >
           {/* Tab container with reduced gaps and responsive sizing */}
           <div
-            className="flex gap-1 xs:gap-2 sm:gap-3 md:gap-4 justify-center"
+            className="flex justify-center gap-1 xs:gap-2 sm:gap-3 md:gap-4"
             role="tablist"
             aria-label="Mission, Vision, Principles, and Practices"
           >
@@ -274,7 +274,7 @@ export default function MissionVisionTabs({
                     'relative flex-shrink-0', // Prevent button shrinking
                     // Aggressive responsive padding - scales down significantly on mobile
                     'px-2 py-1.5 xs:px-3 xs:py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3',
-                    'rounded-md sm:rounded-lg font-rubik font-medium',
+                    'rounded-md font-rubik font-medium sm:rounded-lg',
                     // More aggressive text scaling
                     'text-[10px] xs:text-xs sm:text-sm md:text-base',
                     'transition-all duration-300 ease-out',
@@ -296,7 +296,7 @@ export default function MissionVisionTabs({
                   {activeTab === tab.id && (
                     <motion.div
                       layoutId="activeTabIndicator"
-                      className="absolute inset-0 bg-primary rounded-md sm:rounded-lg"
+                      className="absolute inset-0 rounded-md bg-primary sm:rounded-lg"
                       style={{ zIndex: -1 }}
                       transition={{
                         type: 'spring',
@@ -308,7 +308,7 @@ export default function MissionVisionTabs({
 
                   {/* Render SVG icon with aggressive responsive sizing */}
                   <Icon
-                    className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 flex-shrink-0"
+                    className="h-2.5 w-2.5 flex-shrink-0 xs:h-3 xs:w-3 sm:h-4 sm:w-4 md:h-5 md:w-5"
                     aria-hidden={true}
                   />
 
@@ -334,7 +334,7 @@ export default function MissionVisionTabs({
         </motion.div>
 
         {/* Content Area */}
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-center">
+        <div className="flex flex-col-reverse items-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16 xl:gap-20">
           {/* Text Content */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -343,20 +343,20 @@ export default function MissionVisionTabs({
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="space-y-6 w-full"
+              className="w-full space-y-6"
               role="tabpanel"
               id={`panel-${currentContent.id}`}
               aria-labelledby={`tab-${currentContent.id}`}
             >
               <motion.h3
-                className="text-heading-md font-gilroy-bold"
+                className="font-gilroy-bold text-heading-md"
                 variants={contentVariants}
               >
                 {currentContent.title}
               </motion.h3>
 
               <motion.p
-                className="text-body-lg text-muted-foreground leading-relaxed"
+                className="text-body-lg leading-relaxed text-muted-foreground"
                 variants={contentVariants}
               >
                 {currentContent.description}
@@ -374,7 +374,7 @@ export default function MissionVisionTabs({
               exit="exit"
               className="relative w-full"
             >
-              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-muted/20">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-muted/20">
                 <Image
                   src={currentContent.imagePath}
                   alt={currentContent.imageAlt}
@@ -390,17 +390,17 @@ export default function MissionVisionTabs({
               </div>
 
               {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-xl" />
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl" />
+              <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-primary/10 blur-xl" />
+              <div className="absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl" />
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
       {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-full overflow-hidden">
+        <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute bottom-1/4 left-0 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
       </div>
     </section>
   );

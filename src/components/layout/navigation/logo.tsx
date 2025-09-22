@@ -25,13 +25,12 @@ export const Logo: React.FC<LogoProps> = ({ className, onClick }) => {
       )}
     >
       {/* Custom Logo Image */}
-      <div className="relative h-20 w-20 flex-shrink-0">
+      <div className="relative h-40 w-40 flex-shrink-0">
         <Image
-          src="/images/Logo/logo_horizontal.png"
+          src="/images/Logo/logo-cropped.png"
           alt="KDVLAB Logo"
           fill
           className="object-contain"
-          sizes="40px"
           priority // Since this is the main logo, load it with priority
         />
       </div>

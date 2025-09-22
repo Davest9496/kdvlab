@@ -183,9 +183,7 @@ const ClientLogo: React.FC<ClientLogoProps> = ({ client, index }) => {
             height={client.logoHeight || 45}
             className={cn(
               'h-auto max-w-full object-contain',
-              // Enhanced styling for PNG logos with transparency
-              'contrast-110 saturate-110 brightness-90 filter',
-              'group-hover:saturate-125 group-hover:brightness-100 group-hover:contrast-125',
+
               // Smooth transitions
               'transition-all duration-300 ease-out',
               // Ensure logos are properly sized
@@ -194,21 +192,8 @@ const ClientLogo: React.FC<ClientLogoProps> = ({ client, index }) => {
             priority={index < 3} // Prioritize first 3 logos for performance
             loading={index < 3 ? 'eager' : 'lazy'}
             quality={90} // High quality for logos
-            // Add blur placeholder for better loading experience
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGBobHB0eH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/xAAhEQACAQIEBwAAAAAAAAAAAAABAgADITEEQVNhcYGx0eH/2gAMAwEAAhEDEQA/AO4s6lzunGJJnZFEeOcqjZOz1bwjMVdw+a+WZUKTKhRJmCE8UF3yx8kKjl1KdWSgJZLMRiuZCB+Cp+Y="
           />
         </div>
-
-        {/* Subtle corner highlights */}
-        <div
-          className={cn(
-            'absolute right-0 top-0 h-12 w-12',
-            'bg-gradient-to-bl from-white/[0.04] to-transparent',
-            'rounded-2xl opacity-0 group-hover:opacity-100',
-            'transition-opacity duration-300'
-          )}
-        />
       </div>
     </motion.div>
   );
@@ -233,15 +218,6 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           // Enhanced glassmorphism
           'bg-white/[0.03] backdrop-blur-2xl',
           'border border-white/[0.08]',
-          // Multi-layered shadows
-          'shadow-[0_8px_32px_rgba(0,0,0,0.1)]',
-          // Gradient overlays for depth
-          'before:absolute before:inset-0 before:rounded-2xl',
-          'before:bg-gradient-to-br before:from-white/[0.04] before:via-transparent before:to-black/[0.02]',
-          // Enhanced hover effects
-          'hover:border-white/[0.12] hover:bg-white/[0.05]',
-          'hover:shadow-[0_20px_40px_rgba(18,164,237,0.12),0_8px_32px_rgba(0,0,0,0.15)]',
-          'hover:before:from-primary/[0.05] hover:before:to-primary/[0.01]',
           // Smooth transitions
           'transition-all duration-500 ease-out',
           // Subtle scale on hover
