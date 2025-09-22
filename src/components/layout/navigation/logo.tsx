@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import logoImage from '/public/images/Logo/logo-cropped.png';
+import logoImage from '/images/Logo/logo-cropped.png';
 
 interface LogoProps {
   className?: string;
@@ -26,13 +26,13 @@ export const Logo: React.FC<LogoProps> = ({ className, onClick }) => {
       )}
     >
       {/* Custom Logo Image */}
-      <div className="relative h-40 w-40 flex-shrink-0">
+      <div className="relative h-20 w-20 flex-shrink-0">
         <Image
           src={logoImage}
           alt="KDVLAB Logo"
           fill
           className="object-contain"
-          sizes="160px"
+          sizes="80px"
           priority
         />
       </div>
