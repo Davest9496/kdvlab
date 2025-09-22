@@ -31,7 +31,7 @@ export const Logo: React.FC<LogoProps> = ({ className, onClick }) => {
           alt="KDVLAB Logo"
           fill
           className="object-contain"
-          sizes="80px"
+          sizes="160px"
           priority // Since this is the main logo, load it with priority
         />
       </div>
